@@ -1,0 +1,1 @@
+<!-- Pasta para armazenar arquivos de funções reutilizáveis através da aplicação>
