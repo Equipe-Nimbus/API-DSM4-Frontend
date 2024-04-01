@@ -37,7 +37,7 @@ const config: Config = {
         },
         'bg': {
           100: '#FFFFFF',
-          99: '#FAFBFE',
+          98: '#F7F7FD',
         },
         'text': {
           'on-background': '#363636',

@@ -24,16 +24,16 @@
     "baseUrl": ".",
     "paths": {
       "@components/*": [
-        "/src/components/*"
+        "src/components/*"
       ],
       "@lib/*": [
-        "/src/lib/*"
+        "src/lib/*"
       ],
       "@styles/*": [
-        "/src/styles/*"
+        "src/styles/*"
       ],
       "@services/*": [
-        "/src/services/*"
+        "src/services/*"
       ]
     }
   },
