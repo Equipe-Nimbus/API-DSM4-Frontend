@@ -34,7 +34,10 @@
       ],
       "@services/*": [
         "src/services/*"
-      ]
+      ],
+      "@contexts/*": [
+        "src/contexts/*"
+      ],
     }
   },
   "include": [

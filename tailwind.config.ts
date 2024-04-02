@@ -61,6 +61,20 @@ const config: Config = {
         '2xl': "22px",
         '2.5xl': "26px",
       },
+      animation: {
+        'slide-in-left': 'slideInLeft 0.2s ease-in-out',
+        'slide-in-right': 'slideInRight 0.2s ease-in-out'
+      },
+      keyframes: {
+        slideInLeft: {
+          '0%': { transform: 'translateX(-100%)' },
+          '100%': { transform: 'translateX(0)'},
+        },
+        slideInRight: {
+          '0%': { transform: 'translateX(100%)' },
+          '100%': { transform: 'translateX(0)'},
+        }
+      },
     },
   },
   plugins: [],

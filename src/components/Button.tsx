@@ -5,7 +5,7 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
     variant: 'primary' | 'outline' | 'ghost';
 }
 
-export default function Button({ text, variant, ...rest }: ButtonProps) {
+export const Button: React.FC<ButtonProps> = ({ text, variant, ...rest }) => {
 
     const buttonClassName = clsx('button', {
         'bg-primary-65 text-text-on-primary hover:bg-primary-54': variant === 'primary',
