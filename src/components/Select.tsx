@@ -11,7 +11,7 @@ interface SelectProps extends React.SelectHTMLAttributes<HTMLSelectElement> {
     options: Option[];
 }
 
-const Select = React.forwardRef<HTMLSelectElement, SelectProps>(({ label, width, error, options, ...rest}, ref) =>{
+const Select = React.forwardRef<HTMLSelectElement, SelectProps>(({ label, width, error, options, defaultValue, ...rest}, ref) =>{
     return (
         <>
             <div className='flex flex-col '>  
@@ -19,7 +19,7 @@ const Select = React.forwardRef<HTMLSelectElement, SelectProps>(({ label, width,
                 <label htmlFor={rest.id} className="text-text-on-background text-sm font-normal">
                     {label}
                 </label>}
-                <select ref={ref} {...rest} className={`${width} border border-neutral-65 text-base rounded-md px-3 py-2 focus:border-primary-65 focus:outline-none focus:ring-0`}>
+                <select ref={ref} {...rest} defaultValue={defaultValue} className={`${width} border border-neutral-65 text-base rounded-md px-3 py-2 focus:border-primary-65 focus:outline-none focus:ring-0`}>
                     {options.map((option, index) => (
                         <option key={index} value={option.value}>{option.label}</option>
                     ))}

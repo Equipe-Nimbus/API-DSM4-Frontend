@@ -11,6 +11,7 @@ import usuarioRequests from "@services/requests/usuarioRequests";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FiltroUsuarioSchema, filtroUsuarioSchema } from "@lib/validations/usuario/filtroUsuarioSchema";
+import { useRouter } from "next/navigation";
 
 export default function ListagemUsuario() {
     const [usuarios, setUsuarios] = useState<UsuarioListagem[]>([]);
@@ -21,6 +22,8 @@ export default function ListagemUsuario() {
     const [filterSubmitted, setFilterSubmitted] = useState<FiltroUsuarioSchema| null>(null);;
 
     const hasMorePages = pagina < totalPaginas;
+
+    const router = useRouter();
 
     const { register, handleSubmit, formState: { errors}, getValues } = useForm<FiltroUsuarioSchema>({
         resolver: zodResolver(filtroUsuarioSchema)
@@ -38,7 +41,6 @@ export default function ListagemUsuario() {
 
     useEffect(() => {
         const filter = filterSubmitted || {};
-        console.log(filter);
         usuarioRequests
             .get({ pagina, tamanhoPagina: 10, ...filter})
             .then((response) => {
@@ -61,7 +63,7 @@ export default function ListagemUsuario() {
                 <Button text="Filtrar" variant="ghost" type="submit" Icon={RiSearch2Line} iconPosition="left" />
             </form>
             <div className="flex flex-col gap-2 w-fit h-fit">
-                <Button text="Adicionar" variant="primary" Icon={AiOutlinePlus} iconPosition="left" />
+                <Button text="Adicionar" variant="primary" Icon={AiOutlinePlus} iconPosition="left" onClick={() => router.push("/admin/usuarios/cadastro")}/>
                 <div className="bg-bg-100 px-4 py-4 rounded-md drop-shadow w-fit">
                     <table className="w-fit">
                         <thead className="text-text-on-background-disabled text-sm font-semibold border-b-2 border-text-on-background-disabled">
@@ -80,7 +82,7 @@ export default function ListagemUsuario() {
                                     <td className="px-4 w-80 max-w-80 truncate">{usuario.emailUsuario}</td>
                                     <td className="px-4 w-24 max-w-24 text-center">
                                         <ActionsDrodown actions={[
-                                            { label: "Editar", onClick: () => { } },
+                                            { label: "Editar", onClick: () => {router.push(`/admin/usuarios/listagem/${usuario.idUsuario}`)} },
                                             { label: "Excluir", onClick: () => { } }
                                         ]} />
                                     </td>

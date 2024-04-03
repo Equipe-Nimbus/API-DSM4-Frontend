@@ -12,7 +12,8 @@ const cadastroUsuarioSchema = zod.object({
         .length(14, { message: 'CPF inválido' })
         .refine(validarCPF, { message: 'CPF inválido' }),
     dataNascimentoUsuario: zod
-        .coerce.date(),
+        .string()
+        .min(1, { message: 'Data de nascimento é obrigatória' }),
     emailUsuario: zod
         .string()
         .email({ message: 'E-mail inválido' })
@@ -48,7 +49,5 @@ const cadastroUsuarioSchema = zod.object({
         .min(1, { message: 'Estado é obrigatório' }),
 });
 
-type CadastroUsuarioSchema = zod.infer<typeof cadastroUsuarioSchema>;
 
 export { cadastroUsuarioSchema };
-export type { CadastroUsuarioSchema };

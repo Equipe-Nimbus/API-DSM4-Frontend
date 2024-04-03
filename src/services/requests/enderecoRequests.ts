@@ -8,5 +8,5 @@ class EnderecoRequests {
     }
 }
 
-const usuarioRequests = new EnderecoRequests()
-export default usuarioRequests;
+const enderecoRequests = new EnderecoRequests()
+export default enderecoRequests;
