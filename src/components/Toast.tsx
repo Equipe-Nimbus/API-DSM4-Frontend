@@ -42,16 +42,19 @@ export const Toast: React.FC<ToastProps> = ({ id, message, type, position, visib
     return (
         <div className={`fixed ${positionClass} w-fit bg-bg-100 text-text-on-background px-4 py-2 rounded-md ${toastType} flex flex-col gap-1.5 border drop-shadow-lg`}>
             <div className="flex gap-1.5 items-center text-sm font-semibold">
-                {type === 'success' ?
-                    <AiFillCheckCircle className="text-success-39" size={20} />
-                    :
-                    <AiFillExclamationCircle className="text-error-60" size={20} />
+                {type === 'success' ? (
+                    <>
+                        <AiFillCheckCircle className="text-success-39" size={20} />
+                        <span>Sucesso</span>
+                    </>
+                )
+                    : (
+                        <>
+                            <AiFillExclamationCircle className="text-error-60" size={20} />
+                            <span>Erro</span>
+                        </>
+                    )
                 }
-                {type === 'success' ? 
-                    <span>Sucesso</span>
-                    :
-                    <span>Erro</span>
-                } 
             </div>
             <span className="text-sm font-normal">{message}</span>
         </div>

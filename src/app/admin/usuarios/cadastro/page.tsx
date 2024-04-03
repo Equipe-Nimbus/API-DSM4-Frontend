@@ -27,7 +27,7 @@ export default function CadastroUsuario() {
             console.log(response);
             if (response.status === 200) {
                 addToast({ visible: true, message: `Usuário cadastrado com sucesso`, type: 'success', position: 'bottom-left' });
-                router.push('/admin/usuarios');
+                router.push('/admin/usuarios/listagem');
             }
         } catch (error: any) {
             console.log(error);

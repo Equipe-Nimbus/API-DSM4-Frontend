@@ -4,7 +4,7 @@ export default function AdminLayout({
     children: React.ReactNode;
 }>) {
     return (
-        <div className="h-screen bg-bg-98 p-8">
+        <div className="min-h-screen bg-bg-98 p-8">
             <div className="flex flex-col gap-8">
                 {children}
             </div>
