@@ -55,7 +55,7 @@ export default function FormUsuario({ usuario }: FormUsuarioProps) {
     async function handleCadastroUsuario(data: CadastroUsuarioSchema) {
         try {
             const response = await usuarioRequests.create(data);
-            console.log(response);
+            //console.log(response);
             if (response.status === 200) {
                 addToast({ visible: true, message: `Usuário cadastrado com sucesso`, type: 'success', position: 'bottom-left' });
                 router.push('/admin/usuarios/listagem');
@@ -79,7 +79,7 @@ export default function FormUsuario({ usuario }: FormUsuarioProps) {
         const body: UsuarioAtualizacao = {idUsuario: usuario.idUsuario, ...data} 
         try {
             const response = await usuarioRequests.update(body);
-            console.log(response);
+            //console.log(response);
             if (response.status === 200) {
                 addToast({ visible: true, message: `Usuário atualizado com sucesso`, type: 'success', position: 'bottom-left' });
             }

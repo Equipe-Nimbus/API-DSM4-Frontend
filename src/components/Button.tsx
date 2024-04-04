@@ -3,7 +3,7 @@ import { IconType } from 'react-icons';
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
     text: string;
-    variant: 'primary' | 'outline' | 'ghost';
+    variant: 'primary' | 'outline' | 'ghost' | 'accent';
     Icon?: IconType;
     iconPosition?: 'left' | 'right';
 }
@@ -14,7 +14,8 @@ export const Button: React.FC<ButtonProps> = ({ text, variant, Icon, iconPositio
         'bg-primary-65 text-text-on-primary hover:bg-primary-54': variant === 'primary' && !disabled,
         'border border-secondary-54 text-text-on-outlinebutton hover:bg-secondary-74/20': variant === 'outline' && !disabled,
         'text-primary-65 hover:bg-primary-74/20': variant === 'ghost' && !disabled,
-        'text-text-on-background-disabled': variant === 'ghost' && disabled
+        'text-text-on-background-disabled': variant === 'ghost' && disabled,
+        'bg-accent-65 text-text-on-background hover:bg-accent-54': variant === 'accent' && !disabled,
     });
 
     return (

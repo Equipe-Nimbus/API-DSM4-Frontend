@@ -24,6 +24,11 @@ class UsuarioRequests {
         const Response = await api.put("/usuario/atualizar", body);
         return Response;
     }
+
+    async delete(id: number): Promise<AxiosResponse> {
+        const response = await api.delete(`/usuario/deletar/${id}`);
+        return response;
+    }
 }
 
 const usuarioRequests = new UsuarioRequests();
