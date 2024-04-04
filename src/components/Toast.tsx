@@ -40,8 +40,8 @@ export const Toast: React.FC<ToastProps> = ({ id, message, type, position, visib
     if (!isVisible) return null;
 
     return (
-        <div className={`fixed ${positionClass} w-fit bg-bg-100 text-text-on-background px-4 py-2 rounded-md ${toastType} flex flex-col gap-1.5 border drop-shadow-lg`}>
-            <div className="flex gap-1.5 items-center text-sm font-semibold">
+        <div className={`fixed ${positionClass} max-w-96 bg-bg-100 text-text-on-background px-4 py-2 rounded-md ${toastType} flex flex-col gap-1.5 border drop-shadow-lg`}>
+            <div className="flex gap-1.5 items-center text-sm font-semibold flex-wrap">
                 {type === 'success' ? (
                     <>
                         <AiFillCheckCircle className="text-success-39" size={20} />

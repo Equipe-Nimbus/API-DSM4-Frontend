@@ -1,4 +1,4 @@
-import { Usuario, UsuarioListagemGetOutput, UsuarioListagemGetParams } from "@lib/models/Usuario";
+import { Usuario, UsuarioAtualizacao, UsuarioListagemGetOutput, UsuarioListagemGetParams } from "@lib/models/Usuario";
 import { CadastroUsuarioSchema } from "@lib/models/Usuario";
 import api from "@services/api";
 import { AxiosResponse } from "axios";
@@ -17,6 +17,11 @@ class UsuarioRequests {
 
     async create(body: CadastroUsuarioSchema): Promise<AxiosResponse> {
         const Response = await api.post("/usuario/cadastrar", body);
+        return Response;
+    }
+
+    async update(body: UsuarioAtualizacao): Promise<AxiosResponse> {
+        const Response = await api.put("/usuario/atualizar", body);
         return Response;
     }
 }

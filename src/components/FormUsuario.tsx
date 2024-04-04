@@ -20,7 +20,6 @@ interface FormUsuarioProps {
 }
 
 export default function FormUsuario({ usuario }: FormUsuarioProps) {
-    const [key, setKey] = useState(0);
     const { addToast } = useContext(ToastContext)
     const router = useRouter();
 
@@ -32,7 +31,6 @@ export default function FormUsuario({ usuario }: FormUsuarioProps) {
         if (usuario) {
             setValue("nomeUsuario", usuario.nomeUsuario);
             setValue("cpfUsuario", usuario.cpfUsuario);
-            
             setValue("dataNascimentoUsuario", usuario.dataNascimentoUsuario ? usuario.dataNascimentoUsuario.slice(0, 10) : "");
             setValue("emailUsuario", usuario.emailUsuario);
             setValue("senhaUsuario", usuario.senhaUsuario);
@@ -43,10 +41,16 @@ export default function FormUsuario({ usuario }: FormUsuarioProps) {
             setValue("cidadeUsuario", usuario.cidadeUsuario);
             setValue("bairroUsuario", usuario.bairroUsuario);
             setValue("estadoUsuario", usuario.estadoUsuario);
-
-            setKey(prev => prev + 1);
         }
     }, [usuario, setValue])
+
+    async function handleSubmitUsuario(data: CadastroUsuarioSchema) {
+        if (usuario) {
+            handleAtualizacaoUsuario(data);
+        } else {
+            handleCadastroUsuario(data);
+        }   
+    }
 
     async function handleCadastroUsuario(data: CadastroUsuarioSchema) {
         try {
@@ -67,6 +71,29 @@ export default function FormUsuario({ usuario }: FormUsuarioProps) {
         }
     }
 
+    async function handleAtualizacaoUsuario(data: CadastroUsuarioSchema) {
+        if (!usuario) {
+            return;
+        }
+
+        const body: UsuarioAtualizacao = {idUsuario: usuario.idUsuario, ...data} 
+        try {
+            const response = await usuarioRequests.update(body);
+            console.log(response);
+            if (response.status === 200) {
+                addToast({ visible: true, message: `Usuário atualizado com sucesso`, type: 'success', position: 'bottom-left' });
+            }
+        } catch (error: any) {
+            console.log(error);
+            if (error.response && error.response.data) {
+                addToast({ visible: true, message: `Ocorreu um erro durante a atualização do usuário: ${error.response.data}`, type: 'error', position: 'bottom-left' });
+            }
+            else {
+                addToast({ visible: true, message: `Erro durante a atualização do usuário`, type: 'error', position: 'bottom-left' });
+            }
+        }
+    }   
+
     async function handleCepBlur(cep: string) {
         const cepFormatted = cep.replace(/\D/g, "");
 
@@ -84,12 +111,12 @@ export default function FormUsuario({ usuario }: FormUsuarioProps) {
 
     return (
         <>
-            <form onSubmit={handleSubmit(handleCadastroUsuario)} className="bg-bg-100 p-4 rounded-md drop-shadow flex flex-col gap-7">
+            <form onSubmit={handleSubmit(handleSubmitUsuario)} className="bg-bg-100 p-4 rounded-md drop-shadow flex flex-col gap-7">
                 <h2 className="text-text-on-background text-base font-medium">
                     Informações Pessoais
                 </h2>
                 <div className="flex flex-col gap-4">
-                    <Input label="Nome Completo" type="text" width="w-96" {...register("nomeUsuario")} error={errors.nomeUsuario?.message} id="nomeUsuario" />
+                    <Input label="Nome Completo" type="text" width="w-96" {...register("nomeUsuario")} error={errors.nomeUsuario?.message} id="nomeUsuario"/>
                     <div className="flex gap-4">
                         <Controller
                             name="cpfUsuario"
