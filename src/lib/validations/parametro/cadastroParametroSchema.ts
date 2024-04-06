@@ -14,4 +14,16 @@ const cadastroParametroSchema = zod.object({
         .optional()
 });
 
-export { cadastroParametroSchema };
+const listagemParametroSchema = zod.object({
+    idTipoParametro: zod
+        .number(),
+    nomeTipoParametro: zod
+        .string(),
+    unidadeTipoParametro: zod
+        .string(),
+    fatorTipoParametro: zod
+        .string()
+        .optional()
+});
+
+export { cadastroParametroSchema, listagemParametroSchema };

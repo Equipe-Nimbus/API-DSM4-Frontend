@@ -107,7 +107,7 @@ export default function ListagemUsuario() {
                                         <td className="px-4 w-24 max-w-24 text-center">
                                             <ActionsDrodown actions={[
                                                 { label: "Editar", onClick: () => { router.push(`/admin/usuarios/listagem/${usuario.idUsuario}`) } },
-                                                {label: "Excluir", onClick: () => {
+                                                { label: "Excluir", onClick: () => {
                                                         setUsuarioId(usuario.idUsuario)
                                                         setOpenDialog(true)
                                                     }

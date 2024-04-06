@@ -1,4 +1,5 @@
 import zod from 'zod';
+import { listagemParametroSchema } from '../parametro/cadastroParametroSchema';
 
 const cadastroEstacaoSchema = zod.object({
     nomeEstacao: zod
@@ -28,6 +29,12 @@ const cadastroEstacaoSchema = zod.object({
     estadoEstacao: zod
         .string()
         .min(1, { message: 'Estado é obrigatório' }),
+    latitudeEstacao: zod
+        .number(),
+    longitudeEstacao: zod
+        .number(),
+    tipoParametros: zod
+        .array(listagemParametroSchema).nonempty()
 });
 
 type CadastroEstacaoSchema = zod.infer<typeof cadastroEstacaoSchema>;
