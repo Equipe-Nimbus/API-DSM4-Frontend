@@ -1,16 +1,17 @@
 'use client';
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import filtroEstacaoSchema, { FiltroEstacaoSchema } from "@lib/validations/estacao/filtroEstacaoSchema";
-
-import Input from "@components/Input";
-import { Button } from "@components/Button";
-import { AiOutlinePlus } from "react-icons/ai";
-import { EstacaoListagem } from "@lib/models/Estacao";
-import { ActionsDrodown } from "@components/ActionsDropdown";
 import estacaoRequests from "@services/requests/estacaoRequests";
 import { useRouter } from "next/navigation";
+import Input from "@components/Input";
+import { Button } from "@components/Button";
+import { AiFillWarning, AiOutlinePlus } from "react-icons/ai";
+import { EstacaoListagem } from "@lib/models/Estacao";
+import { ActionsDrodown } from "@components/ActionsDropdown";
+import { Dialog } from "@components/Dialog";
+import { ToastContext } from "@contexts/ToastContext";
 
 
 export default function ListagemEstacao() {
@@ -20,8 +21,11 @@ export default function ListagemEstacao() {
     const [key, setKey] = useState(0)
     const [filterSubmitted, setFilterSubmitted] = useState<FiltroEstacaoSchema | null>(null)
     const [isLoading, setIsLoading] = useState(true)
+    const [openDialog, setOpenDialog] = useState(false)
+    const [estacaoId, setEstacaoId] = useState<number | null>(null)
     const hasMorePages = pagina < totalPaginas;
 
+    const { addToast } = useContext(ToastContext)
     const router = useRouter();
 
     const { register, handleSubmit, formState: { errors }, getValues } = useForm<FiltroEstacaoSchema>({
@@ -47,6 +51,26 @@ export default function ListagemEstacao() {
         if (pagina !== 1) {
             setPagina(1);
         }
+    }
+
+    function handleDelecaoEstacao() {
+        if (!estacaoId) return;
+
+        estacaoRequests
+            .delete(estacaoId)
+            .then(() => {
+                addToast({ type: "success", message: "Estação deletada com sucesso!", position: "bottom-left", visible: true})
+                setKey(prev => prev + 1);
+            })
+            .catch((error) => {
+                console.log(error)
+                if(error.response && error.response.data) {
+                    addToast({ type: "error", message: `Erro ao deletar a estação: ${error.response.data}`, position: "bottom-left", visible: true})
+                    return;
+                }
+                addToast({ type: "error", message: "Erro ao deletar estação", position: "bottom-left", visible: true})
+            })
+            .finally(() => setOpenDialog(false))
     }
 
     return (
@@ -81,7 +105,10 @@ export default function ListagemEstacao() {
                                         <td className="px-4 w-24 max-w-24 text-center">
                                             <ActionsDrodown actions={[
                                                 { label: "Editar", onClick: () => { } },
-                                                { label: "Excluir", onClick: () => { } }
+                                                { label: "Excluir", onClick: () => {
+                                                    setEstacaoId(estacao.idEstacao)
+                                                    setOpenDialog(true)
+                                                 } }
                                             ]} />
                                         </td>
                                     </tr>
@@ -99,6 +126,16 @@ export default function ListagemEstacao() {
                     </div>
                 </div>
             </div>
+            {openDialog &&
+                <Dialog.Root>
+                    <Dialog.Icon icon={AiFillWarning} color="text-accent-65"/>
+                    <Dialog.Content title="Atenção" text="Deseja deletar a estação? Os dados de medição serão mantidos."/>
+                    <Dialog.Actions>
+                        <Dialog.Action button={<Button text="Cancelar" variant="outline" onClick={() => setOpenDialog(false)}/>}/>
+                        <Dialog.Action button={<Button text="Deletar" variant="accent" onClick={() => {handleDelecaoEstacao()}}/>}/>
+                    </Dialog.Actions>
+                </Dialog.Root>
+            }
         </>
     )
 }

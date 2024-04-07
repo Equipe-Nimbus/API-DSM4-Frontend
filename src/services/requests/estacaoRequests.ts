@@ -12,6 +12,11 @@ class EstacaoRequests {
         const response = await api.post("/estacao/cadastrar", body)
         return response
     }
+
+    async delete(id: number): Promise<AxiosResponse> {
+        const response = await api.delete(`/estacao/deletar/${id}`)
+        return response
+    }
 }
 
 const estacaoRequests = new EstacaoRequests()
