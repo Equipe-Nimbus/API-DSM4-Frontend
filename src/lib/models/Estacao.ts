@@ -1,6 +1,20 @@
 import { cadastroEstacaoSchema } from '@lib/validations/estacao/cadastroEstacaoSchema';
 import zod from 'zod';
+import { ListagemParametroSchema } from './Parametro';
 
+export interface Estacao {
+    idEstacao: number;
+    nomeEstacao: string;
+    cepEstacao: string;
+    ruaAvenidaEstacao: string;
+    numeroEnderecoEstacao: string;
+    cidadeEstacao: string;
+    bairroEstacao: string;
+    estadoEstacao: string;
+    latitudeEstacao: number;
+    longitudeEstacao: number;
+    tipoParametros: Array<ListagemParametroSchema>
+}
 export interface EstacaoListagem {
     idEstacao: number;
     nomeEstacao: string;
@@ -21,4 +35,8 @@ export interface EstacaoListagemGetOutput {
     pagina: number;
     tamanhoPagina: number;
     quantidadePaginas: number;
+}
+
+export interface EstacaoAtualizacao extends CadastroEstacaoSchema {
+    idEstacao: number;
 }
