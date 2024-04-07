@@ -2,7 +2,7 @@
 import { useContext, useEffect, useState } from "react";
 import { Controller, useForm, useFieldArray } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { cadastroEstacaoSchema, CadastroEstacaoSchema } from "@lib/validations/estacao/cadastroEstacaoSchema";
+import { cadastroEstacaoSchema } from "@lib/validations/estacao/cadastroEstacaoSchema";
 import Input from "@components/Input";
 import Select, { Option } from "@components/Select";
 import { Button } from "@components/Button";
@@ -15,6 +15,7 @@ import { useRouter } from "next/navigation";
 import parametroRequests from "@services/requests/parametroRequest";
 import { ListagemParametroSchema } from "@lib/models/Parametro";
 import { RiDeleteBin6Line } from "react-icons/ri";
+import { CadastroEstacaoSchema } from "@lib/models/Estacao";
 
 
 export default function CadastroEstacao() {
@@ -189,7 +190,7 @@ export default function CadastroEstacao() {
                     ) : 
                     <span className="text-text-on-background">Nenhum parâmetro adicionado</span>}
                     <div className="flex justify-end gap-4">
-                        <Button text="Cancelar" variant="outline" type="button" />
+                        <Button text="Cancelar" variant="outline" type="button" onClick={() => {router.push("/admin/estacoes/listagem")}}/>
                         <Button text="Salvar" variant="primary" type="submit" />
                     </div>
                 </div>

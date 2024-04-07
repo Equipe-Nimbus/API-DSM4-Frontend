@@ -37,7 +37,4 @@ const cadastroEstacaoSchema = zod.object({
         .array(listagemParametroSchema).nonempty()
 });
 
-type CadastroEstacaoSchema = zod.infer<typeof cadastroEstacaoSchema>;
-
 export { cadastroEstacaoSchema };
-export type { CadastroEstacaoSchema };

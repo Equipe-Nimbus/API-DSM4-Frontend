@@ -11,7 +11,6 @@ const filtroUsuarioSchema = zod.object({
         optional(),
 });
 
-type FiltroUsuarioSchema = zod.infer<typeof filtroUsuarioSchema>;
+export type FiltroUsuarioSchema = zod.infer<typeof filtroUsuarioSchema>;
 
 export { filtroUsuarioSchema };
-export type { FiltroUsuarioSchema };
