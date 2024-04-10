@@ -7,17 +7,17 @@ import { AxiosResponse } from "axios";
 export class ParametroRequests {
 
     async get({ pagina, tamanhoPagina, nome = '', unidade='', fator='', offset=''}: ParametroListagemGetParams): Promise<AxiosResponse<ParametroListagemGetParams>> {
-        const response = await api.get(`/tipoParametro/listarGeral/paginada?pagina=${pagina}&tamanhoPagina=${tamanhoPagina}&nome=${nome}&unidade=${unidade}&fator=${fator}&offset=${offset}`)
+        const response = await api.get(`/parametro/listarGeral/paginada?pagina=${pagina}&tamanhoPagina=${tamanhoPagina}&nome=${nome}&unidade=${unidade}&fator=${fator}&offset=${offset}`)
         return response;
     }
 
     async create(body: CadastroParametroSchema): Promise<AxiosResponse> {
-        const Response = await api.post("/tipoParametro/cadastrar", body);
+        const Response = await api.post("/parametro/cadastrar", body);
         return Response;
     }
 
     async delete(id: number): Promise<AxiosResponse> {
-        const response = await api.delete(`/tipoParametro/deletar/${id}`)
+        const response = await api.delete(`/parametro/deletar/${id}`)
         return response
     }
 
