@@ -1,13 +1,13 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Button } from '@components/Button';
-import { Input } from '@components/Input';
+import  Input  from '@components/Input';
 import { Dialog } from '@components/Dialog';
 import { useRouter } from 'next/router';
 import { ToastContext } from '@contexts/ToastContext';
-import parametroRequests from '@services/requests/parametroRequests';
+import parametroRequests from '@services/requests/parametroRequest';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { FiltroParametroSchema, filtroParametroSchema } from '@lib/validations/parametro/filtroParametroSchema';
+import filtroParametroSchema, { FiltroParametroSchema } from '@lib/validations/parametro/filtroParametroSchema';
 
 export default function ListagemParametro() {
     const [parametros, setParametros] = useState([]);
@@ -32,7 +32,7 @@ export default function ListagemParametro() {
         const filter = filterSubmitted || {};
         parametroRequests
             .get({ pagina, tamanhoPagina: 10, ...filter })
-            .then((response) => {
+            .then((response: { data: { parametros: any; quantidadePaginas: any; }; }) => {
                 const { parametros, quantidadePaginas } = response.data;
                 setParametros(parametros);
                 setTotalPaginas(quantidadePaginas);
@@ -67,7 +67,7 @@ export default function ListagemParametro() {
         setKey(prev => prev + 1);
         setOpenDialog(false);
     }
-
+    
     return (
         <>
             <div className="bg-bg-100 p-4 rounded-md drop-shadow">
@@ -109,4 +109,9 @@ export default function ListagemParametro() {
                     </table>
                     {isLoading && <span className="text-text-on-background font-medium">Carregando...</span>}
                 </div>
-                <div className="flex justify
+                <div className="flex justify"></div>
+                </div>
+                </>
+    )
+    
+}
