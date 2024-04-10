@@ -11,7 +11,10 @@ const cadastroParametroSchema = zod.object({
         .max(255, { message: 'Unidade do tipo de parâmetro deve ter no máximo 255 caracteres' }),
     fatorTipoParametro: zod
         .coerce.number()
-        .optional()
+        .optional(),
+    offsetTipoParametro: zod
+        .coerce.number()
+        .optional(),
 });
 
 export { cadastroParametroSchema };
