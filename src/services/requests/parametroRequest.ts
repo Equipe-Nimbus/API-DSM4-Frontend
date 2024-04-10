@@ -1,12 +1,12 @@
 import { Option } from "@components/Select";
-import { CadastroParametroSchema, ListagemParametroSchema, ParametroListagemGetParams } from "@lib/models/Parametro";
+import { CadastroParametroSchema, ListagemParametroSchema, ParametroListagemGetOutput, ParametroListagemGetParams } from "@lib/models/Parametro";
 import mapeiaParametrosSelecao from "@lib/parametrosSelecao";
 import api from "@services/api";
 import { AxiosResponse } from "axios";
 
 export class ParametroRequests {
 
-    async get({ pagina, tamanhoPagina, nome = '', unidade='', fator='', offset=''}: ParametroListagemGetParams): Promise<AxiosResponse<ParametroListagemGetParams>> {
+    async get({ pagina, tamanhoPagina, nome = '', unidade='', fator='', offset=''}: ParametroListagemGetParams): Promise<AxiosResponse<ParametroListagemGetOutput>> {
         const response = await api.get(`/parametro/listarGeral/paginada?pagina=${pagina}&tamanhoPagina=${tamanhoPagina}&nome=${nome}&unidade=${unidade}&fator=${fator}&offset=${offset}`)
         return response;
     }
