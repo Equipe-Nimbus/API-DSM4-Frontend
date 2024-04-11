@@ -19,7 +19,7 @@ export interface ParametroListagemGetParams {
 }
 
 export interface ParametroListagemGetOutput {
-    parametros: ParametroListagem[];
+    tiposParametros: ParametroListagem[];
     pagina: number;
     tamanhoPagina: number;
     quantidadePaginas: number;

@@ -10,9 +10,13 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import filtroParametroSchema, { FiltroParametroSchema } from '@lib/validations/parametro/filtroParametroSchema';
 import { AiFillWarning, AiOutlinePlus } from 'react-icons/ai';
+import { ModalCadastro } from '@components/ModalCadastro';
+import FormParametros from '@components/FormParametros';
+import { ParametroListagem } from '@lib/models/Parametro';
+import { ActionsDrodown } from '@components/ActionsDropdown';
 
 export default function ListagemParametro() {
-    const [parametros, setParametros] = useState([]);
+    const [parametros, setParametros] = useState<ParametroListagem[]>([]);
     const [pagina, setPagina] = useState(1);
     const [totalPaginas, setTotalPaginas] = useState(0);
     const [isLoading, setIsLoading] = useState(true);
@@ -20,6 +24,8 @@ export default function ListagemParametro() {
     const [filterSubmitted, setFilterSubmitted] = useState<FiltroParametroSchema | null>(null);
     const [openDialog, setOpenDialog] = useState(false);
     const [parametroId, setParametroId] = useState<number | null>(null);
+
+    const [cadastroOpen, setCadastroOpen] = useState(false)
 
     const hasMorePages = pagina < totalPaginas;
 
@@ -34,9 +40,10 @@ export default function ListagemParametro() {
         const filter = filterSubmitted || {};
         parametroRequests
             .get({ pagina, tamanhoPagina: 10, ...filter })
-            .then((response: { data: { parametros: any; quantidadePaginas: any; }; }) => {
-                const { parametros, quantidadePaginas } = response.data;
-                setParametros(parametros);
+            .then((response) => {
+                const { tiposParametros, quantidadePaginas } = response.data;
+                console.log(response)
+                setParametros(tiposParametros);
                 setTotalPaginas(quantidadePaginas);
             })
             .finally(() => setIsLoading(false));
@@ -83,28 +90,34 @@ export default function ListagemParametro() {
             <div className="flex flex-col gap-2 w-fit h-fit">
                 { }
                 <div className="bg-bg-100 px-4 py-4 rounded-md drop-shadow w-fit">
-                    <Button type="button" text="Adicionar" Icon={AiOutlinePlus} iconPosition="left" variant="primary" onClick={() => router.push("/admin/parametros/cadastro")} />
+                    <Button type="button" text="Adicionar" Icon={AiOutlinePlus} iconPosition="left" variant="primary" onClick={() => { setCadastroOpen(!cadastroOpen) }} />
                     <table className="w-fit">
                         <thead className="text-text-on-background-disabled text-sm font-semibold border-b-2 border-text-on-background-disabled">
                             <tr>
                                 <th className="p-4 text-left">Nome</th>
                                 <th className="p-4 text-left">Fator</th>
                                 <th className="p-4 text-left">Unidade</th>
-                                <th className="p-4 text-left">Ganho</th>
                                 <th className="p-4 text-left">Offset</th>
                                 <th className="p-4 text-center">Ações</th>
                             </tr>
                         </thead>
                         <tbody className="text-text-on-background font-medium">
-                            {parametros.map((parametro: any, index) => (
+                            {parametros?.map((parametro: any, index) => (
                                 <tr key={index}>
                                     <td className="px-4 py-4">{parametro.nomeTipoParametro}</td>
                                     <td className="px-4">{parametro.fatorTipoParametro}</td>
                                     <td className="px-4">{parametro.unidadeTipoParametro}</td>
-                                    <td className="px-4">{parametro.ganhoTipoParametro}</td>
                                     <td className="px-4">{parametro.offsetTipoParametro}</td>
                                     <td className="px-4 text-center">
-                                        { }
+                                        <ActionsDrodown actions={[
+                                            { label: "Editar", onClick: () => { } },
+                                            {
+                                                label: "Excluir", onClick: () => {
+                                                    setParametroId(parametro.idParametro)
+                                                    setOpenDialog(true)
+                                                }
+                                            }
+                                        ]} />
                                     </td>
                                 </tr>
                             ))}
@@ -131,6 +144,15 @@ export default function ListagemParametro() {
                         <Dialog.Action button={<Button text="Deletar" variant="accent" onClick={() => { handleDelecaoParametro() }} />} />
                     </Dialog.Actions>
                 </Dialog.Root>
+            }
+            {
+                cadastroOpen &&
+                <ModalCadastro.Root>
+                    <ModalCadastro.Header title="Novo Parâmetro" onClose={() => setCadastroOpen(false)} />
+                    <ModalCadastro.Content>
+                        {FormParametros}
+                    </ModalCadastro.Content>
+                </ModalCadastro.Root>
             }
         </>
     )
