@@ -3,7 +3,7 @@ import { useState, useEffect, useContext } from 'react';
 import { Button } from '@components/Button';
 import Input from '@components/Input';
 import { Dialog } from '@components/Dialog';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 import { ToastContext } from '@contexts/ToastContext';
 import parametroRequests from '@services/requests/parametroRequest';
 import { useForm } from 'react-hook-form';
