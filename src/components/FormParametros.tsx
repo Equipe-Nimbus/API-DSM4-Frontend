@@ -40,6 +40,7 @@ export default function FormParametros() {
                 <Input width="w-full" label="Nome" {...register("nomeTipoParametro")} error={errors.nomeTipoParametro?.message} />
                 <Input width="w-full" label="Unidade" {...register("unidadeTipoParametro")} error={errors.unidadeTipoParametro?.message}/>
                 <Input width="w-full" label="Fator (Opcional)" {...register("fatorTipoParametro")} error={errors.fatorTipoParametro?.message}/>
+                <Input width="w-full" label="Offset (Opcional)" {...register("offsetTipoParametro")} error={errors.offsetTipoParametro?.message}/>
             </div>
             <div className="w-full flex gap-3 justify-end">
                 <Button text="Cadastrar" type="submit" variant="primary" onClick={handleSubmit(handleCadastroParametro)} />
