@@ -1,4 +1,5 @@
 import { cadastroUsuarioSchema } from '@lib/validations/usuario/cadastroUsuarioSchema';
+import { loginUsuarioSchema } from '@lib/validations/usuario/loginUsuarioSchema';
 import zod from 'zod';
 export interface Usuario {
     idUsuario: number;
@@ -39,4 +40,11 @@ export type CadastroUsuarioSchema = zod.infer<typeof cadastroUsuarioSchema>;
 
 export interface UsuarioAtualizacao extends Omit<CadastroUsuarioSchema, 'cpfUsuario'> {
     idUsuario: number;
+}
+
+export type UsuarioLoginSchema = zod.infer<typeof loginUsuarioSchema>;
+
+export interface UsuarioLoginOutput {
+    token: string;
+    usuario?: {id: number, nome: string, perfil: string}
 }

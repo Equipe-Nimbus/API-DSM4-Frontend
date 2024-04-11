@@ -1,4 +1,4 @@
-import { Usuario, UsuarioAtualizacao, UsuarioListagemGetOutput, UsuarioListagemGetParams } from "@lib/models/Usuario";
+import { Usuario, UsuarioAtualizacao, UsuarioListagemGetOutput, UsuarioListagemGetParams, UsuarioLoginOutput, UsuarioLoginSchema } from "@lib/models/Usuario";
 import { CadastroUsuarioSchema } from "@lib/models/Usuario";
 import api from "@services/api";
 import { AxiosResponse } from "axios";
@@ -27,6 +27,11 @@ class UsuarioRequests {
 
     async delete(id: number): Promise<AxiosResponse> {
         const response = await api.delete(`/usuario/deletar/${id}`);
+        return response;
+    }
+
+    async login(body: UsuarioLoginSchema): Promise<AxiosResponse<UsuarioLoginOutput>> {
+        const response = await api.post("/usuario/login", body)
         return response;
     }
 }
