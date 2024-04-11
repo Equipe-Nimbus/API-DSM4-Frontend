@@ -1,4 +1,6 @@
-import { CadastroEstacaoSchema, EstacaoListagemGetOutput, EstacaoListagemGetParams } from "@lib/models/Estacao";
+import { Option } from "@components/Select";
+import mapearEstacoesSelecao from "@lib/estacoesSelecao";
+import { CadastroEstacaoSchema, EstacaoListagemGetOutput, EstacaoListagemGetParams, EstacaoSelect } from "@lib/models/Estacao";
 import api from "@services/api";
 import { AxiosResponse } from "axios";
 
@@ -16,6 +18,13 @@ class EstacaoRequests {
     async delete(id: number): Promise<AxiosResponse> {
         const response = await api.delete(`/estacao/deletar/${id}`)
         return response
+    }
+
+    async getSelectEstacoes(): Promise<Option[]> {
+        const response = await api.get<EstacaoSelect[]>("/estacao/listarParaSelecao")
+        const estacoesResgatadas = response.data
+        const estacoesSelecao = mapearEstacoesSelecao(estacoesResgatadas)
+        return estacoesSelecao
     }
 }
 

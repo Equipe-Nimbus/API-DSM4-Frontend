@@ -37,7 +37,7 @@ export default function CadastroEstacao() {
 
 
     useEffect(() => {
-        parametroRequests.getSelectEstacoes().then((response) => {
+        parametroRequests.getSelectParametros().then((response) => {
             const { parametrosSelecao, parametrosResgatados } = response;
             setParametrosSelecao(parametrosSelecao);
             setParametrosResgatados(parametrosResgatados);
@@ -47,10 +47,10 @@ export default function CadastroEstacao() {
     async function handleCadastroEstacao(data: CadastroEstacaoSchema) {
         try {
             const response = await estacaoRequests.create(data);
-            console.log(response);
+            //console.log(response);
             if (response.status === 200) {
                 addToast({ visible: true, message: `Estação cadastrada com sucesso`, type: 'success', position: 'bottom-left' });
-                //router.push('/admin/estacoes');
+                router.push('/admin/estacoes/listagem');
             }
         } catch (error: any) {
             console.log(error);

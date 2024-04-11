@@ -1,5 +1,5 @@
 import zod from 'zod';
-import { listagemParametroSchema } from '../parametro/cadastroParametroSchema';
+import { listagemParametroSchema } from '../parametro/listagemParametroSchema';
 
 const cadastroEstacaoSchema = zod.object({
     nomeEstacao: zod

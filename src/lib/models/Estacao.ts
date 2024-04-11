@@ -22,3 +22,8 @@ export interface EstacaoListagemGetOutput {
     tamanhoPagina: number;
     quantidadePaginas: number;
 }
+
+export interface EstacaoSelect {
+    idEstacao: number;
+    nomeEstacao: string;
+}

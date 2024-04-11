@@ -1,6 +1,6 @@
 import { Option } from "@components/Select";
 import { CadastroParametroSchema, ListagemParametroSchema } from "@lib/models/Parametro";
-import mapeiaParametrosSelecao from "@lib/parametrosSelecao";
+import mapearParametrosSelecao from "@lib/parametrosSelecao";
 import api from "@services/api";
 import { AxiosResponse } from "axios";
 
@@ -10,11 +10,18 @@ export class ParametroRequests {
         return Response;
     }
 
-    async getSelectEstacoes(): Promise<{parametrosSelecao: Option[], parametrosResgatados: ListagemParametroSchema[]}> {
+    async getSelectParametros(): Promise<{parametrosSelecao: Option[], parametrosResgatados: ListagemParametroSchema[]}> {
         const response = await api.get<ListagemParametroSchema[]>("/tipoParametro/listarParaSelecao");
         const parametrosResgatados = response.data;
-        const parametrosSelecao = mapeiaParametrosSelecao(parametrosResgatados);
+        const parametrosSelecao = mapearParametrosSelecao(parametrosResgatados);
         return {parametrosSelecao, parametrosResgatados};
+    }
+
+    async getSelectParametrosPorEstacao(idEstacao: number): Promise<Option[]> {
+        const response = await api.get<ListagemParametroSchema[]>(`/tipoParametro/listarParaSelecao/${idEstacao}`);
+        const parametrosResgatados = response.data;
+        const parametrosSelecao = mapearParametrosSelecao(parametrosResgatados);
+        return parametrosSelecao;
     }
 }
 

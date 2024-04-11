@@ -1,7 +1,7 @@
 import { ListagemParametroSchema } from "./models/Parametro";
 import { Option } from "@components/Select";
 
-export default function mapeiaParametrosSelecao(parametros: ListagemParametroSchema[]): Array<Option> {
+export default function mapearParametrosSelecao(parametros: ListagemParametroSchema[]): Array<Option> {
     return parametros.map(parametro => {
         if(parametro.fatorTipoParametro === "1"){
             return {
