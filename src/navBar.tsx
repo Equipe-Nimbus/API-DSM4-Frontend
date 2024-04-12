@@ -29,31 +29,31 @@ export default function navBar() {
                 <ul className="my-10 flex flex-col gap-5">
                         <li className="flex cursor-pointer flex-row items-center gap-1 p-1.5 text-2xl font-medium text-on-bg22 duration-200 hover:rounded hover:bg-hover-bg22 xl:text-xl">
                             <RiDashboardFill />
-                            <Link to="">Admin</Link>
+                            <Link to="/admin">Admin</Link>
                         </li>
                     </ul>
                     <ul className="my-10 flex flex-col gap-5">
                         <li className="flex cursor-pointer flex-row items-center gap-1 p-1.5 text-2xl font-medium text-on-bg22 duration-200 hover:rounded hover:bg-hover-bg22 xl:text-xl">
                             <RiSignalTowerFill />
-                            <Link to="/estacao">Estações</Link>
+                            <Link to="/admin/estacoes/listagem">Estações</Link>
                         </li>
                     </ul>
                     <ul className="my-10 flex flex-col gap-5">
                         <li className="flex cursor-pointer flex-row items-center gap-1 p-1.5 text-2xl font-medium text-on-bg22 duration-200 hover:rounded hover:bg-hover-bg22 xl:text-xl">
                             <RiTempColdLine />
-                            <Link to="/parametro">Parâmetros</Link>
+                            <Link to="/admin/parametro/listagem">Parâmetros</Link>
                         </li>
                     </ul>
                     <ul className="my-10 flex flex-col gap-5">
                         <li className="flex cursor-pointer flex-row items-center gap-1 p-1.5 text-2xl font-medium text-on-bg22 duration-200 hover:rounded hover:bg-hover-bg22 xl:text-xl">
                             <RiErrorWarningLine />
-                            <Link to="/alerta">Alertas</Link>
+                            <Link to="/admin/alerta/listagem">Alertas</Link>
                         </li>
                     </ul>
                     <ul className="my-10 flex flex-col gap-5">
                         <li className="flex cursor-pointer flex-row items-center gap-1 p-1.5 text-2xl font-medium text-on-bg22 duration-200 hover:rounded hover:bg-hover-bg22 xl:text-xl">
                             <RiUserLine />
-                            <Link to="/usuario">Usuários</Link>
+                            <Link to="/admin/usuarios/listagem">Usuários</Link>
                         </li>
                     </ul>
                     <ul className="my-10 flex flex-col gap-5">
