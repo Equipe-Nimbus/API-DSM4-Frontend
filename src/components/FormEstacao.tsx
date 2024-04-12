@@ -68,7 +68,7 @@ export default function FormEstacao({ estacao }: FormEstacaoProps) {
         }
 
         if (estacao) {
-            handleAtualizacaoUsuario(data);
+            handleAtualizacaoEstacao(data);
         } else {
             handleCadastroEstacao(data);
         }
@@ -93,7 +93,7 @@ export default function FormEstacao({ estacao }: FormEstacaoProps) {
             })
     }
 
-    function handleAtualizacaoUsuario(data: CadastroEstacaoSchema) {
+    function handleAtualizacaoEstacao(data: CadastroEstacaoSchema) {
         if(!estacao) {
             return;
         }
@@ -149,6 +149,10 @@ export default function FormEstacao({ estacao }: FormEstacaoProps) {
 
     function handleAdicionarParametro() {
         if (parametroSelecionado) {
+            const parametroJaAdicionado = fields.find(parametro => parametro.idTipoParametro === parametroSelecionado.idTipoParametro);
+            if (parametroJaAdicionado) {
+                return addToast({ visible: true, message: `Parâmetro já adicionado`, type: 'error', position: 'bottom-left' });
+            }
             append(parametroSelecionado);
         }
     }
