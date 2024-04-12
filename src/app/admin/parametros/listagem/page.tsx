@@ -3,7 +3,6 @@ import { useState, useEffect, useContext } from 'react';
 import { Button } from '@components/Button';
 import Input from '@components/Input';
 import { Dialog } from '@components/Dialog';
-import { useRouter } from 'next/navigation';
 import { ToastContext } from '@contexts/ToastContext';
 import parametroRequests from '@services/requests/parametroRequest';
 import { useForm } from 'react-hook-form';
@@ -14,7 +13,7 @@ import { ModalCadastro } from '@components/ModalCadastro';
 import FormParametros from '@components/FormParametros';
 import { Parametro, ParametroListagem } from '@lib/models/Parametro';
 import { ActionsDrodown } from '@components/ActionsDropdown';
-import { set } from 'zod';
+
 
 export default function ListagemParametro() {
     const [parametros, setParametros] = useState<ParametroListagem[]>([]);
@@ -27,14 +26,10 @@ export default function ListagemParametro() {
     const [parametroIdDelete, setParametroIdDelete] = useState<number | null>(null);
     const [parametroIdEdit, setParametroIdEdit] = useState<number | null>(null);
     const [parametroToUpdate, setParametroToUpdate] = useState<Parametro | undefined>(undefined);
-
     const [cadastroOpen, setCadastroOpen] = useState(false)
-
     const hasMorePages = pagina < totalPaginas;
 
     const { addToast } = useContext(ToastContext);
-    const router = useRouter();
-
     const { register, handleSubmit, formState: { errors }, getValues } = useForm<FiltroParametroSchema>({
         resolver: zodResolver(filtroParametroSchema)
     });

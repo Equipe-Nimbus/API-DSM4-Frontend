@@ -21,6 +21,11 @@ class AlertaRequests {
         const response = await api.post("/alerta/cadastrar", body)
         return response
     }
+
+    async delete(id: number): Promise<AxiosResponse> {
+        const response = await api.delete(`/alerta/deletar/${id}`);
+        return response;
+    }
 }
 
 const alertaRequests = new AlertaRequests()

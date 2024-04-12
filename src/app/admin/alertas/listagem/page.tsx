@@ -1,5 +1,5 @@
 'use client';
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form"
 import { Button } from "@components/Button";
 import Input from "@components/Input";
@@ -8,10 +8,12 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { FiltroAlertaSchema, filtroAlertaSchema } from "@lib/validations/alerta/filtroAlertaSchema";
 import alertaRequests from "@services/requests/alertaRequests";
 import { AlertaListagem } from "@lib/models/Alerta";
-import { AiOutlinePlus } from "react-icons/ai";
+import { AiFillWarning, AiOutlinePlus } from "react-icons/ai";
 import { ActionsDrodown } from "@components/ActionsDropdown";
 import { ModalCadastro } from "@components/ModalCadastro";
 import FormAlerta from "@components/FormAlerta";
+import { Dialog } from "@components/Dialog";
+import { ToastContext } from "@contexts/ToastContext";
 
 export default function ListagemAlerta() {
     const [alertas, setAlertas] = useState<AlertaListagem[]>([]);
@@ -22,9 +24,12 @@ export default function ListagemAlerta() {
     const [filterSubmitted, setFilterSubmitted] = useState<FiltroAlertaSchema | null>(null);
     const [isLoading, setIsLoading] = useState(true);
     const [cadastroOpen, setCadastroOpen] = useState(false);
+    const [dialogOpen, setDialogOpen] = useState(false);
+    const [alertaIdDelete, setAlertaIdDelete] = useState<number | null>(null);
     const { register, handleSubmit, formState: { errors } } = useForm<FiltroAlertaSchema>({
         resolver: zodResolver(filtroAlertaSchema)
     });
+    const { addToast } = useContext(ToastContext);
 
     useEffect(() => {
         const filter = filterSubmitted || {};
@@ -45,6 +50,26 @@ export default function ListagemAlerta() {
         }
     }
 
+    async function handleDelecaoAlerta() {
+        if (!alertaIdDelete) return;
+
+        try {
+            const response = await alertaRequests.delete(alertaIdDelete);
+            if (response.status === 200) {
+                addToast({ type: "success", message: "Alerta deletado com sucesso!", position: "bottom-left", visible: true });
+            }
+        } catch (error: any) {
+            if (error.response && error.response.data) {
+                addToast({ type: "error", message: `Erro ao deletar o alerta: ${error.response.data}`, position: "bottom-left", visible: true });
+            } else {
+                addToast({ type: "error", message: `Erro ao deletar o alerta`, position: "bottom-left", visible: true });
+            }
+        } finally {
+            setDialogOpen(false);
+            setKey(prev => prev + 1);
+        }
+    }
+
     return (
         <>
             <div className="bg-bg-100 p-4 rounded-md drop-shadow">
@@ -55,7 +80,7 @@ export default function ListagemAlerta() {
                 <Button text="Filtrar" variant="ghost" type="submit" Icon={RiSearch2Line} iconPosition="left" />
             </form>
             <div className="flex flex-col gap-2 w-fit h-fit">
-                <Button text="Adicionar" variant="primary" Icon={AiOutlinePlus} iconPosition="left" onClick={() => {setCadastroOpen(true)}} />
+                <Button text="Adicionar" variant="primary" Icon={AiOutlinePlus} iconPosition="left" onClick={() => { setCadastroOpen(true) }} />
                 <div className="bg-bg-100 px-4 py-4 rounded-md drop-shadow w-fit">
                     <table className="w-fit">
                         <thead className="text-text-on-background-disabled text-sm font-semibold border-b-2 border-text-on-background-disabled">
@@ -81,6 +106,8 @@ export default function ListagemAlerta() {
                                             { label: "Editar", onClick: () => { } },
                                             {
                                                 label: "Excluir", onClick: () => {
+                                                    setAlertaIdDelete(alerta.idAlerta)
+                                                    setDialogOpen(true)
                                                 }
                                             }
                                         ]} />
@@ -101,11 +128,21 @@ export default function ListagemAlerta() {
             </div>
             {cadastroOpen && (
                 <ModalCadastro.Root>
-                    <ModalCadastro.Header title="Novo Alerta" onClose={() => {setCadastroOpen(false)}} />
+                    <ModalCadastro.Header title="Novo Alerta" onClose={() => { setCadastroOpen(false) }} />
                     <ModalCadastro.Content>
                         <FormAlerta />
                     </ModalCadastro.Content>
                 </ModalCadastro.Root>
+            )}
+            {dialogOpen && (
+                <Dialog.Root>
+                    <Dialog.Icon icon={AiFillWarning} color="text-accent-65" />
+                    <Dialog.Content title="Atenção" text="Deseja deletar o alerta? O histórico de medições será mantido." />
+                    <Dialog.Actions>
+                        <Dialog.Action button={<Button text="Cancelar" variant="outline" onClick={() => setDialogOpen(false)} />} />
+                        <Dialog.Action button={<Button text="Deletar" variant="accent" onClick={() => { handleDelecaoAlerta() }} />} />
+                    </Dialog.Actions>
+                </Dialog.Root>
             )}
         </>
     )
