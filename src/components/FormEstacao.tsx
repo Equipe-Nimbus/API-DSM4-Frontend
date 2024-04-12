@@ -39,7 +39,7 @@ export default function FormEstacao({ estacao }: FormEstacaoProps) {
     });
 
     useEffect(() => {
-        parametroRequests.getSelectEstacoes().then((response) => {
+        parametroRequests.getSelectParametros().then((response) => {
             const { parametrosSelecao, parametrosResgatados } = response;
             setParametrosSelecao(parametrosSelecao);
             setParametrosResgatados(parametrosResgatados);

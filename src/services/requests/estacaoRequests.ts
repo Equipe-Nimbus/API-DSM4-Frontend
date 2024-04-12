@@ -1,6 +1,6 @@
 import { Option } from "@components/Select";
 import mapearEstacoesSelecao from "@lib/estacoesSelecao";
-import { CadastroEstacaoSchema, EstacaoListagemGetOutput, EstacaoListagemGetParams, EstacaoSelect } from "@lib/models/Estacao";
+import { CadastroEstacaoSchema, Estacao, EstacaoAtualizacao, EstacaoListagemGetOutput, EstacaoListagemGetParams, EstacaoSelect } from "@lib/models/Estacao";
 import api from "@services/api";
 import { AxiosResponse } from "axios";
 
