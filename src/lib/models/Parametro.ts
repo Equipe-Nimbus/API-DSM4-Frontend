@@ -2,6 +2,14 @@ import { cadastroParametroSchema } from "@lib/validations/parametro/cadastroPara
 import { listagemParametroSchema } from "@lib/validations/parametro/listagemParametroSchema";
 import zod from 'zod';
 
+export interface Parametro {
+    idTipoParametro: number;
+    nomeTipoParametro: string;
+    unidadeTipoParametro: string;
+    fatorTipoParametro: number | undefined;
+    offsetTipoParametro: number | undefined;
+}
+
 export interface ParametroListagem {
     idTipoParametro: number;
     nomeTipoParametro: string;
@@ -29,3 +37,7 @@ export interface ParametroListagemGetOutput {
 export type ListagemParametroSchema = zod.infer<typeof listagemParametroSchema>;
 
 export type CadastroParametroSchema = zod.infer<typeof cadastroParametroSchema>;
+
+export interface ParametroAtualizacao extends CadastroParametroSchema {
+    idTipoParametro: number;
+}

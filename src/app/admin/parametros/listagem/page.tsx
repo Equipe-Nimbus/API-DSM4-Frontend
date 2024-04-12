@@ -12,8 +12,9 @@ import filtroParametroSchema, { FiltroParametroSchema } from '@lib/validations/p
 import { AiFillWarning, AiOutlinePlus } from 'react-icons/ai';
 import { ModalCadastro } from '@components/ModalCadastro';
 import FormParametros from '@components/FormParametros';
-import { ParametroListagem } from '@lib/models/Parametro';
+import { Parametro, ParametroListagem } from '@lib/models/Parametro';
 import { ActionsDrodown } from '@components/ActionsDropdown';
+import { set } from 'zod';
 
 export default function ListagemParametro() {
     const [parametros, setParametros] = useState<ParametroListagem[]>([]);
@@ -23,7 +24,9 @@ export default function ListagemParametro() {
     const [key, setKey] = useState(0);
     const [filterSubmitted, setFilterSubmitted] = useState<FiltroParametroSchema | null>(null);
     const [openDialog, setOpenDialog] = useState(false);
-    const [parametroId, setParametroId] = useState<number | null>(null);
+    const [parametroIdDelete, setParametroIdDelete] = useState<number | null>(null);
+    const [parametroIdEdit, setParametroIdEdit] = useState<number | null>(null);
+    const [parametroToUpdate, setParametroToUpdate] = useState<Parametro | undefined>(undefined);
 
     const [cadastroOpen, setCadastroOpen] = useState(false)
 
@@ -49,6 +52,15 @@ export default function ListagemParametro() {
             .finally(() => setIsLoading(false));
     }, [pagina, key, getValues, filterSubmitted, cadastroOpen]);
 
+    useEffect(() => {
+        if (parametroIdEdit) {
+            parametroRequests.getById(parametroIdEdit).then((response) => {
+                setParametroToUpdate(response.data);
+                setCadastroOpen(true);
+            });
+        }
+    }, [parametroIdEdit])
+
     function handleFiltroParametro(data: FiltroParametroSchema) {
         setFilterSubmitted(data);
         setKey(prev => prev + 1);
@@ -58,10 +70,10 @@ export default function ListagemParametro() {
     }
 
     async function handleDelecaoParametro() {
-        if (!parametroId) return;
+        if (!parametroIdDelete) return;
 
         try {
-            const response = await parametroRequests.delete(parametroId);
+            const response = await parametroRequests.delete(parametroIdDelete);
             if (response.status === 200) {
                 addToast({ visible: true, message: `Parâmetro deletado com sucesso`, type: 'success', position: 'bottom-left' });
             }
@@ -109,10 +121,10 @@ export default function ListagemParametro() {
                                     <td className="px-4">{parametro.offsetTipoParametro !== "0" ? parametro.offsetTipoParametro : "-"}</td>
                                     <td className="px-4 text-center">
                                         <ActionsDrodown actions={[
-                                            { label: "Editar", onClick: () => {} },
+                                            { label: "Editar", onClick: () => { setParametroIdEdit(parametro.idTipoParametro) } },
                                             {
                                                 label: "Excluir", onClick: () => {
-                                                    setParametroId(parametro.idTipoParametro)
+                                                    setParametroIdDelete(parametro.idTipoParametro)
                                                     setOpenDialog(true)
                                                 }
                                             }
@@ -147,9 +159,15 @@ export default function ListagemParametro() {
             {
                 cadastroOpen &&
                 <ModalCadastro.Root>
-                    <ModalCadastro.Header title="Novo Parâmetro" onClose={() => setCadastroOpen(false)} />
+                    <ModalCadastro.Header
+                        title={!parametroToUpdate ? "Novo Parâmetro" : "Editar Parâmetro"}
+                        onClose={() => {
+                            setParametroIdEdit(null)
+                            setParametroToUpdate(undefined)
+                            setCadastroOpen(false)
+                        }} />
                     <ModalCadastro.Content>
-                        {FormParametros}
+                        <FormParametros parametro={parametroToUpdate} />
                     </ModalCadastro.Content>
                 </ModalCadastro.Root>
             }

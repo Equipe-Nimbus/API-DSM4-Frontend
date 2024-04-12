@@ -1,5 +1,5 @@
 import { Option } from "@components/Select";
-import { CadastroParametroSchema, ListagemParametroSchema, ParametroListagemGetOutput, ParametroListagemGetParams } from "@lib/models/Parametro";
+import { CadastroParametroSchema, ListagemParametroSchema, Parametro, ParametroAtualizacao, ParametroListagemGetOutput, ParametroListagemGetParams } from "@lib/models/Parametro";
 import mapearParametrosSelecao from "@lib/parametrosSelecao";
 import api from "@services/api";
 import { AxiosResponse } from "axios";
@@ -11,8 +11,18 @@ export class ParametroRequests {
         return response;
     }
 
+    async getById(id: number): Promise<AxiosResponse<Parametro>> {
+        const response = await api.get(`/tipoParametro/listarEspecifico/${id}`)
+        return response;
+    }
+
     async create(body: CadastroParametroSchema): Promise<AxiosResponse> {
         const Response = await api.post("/tipoParametro/cadastrar", body);
+        return Response;
+    }
+
+    async update(body: ParametroAtualizacao): Promise<AxiosResponse> {
+        const Response = await api.put("/tipoParametro/atualizar", body);
         return Response;
     }
 
