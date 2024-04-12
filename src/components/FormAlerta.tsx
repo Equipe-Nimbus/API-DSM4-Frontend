@@ -12,17 +12,15 @@ import { condicionais } from "@lib/models/condicionais";
 import parametroRequests from "@services/requests/parametroRequest";
 import alertaRequests from "@services/requests/alertaRequests";
 import { ToastContext } from "@contexts/ToastContext";
-import { useRouter } from "next/navigation";
 
 export default function FormAlerta() {
     const [estacoes, setEstacoes] = useState<Option[]>([]);
     const [tipoParametros, setTipoParametros] = useState<Option[]>([]);
-    const { register, handleSubmit, formState: { errors }, getValues, watch } = useForm<CadastroAlertaSchema>({
+    const { register, handleSubmit, formState: { errors }, getValues, watch, reset } = useForm<CadastroAlertaSchema>({
         resolver: zodResolver(cadastroAlertaSchema)
     })
     const selectedStation = watch("idEstacao")
     const { addToast } = useContext(ToastContext)
-    const router = useRouter()
 
     useEffect(() => {
         estacaoRequests.getSelectEstacoes().then((response) => {
@@ -48,7 +46,7 @@ export default function FormAlerta() {
             //console.log(response)
             if(response.status === 200) {
                 addToast({ visible: true, message: `Alerta cadastrado com sucesso`, type: 'success', position: 'bottom-left' });
-                router.push("/admin/alertas/listagem")
+                reset()
             }
         } catch (error: any) {
             console.log(error);
