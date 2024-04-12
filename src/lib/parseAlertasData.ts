@@ -1,6 +1,17 @@
-import { AlertaListagem, AlertasFromServer } from "./models/Alerta";
+import { Alerta, AlertaListagem, AlertasFromServer } from "./models/Alerta";
 
-export default function parserAlertasFromServer(alertas: AlertasFromServer[]): AlertaListagem[] {
+export function parserAlertaFromServer(alerta: AlertasFromServer): Alerta {
+    return {
+        idAlerta: alerta.idAlerta,
+        nomeAlerta: alerta.nomeAlerta,
+        condicaoAlerta: alerta.condicaoAlerta,
+        valorMedicaoAlerta: alerta.valorMedicaoAlerta,
+        idEstacao: alerta.parametro.estacoes.idEstacao,
+        idTipoParametro: alerta.parametro.__tiposParametro__.idTipoParametro
+    }
+}
+
+export function parserAlertasArrayFromServer(alertas: AlertasFromServer[]): AlertaListagem[] {
     return alertas.map((alerta) => {
         return {
             idAlerta: alerta.idAlerta,

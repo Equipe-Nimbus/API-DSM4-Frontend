@@ -6,17 +6,21 @@ import Select, { Option } from "./Select"
 import Input from "./Input"
 import { Button } from "./Button";
 import { cadastroAlertaSchema } from "@lib/validations/alerta/cadastroAlertaSchema"
-import { CadastroAlertaSchema } from "@lib/models/Alerta"
+import { Alerta, AtualizacaoAlerta, CadastroAlertaSchema } from "@lib/models/Alerta"
 import estacaoRequests from "@services/requests/estacaoRequests";
 import { condicionais } from "@lib/models/condicionais";
 import parametroRequests from "@services/requests/parametroRequest";
 import alertaRequests from "@services/requests/alertaRequests";
 import { ToastContext } from "@contexts/ToastContext";
 
-export default function FormAlerta() {
+interface FormAlertaProps {
+    alerta?: Alerta
+}
+
+export default function FormAlerta({ alerta }: FormAlertaProps) {
     const [estacoes, setEstacoes] = useState<Option[]>([]);
     const [tipoParametros, setTipoParametros] = useState<Option[]>([]);
-    const { register, handleSubmit, formState: { errors }, getValues, watch, reset } = useForm<CadastroAlertaSchema>({
+    const { register, handleSubmit, formState: { errors }, setValue, watch, reset } = useForm<CadastroAlertaSchema>({
         resolver: zodResolver(cadastroAlertaSchema)
     })
     const selectedStation = watch("idEstacao")
@@ -25,8 +29,21 @@ export default function FormAlerta() {
     useEffect(() => {
         estacaoRequests.getSelectEstacoes().then((response) => {
             setEstacoes(response)
+            if (alerta) {
+                setValue('idEstacao', alerta.idEstacao)
+                setValue('nomeAlerta', alerta.nomeAlerta)
+                setValue('condicaoAlerta', alerta.condicaoAlerta)
+                setValue('valorMedicaoAlerta', alerta.valorMedicaoAlerta)
+                parametroRequests.getSelectParametrosPorEstacao(alerta.idEstacao)
+                    .then((response) => {
+                        setTipoParametros(response)
+                        if (alerta) {
+                            setValue('idTipoParametro', alerta.idTipoParametro)
+                        }
+                    })
+            }
         })
-    }, [])
+    }, [alerta, setValue])
 
     useEffect(() => {
         if (!selectedStation) {
@@ -38,19 +55,27 @@ export default function FormAlerta() {
             .then((response) => {
                 setTipoParametros(response)
             })
-    }, [selectedStation])
+    }, [selectedStation, alerta, setValue])
+
+    function handleSubmitAlerta(data: CadastroAlertaSchema) {
+        if (alerta) {
+            handleAlteracaoAlerta(data)
+        } else {
+            handleCadastroAlerta(data)
+        }
+    }
 
     async function handleCadastroAlerta(data: CadastroAlertaSchema) {
         try {
             const response = await alertaRequests.create(data)
             //console.log(response)
-            if(response.status === 200) {
+            if (response.status === 200) {
                 addToast({ visible: true, message: `Alerta cadastrado com sucesso`, type: 'success', position: 'bottom-left' });
                 reset()
             }
         } catch (error: any) {
             console.log(error);
-            if(error.response && error.response.data) {
+            if (error.response && error.response.data) {
                 addToast({ visible: true, message: `Erro ao cadastrar o alerta: ${error.response.data}`, type: 'error', position: 'bottom-left' });
             }
             else {
@@ -59,12 +84,33 @@ export default function FormAlerta() {
         }
     }
 
+    async function handleAlteracaoAlerta(data: CadastroAlertaSchema) {
+        if (!alerta) {
+            return
+        }
+
+        const alertaAtualizacao: AtualizacaoAlerta = { idAlerta: alerta.idAlerta, ...data }
+        console.log(alertaAtualizacao)
+        try {
+            const response = await alertaRequests.update(alertaAtualizacao)
+            if (response.status === 200) {
+                addToast({ visible: true, message: `Alerta atualizado com sucesso`, type: 'success', position: 'bottom-left' });
+            }
+        } catch (error: any) {
+            if (error.response && error.response.data) {
+                addToast({ visible: true, message: `Erro ao atualizar o alerta: ${error.response.data}`, type: 'error', position: 'bottom-left' });
+            } else {
+                addToast({ visible: true, message: `Erro ao atualizar o alerta`, type: 'error', position: 'bottom-left' });
+            }
+        }
+    }
+
     return (
         <>
-            <form onSubmit={handleSubmit(handleCadastroAlerta)} className="flex flex-col gap-5 min-w-96">
+            <form onSubmit={handleSubmit(handleSubmitAlerta)} className="flex flex-col gap-5 min-w-96">
                 <div className="flex gap-8">
-                    <Select label="Estação" options={estacoes} {...register("idEstacao")} width="w-fit" error={errors.idEstacao?.message} />
-                    <Select label="Parâmetro" options={tipoParametros} {...register("idTipoParametro")} width="w-fit" disabled={!selectedStation} error={errors.idTipoParametro?.message} />
+                    <Select label="Estação" options={estacoes} {...register("idEstacao")} width="w-fit" error={errors.idEstacao?.message} disabled={!!alerta} />
+                    <Select label="Parâmetro" options={tipoParametros} {...register("idTipoParametro")} width="w-fit" disabled={!selectedStation || !!alerta} error={errors.idTipoParametro?.message} />
                 </div>
 
                 <Input label="Nome do alerta" {...register("nomeAlerta")} error={errors.nomeAlerta?.message} width="w-full" />
@@ -72,7 +118,6 @@ export default function FormAlerta() {
                 <Input label="Valor" {...register("valorMedicaoAlerta")} error={errors.valorMedicaoAlerta?.message} width="w-full" />
                 <div className="w-fit self-end">
                     <Button text="Salvar" type="submit" variant="primary" />
-
                 </div>
             </form>
         </>

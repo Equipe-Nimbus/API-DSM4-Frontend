@@ -4,7 +4,6 @@ import { AxiosResponse } from "axios";
 import dotenv from 'dotenv';
 
 dotenv.config();
-//console.log(process.env.GOOGLE_MAPS_API_KEY)
 
 class EnderecoRequests {
     async get(cep: string): Promise<AxiosResponse> {
@@ -13,7 +12,6 @@ class EnderecoRequests {
     }
 
     async getLatLong(endereco: string): Promise<AxiosResponse> {
-        
         const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY
         
         if(!apiKey) {

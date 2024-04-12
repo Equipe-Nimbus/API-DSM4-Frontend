@@ -7,7 +7,7 @@ import { RiSearch2Line } from "react-icons/ri";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FiltroAlertaSchema, filtroAlertaSchema } from "@lib/validations/alerta/filtroAlertaSchema";
 import alertaRequests from "@services/requests/alertaRequests";
-import { AlertaListagem } from "@lib/models/Alerta";
+import { Alerta, AlertaListagem } from "@lib/models/Alerta";
 import { AiFillWarning, AiOutlinePlus } from "react-icons/ai";
 import { ActionsDrodown } from "@components/ActionsDropdown";
 import { ModalCadastro } from "@components/ModalCadastro";
@@ -26,6 +26,8 @@ export default function ListagemAlerta() {
     const [cadastroOpen, setCadastroOpen] = useState(false);
     const [dialogOpen, setDialogOpen] = useState(false);
     const [alertaIdDelete, setAlertaIdDelete] = useState<number | null>(null);
+    const [alertaIdEdit, setAlertaIdEdit] = useState<number | null>(null);
+    const [alertaToUpdate, setAlertaToUpdate] = useState<Alerta | undefined>(undefined);
     const { register, handleSubmit, formState: { errors } } = useForm<FiltroAlertaSchema>({
         resolver: zodResolver(filtroAlertaSchema)
     });
@@ -40,6 +42,16 @@ export default function ListagemAlerta() {
         })
             .finally(() => setIsLoading(false));
     }, [pagina, filterSubmitted, key, cadastroOpen])
+
+    useEffect(() => {
+        if (alertaIdEdit) {
+            alertaRequests.getById(alertaIdEdit)
+                .then((response) => {
+                    setAlertaToUpdate(response)
+                    setCadastroOpen(true)
+                })
+        }
+    }, [alertaIdEdit])
 
     function handleFiltroAlerta(data: FiltroAlertaSchema) {
         setFilterSubmitted(data);
@@ -103,7 +115,7 @@ export default function ListagemAlerta() {
                                     <td className="px-4 truncate">{alerta.tipoParametro.unidadeTipoParametro}</td>
                                     <td className="px-4 w-24 max-w-24 text-center">
                                         <ActionsDrodown actions={[
-                                            { label: "Editar", onClick: () => { } },
+                                            { label: "Editar", onClick: () => { setAlertaIdEdit(alerta.idAlerta) } },
                                             {
                                                 label: "Excluir", onClick: () => {
                                                     setAlertaIdDelete(alerta.idAlerta)
@@ -128,9 +140,15 @@ export default function ListagemAlerta() {
             </div>
             {cadastroOpen && (
                 <ModalCadastro.Root>
-                    <ModalCadastro.Header title="Novo Alerta" onClose={() => { setCadastroOpen(false) }} />
+                    <ModalCadastro.Header
+                        title={!alertaToUpdate ? "Novo Alerta" : "Editar Alerta"}
+                        onClose={() => {
+                            setAlertaIdEdit(null)
+                            setAlertaToUpdate(undefined)
+                            setCadastroOpen(false)
+                        }} />
                     <ModalCadastro.Content>
-                        <FormAlerta />
+                        <FormAlerta alerta={alertaToUpdate}/>
                     </ModalCadastro.Content>
                 </ModalCadastro.Root>
             )}

@@ -3,6 +3,15 @@ import zod from 'zod';
 import { EstacaoListagem } from './Estacao';
 import { ParametroListagem } from './Parametro';
 
+export interface Alerta {
+    idAlerta: number;
+    nomeAlerta: string;
+    condicaoAlerta: string;
+    valorMedicaoAlerta: number;
+    idEstacao: number;
+    idTipoParametro: number;
+}
+
 export type CadastroAlertaSchema = zod.infer<typeof cadastroAlertaSchema>;
 
 export interface AlertaListagem {
@@ -35,4 +44,8 @@ export interface AlertasFromServer {
         estacoes: EstacaoListagem;
         __tiposParametro__: ParametroListagem;
     }
+}
+
+export interface AtualizacaoAlerta extends CadastroAlertaSchema {
+    idAlerta: number;
 }
