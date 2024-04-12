@@ -1,6 +1,5 @@
 'use client'
 import { useState } from "react";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { RiLogoutCircleRLine } from "react-icons/ri";
 import { RiSignalTowerFill } from "react-icons/ri";
 import { RiDashboardFill } from "react-icons/ri";
@@ -12,7 +11,7 @@ import { RiSettings4Line } from "react-icons/ri";
 import { AiOutlineCloud } from "react-icons/ai";
 import Link from "next/link";
 
-export default function navBar() {
+export default function NavBar() {
     const [opcoesMobile, setOpcoesMobile] = useState(false)
     const toggleOpcoesMobile = () => {
         setOpcoesMobile(!opcoesMobile)
@@ -20,7 +19,7 @@ export default function navBar() {
     return (
         <>
             <aside className={`bg-bg-100 p-2 ${opcoesMobile ? "h-screen block top-0 duration-300 z-50 w-full" : "h-16 duration-300 w-full"}`}>
-                <div className="cursor-pointer" onClick={() => toggleOpcoesMobile()}>
+                <div className="cursor-pointer">
                 <ul className="my-10 flex flex-col gap-5">
                         <li className="flex cursor-pointer flex-row items-center gap-1 p-1.5 text-2xl font-medium text-on-bg22 duration-200 hover:rounded hover:bg-hover-bg22 xl:text-xl">
                             <AiOutlineCloud />
@@ -29,50 +28,50 @@ export default function navBar() {
                 <ul className="my-10 flex flex-col gap-5">
                         <li className="flex cursor-pointer flex-row items-center gap-1 p-1.5 text-2xl font-medium text-on-bg22 duration-200 hover:rounded hover:bg-hover-bg22 xl:text-xl">
                             <RiDashboardFill />
-                            <Link to="/admin">Admin</Link>
+                            <Link href="/admin">Admin</Link>
                         </li>
                     </ul>
                     <ul className="my-10 flex flex-col gap-5">
                         <li className="flex cursor-pointer flex-row items-center gap-1 p-1.5 text-2xl font-medium text-on-bg22 duration-200 hover:rounded hover:bg-hover-bg22 xl:text-xl">
                             <RiSignalTowerFill />
-                            <Link to="/admin/estacoes/listagem">Estações</Link>
+                            <Link href="/admin/estacoes/listagem">Estações</Link>
                         </li>
                     </ul>
                     <ul className="my-10 flex flex-col gap-5">
                         <li className="flex cursor-pointer flex-row items-center gap-1 p-1.5 text-2xl font-medium text-on-bg22 duration-200 hover:rounded hover:bg-hover-bg22 xl:text-xl">
                             <RiTempColdLine />
-                            <Link to="/admin/parametro/listagem">Parâmetros</Link>
+                            <Link href="/admin/parametro/listagem">Parâmetros</Link>
                         </li>
                     </ul>
                     <ul className="my-10 flex flex-col gap-5">
                         <li className="flex cursor-pointer flex-row items-center gap-1 p-1.5 text-2xl font-medium text-on-bg22 duration-200 hover:rounded hover:bg-hover-bg22 xl:text-xl">
                             <RiErrorWarningLine />
-                            <Link to="/admin/alerta/listagem">Alertas</Link>
+                            <Link href="/admin/alerta/listagem">Alertas</Link>
                         </li>
                     </ul>
                     <ul className="my-10 flex flex-col gap-5">
                         <li className="flex cursor-pointer flex-row items-center gap-1 p-1.5 text-2xl font-medium text-on-bg22 duration-200 hover:rounded hover:bg-hover-bg22 xl:text-xl">
                             <RiUserLine />
-                            <Link to="/admin/usuarios/listagem">Usuários</Link>
+                            <Link href="/admin/usuarios/listagem">Usuários</Link>
                         </li>
                     </ul>
                     <ul className="my-10 flex flex-col gap-5">
                         <li className="flex cursor-pointer flex-row items-center gap-1 p-1.5 text-2xl font-medium text-on-bg22 duration-200 hover:rounded hover:bg-hover-bg22 xl:text-xl">
                             <RiFileList3Line />
-                            <Link to="">Relatórios</Link>
+                            <Link href="">Relatórios</Link>
                         </li>
                     </ul>
                     <hr></hr>
                     <ul className="my-10 flex flex-col gap-5">
                         <li className="flex cursor-pointer flex-row items-center gap-1 p-1.5 text-2xl font-medium text-on-bg22 duration-200 hover:rounded hover:bg-hover-bg22 xl:text-xl">
                             <RiSettings4Line />
-                            <Link to="">Detalhes</Link>
+                            <Link href="">Detalhes</Link>
                         </li>
                     </ul>
                     <ul className="my-10 flex flex-col gap-5">
                         <li className="flex cursor-pointer flex-row items-center gap-1 p-1.5 text-2xl font-medium text-on-bg22 duration-200 hover:rounded hover:bg-hover-bg22 xl:text-xl">
                             <RiLogoutCircleRLine />
-                            <Link to="/login">Sair</Link>
+                            <Link href="/login">Sair</Link>
                         </li>
                     </ul>
                 </div>
