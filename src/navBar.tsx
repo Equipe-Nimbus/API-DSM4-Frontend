@@ -1,7 +1,6 @@
 'use client'
 import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useRouter } from "next/navigation";
 import { RiLogoutCircleRLine } from "react-icons/ri";
 import { RiSignalTowerFill } from "react-icons/ri";
 import { RiDashboardFill } from "react-icons/ri";
@@ -15,7 +14,6 @@ import Link from "next/link";
 
 export default function navBar() {
     const [opcoesMobile, setOpcoesMobile] = useState(false)
-    const router = useRouter();
     const toggleOpcoesMobile = () => {
         setOpcoesMobile(!opcoesMobile)
     }
