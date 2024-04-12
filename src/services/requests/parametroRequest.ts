@@ -1,6 +1,6 @@
 import { Option } from "@components/Select";
 import { CadastroParametroSchema, ListagemParametroSchema, ParametroListagemGetOutput, ParametroListagemGetParams } from "@lib/models/Parametro";
-import mapeiaParametrosSelecao from "@lib/parametrosSelecao";
+import mapearParametrosSelecao from "@lib/parametrosSelecao";
 import api from "@services/api";
 import { AxiosResponse } from "axios";
 
