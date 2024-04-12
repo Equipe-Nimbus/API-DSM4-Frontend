@@ -10,8 +10,18 @@ class EstacaoRequests {
         return response;
     }
 
+    async getById(id:number): Promise<AxiosResponse<Estacao>> {
+        const response = await api.get<Estacao>(`/estacao/listarEspecifico/${id}`)
+        return response
+    }
+
     async create(body: CadastroEstacaoSchema): Promise<AxiosResponse> {
         const response = await api.post("/estacao/cadastrar", body)
+        return response
+    }
+
+    async update(body: EstacaoAtualizacao): Promise<AxiosResponse> {
+        const response = await api.put("/estacao/atualizar", body)
         return response
     }
 

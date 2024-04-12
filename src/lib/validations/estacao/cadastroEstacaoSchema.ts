@@ -34,7 +34,7 @@ const cadastroEstacaoSchema = zod.object({
     longitudeEstacao: zod
         .number(),
     tipoParametros: zod
-        .array(listagemParametroSchema).nonempty()
+        .array(listagemParametroSchema)
 });
 
 export { cadastroEstacaoSchema };
