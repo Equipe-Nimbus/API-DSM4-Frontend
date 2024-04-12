@@ -55,13 +55,14 @@ export default function FormEstacao({ estacao }: FormEstacaoProps) {
             setValue("cidadeEstacao", estacao.cidadeEstacao);
             setValue("bairroEstacao", estacao.bairroEstacao);
             setValue("estadoEstacao", estacao.estadoEstacao);
-            setValue("latitudeEstacao", estacao.latitudeEstacao);
-            setValue("longitudeEstacao", estacao.longitudeEstacao);
+            setValue("latitudeEstacao", Number(estacao.latitudeEstacao));
+            setValue("longitudeEstacao", Number(estacao.longitudeEstacao));
             setValue("tipoParametros", estacao.tipoParametros);
         }
     }, [estacao, setValue])
 
     function handleSubmitEstacao(data: CadastroEstacaoSchema) {
+        //console.log(data)
         if(data.tipoParametros.length === 0) {
             return addToast({ visible: true, message: `É necessário adicionar ao menos um parâmetro de medição`, type: 'error', position: 'bottom-left' });
         }
@@ -101,7 +102,8 @@ export default function FormEstacao({ estacao }: FormEstacaoProps) {
         estacaoRequests.update(body)
             .then((response) => {
                 if (response.status === 200) {
-                    return addToast({ visible: true, message: `Estação atualizada com sucesso`, type: 'success', position: 'bottom-left' });
+                    addToast({ visible: true, message: `Estação atualizada com sucesso`, type: 'success', position: 'bottom-left' });
+                    return router.push('/admin/estacoes/listagem');
                 }
             })
             .catch((error) => {
@@ -211,7 +213,7 @@ export default function FormEstacao({ estacao }: FormEstacaoProps) {
                     <h2 className="text-text-on-background text-base font-medium">
                         Parâmetros de medição:
                     </h2>
-                    {(fields && fields.length > 0) ? (
+                    {(fields?.length > 0) ? (
                         <div className="flex">
                             <table className="table-auto">
                                 <thead className="text-text-on-background-disabled text-sm font-semibold border-b-2 border-text-on-background-disabled">

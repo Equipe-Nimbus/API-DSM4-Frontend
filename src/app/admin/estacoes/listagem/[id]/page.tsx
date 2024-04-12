@@ -18,7 +18,7 @@ export default function ListagemEstacaoEspecifica({ params }: { params: {id: str
             .catch((error) => {
                 console.log(error.response);
             })
-    })
+    }, [params.id])
 
     return (
         <>
