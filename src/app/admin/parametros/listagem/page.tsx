@@ -91,7 +91,7 @@ export default function ListagemParametro() {
             </div>
             <form onSubmit={handleSubmit(handleFiltroParametro)} className="bg-bg-100 p-4 rounded-md drop-shadow flex gap-4">
                 <Input width="w-60" placeholder="Nome..." {...register("nome")} error={errors.nome?.message} />
-                { }
+                <Input width="w-60" placeholder="Unidade..." {...register("unidade")} error={errors.unidade?.message} />
                 <Button text="Filtrar" variant="ghost" type="submit" />
             </form>
             <div className="flex flex-col gap-2 w-fit h-fit">
@@ -110,7 +110,7 @@ export default function ListagemParametro() {
                         <tbody className="text-text-on-background font-medium">
                             {parametros?.map((parametro, index) => (
                                 <tr key={index}>
-                                    <td className="px-4 py-4">{parametro.nomeTipoParametro}</td>
+                                    <td className="px-4 py-4 w-80 max-w-80 truncate">{parametro.nomeTipoParametro}</td>
                                     <td className="px-4">{parametro.unidadeTipoParametro}</td>
                                     <td className="px-4">{parametro.fatorTipoParametro !== "1" ? parametro.fatorTipoParametro : "-"}</td>
                                     <td className="px-4">{parametro.offsetTipoParametro !== "0" ? parametro.offsetTipoParametro : "-"}</td>

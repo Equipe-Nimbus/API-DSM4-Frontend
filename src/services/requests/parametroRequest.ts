@@ -6,8 +6,8 @@ import { AxiosResponse } from "axios";
 
 export class ParametroRequests {
 
-    async get({ pagina, tamanhoPagina, nome = '', unidade='', fator='', offset=''}: ParametroListagemGetParams): Promise<AxiosResponse<ParametroListagemGetOutput>> {
-        const response = await api.get(`/tipoParametro/listarGeral/paginada?pagina=${pagina}&tamanhoPagina=${tamanhoPagina}&nome=${nome}&unidade=${unidade}&fator=${fator}&offset=${offset}`)
+    async get({ pagina, tamanhoPagina, nome = '', unidade=''}: ParametroListagemGetParams): Promise<AxiosResponse<ParametroListagemGetOutput>> {
+        const response = await api.get(`/tipoParametro/listarGeral/paginada?pagina=${pagina}&tamanhoPagina=${tamanhoPagina}&nome=${nome}&unidade=${unidade}`)
         return response;
     }
 
