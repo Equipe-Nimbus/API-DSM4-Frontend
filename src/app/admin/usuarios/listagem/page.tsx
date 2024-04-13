@@ -14,6 +14,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { FiltroUsuarioSchema, filtroUsuarioSchema } from "@lib/validations/usuario/filtroUsuarioSchema";
 import { useRouter } from "next/navigation";
 import { ToastContext } from "@contexts/ToastContext";
+import { AuthContext } from "@contexts/AuthContext";
 
 export default function ListagemUsuario() {
     const [usuarios, setUsuarios] = useState<UsuarioListagem[]>([]);
@@ -23,12 +24,12 @@ export default function ListagemUsuario() {
     const [key, setKey] = useState(0);
     const [filterSubmitted, setFilterSubmitted] = useState<FiltroUsuarioSchema | null>(null);
     const [openDialog, setOpenDialog] = useState(false);
-    const [usuarioId, setUsuarioId] = useState<number | null>(null);
-
+    const [usuarioIdDelete, setUsuarioIdDelete] = useState<number | null>(null);
     const hasMorePages = pagina < totalPaginas;
 
     const { addToast } = useContext(ToastContext)
     const router = useRouter();
+    const { currentUser } = useContext(AuthContext);
 
     const { register, handleSubmit, formState: { errors }, getValues } = useForm<FiltroUsuarioSchema>({
         resolver: zodResolver(filtroUsuarioSchema)
@@ -57,10 +58,15 @@ export default function ListagemUsuario() {
     }
 
         async function handleDelecaoUsuario() {
-            if(!usuarioId) return;
-            
+            if(!usuarioIdDelete) return;
+            if(currentUser?.idUsuario === usuarioIdDelete) {
+                addToast({ visible: true, message: `Não é possível deletar o seu próprio usuário`, type: 'error', position: 'bottom-left' })
+                setOpenDialog(false);
+                return;
+            }
+
             try {
-                const response = await usuarioRequests.delete(usuarioId)
+                const response = await usuarioRequests.delete(usuarioIdDelete)
                 if(response.status === 200) {
                     addToast({ visible: true, message: `Usuário deletado com sucesso`, type: 'success', position: 'bottom-left' })
                 }
@@ -108,7 +114,7 @@ export default function ListagemUsuario() {
                                             <ActionsDrodown actions={[
                                                 { label: "Editar", onClick: () => { router.push(`/admin/usuarios/listagem/${usuario.idUsuario}`) } },
                                                 { label: "Excluir", onClick: () => {
-                                                        setUsuarioId(usuario.idUsuario)
+                                                        setUsuarioIdDelete(usuario.idUsuario)
                                                         setOpenDialog(true)
                                                     }
                                                 }
