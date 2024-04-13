@@ -8,7 +8,7 @@ import { RiArrowUpSFill, RiArrowDownSFill, RiLogoutCircleLine } from "react-icon
 import { AuthContext } from "@contexts/AuthContext";
 
 export default function NavBar() {
-    const [isOpen, setIsOpen] = useState(true);
+    const [isOpen, setIsOpen] = useState(false);
     const { signOut } = useContext(AuthContext);
     const router = useRouter();
 
