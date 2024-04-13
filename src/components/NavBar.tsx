@@ -8,7 +8,7 @@ import { AiOutlineCloud } from "react-icons/ai";
 import { RiArrowUpSFill, RiArrowDownSFill, RiLogoutCircleLine } from "react-icons/ri";
 
 export default function NavBar() {
-    const [isOpen, setIsOpen] = useState(false);
+    const [isOpen, setIsOpen] = useState(true);
     const pathname = usePathname();
 
     return (
