@@ -48,8 +48,8 @@ export default function ListagemAlerta() {
             alertaRequests.getById(alertaIdEdit)
                 .then((response) => {
                     setAlertaToUpdate(response)
-                    setCadastroOpen(true)
                 })
+                .finally(() => setCadastroOpen(true))
         }
     }, [alertaIdEdit])
 

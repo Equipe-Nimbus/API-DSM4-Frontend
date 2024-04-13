@@ -27,35 +27,52 @@ export default function FormAlerta({ alerta }: FormAlertaProps) {
     const { addToast } = useContext(ToastContext)
 
     useEffect(() => {
-        estacaoRequests.getSelectEstacoes().then((response) => {
-            setEstacoes(response)
-            if (alerta) {
-                setValue('idEstacao', alerta.idEstacao)
-                setValue('nomeAlerta', alerta.nomeAlerta)
-                setValue('condicaoAlerta', alerta.condicaoAlerta)
-                setValue('valorMedicaoAlerta', alerta.valorMedicaoAlerta)
-                parametroRequests.getSelectParametrosPorEstacao(alerta.idEstacao)
-                    .then((response) => {
-                        setTipoParametros(response)
-                        if (alerta) {
-                            setValue('idTipoParametro', alerta.idTipoParametro)
-                        }
-                    })
+        const fetchRelacoesAlerta = async () => {
+            try {
+                const estacoesResponse = await estacaoRequests.getSelectEstacoes();
+                setEstacoes(estacoesResponse);
+                if (alerta) {
+                    setValue('nomeAlerta', alerta.nomeAlerta);
+                    setValue('condicaoAlerta', alerta.condicaoAlerta);
+                    setValue('valorMedicaoAlerta', alerta.valorMedicaoAlerta);
+
+                    const parametrosResponse = await parametroRequests.getSelectParametrosPorEstacao(alerta.idEstacao);
+                    setTipoParametros(parametrosResponse);
+                }
+            } catch (error) {
+                console.error(error);
             }
-        })
-    }, [alerta, setValue])
+        };
+
+        fetchRelacoesAlerta();
+    }, [alerta, setValue]);
 
     useEffect(() => {
-        if (!selectedStation) {
-            setTipoParametros([])
-            return
-        }
+        if (alerta) return;
 
-        parametroRequests.getSelectParametrosPorEstacao(selectedStation)
-            .then((response) => {
-                setTipoParametros(response)
-            })
-    }, [selectedStation])
+        const fetchParametros = async () => {
+            if (!selectedStation) {
+                setTipoParametros([]);
+                return;
+            }
+
+            try {
+                const response = await parametroRequests.getSelectParametrosPorEstacao(selectedStation);
+                setTipoParametros(response);
+            } catch (error) {
+                console.error(error);
+            }
+        };
+
+        fetchParametros();
+    }, [selectedStation, alerta]);
+
+    useEffect(() => {
+        if (tipoParametros.length > 0 && alerta) {
+            setValue('idEstacao', alerta.idEstacao);
+            setValue('idTipoParametro', alerta.idTipoParametro);
+        }
+    }, [tipoParametros, alerta, setValue])
 
     function handleSubmitAlerta(data: CadastroAlertaSchema) {
         if (alerta) {
