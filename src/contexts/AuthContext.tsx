@@ -29,7 +29,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         try {
             const response = await usuarioRequests.login({ email, senha })
             const { token, usuario } = response.data;
-            console.log(usuario)
             setCookie(undefined, 'nextauth.token', token, {
                 maxAge: 60 * 60 * 4, // 4 horas
                 path: '/'
