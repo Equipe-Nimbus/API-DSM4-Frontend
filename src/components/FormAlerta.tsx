@@ -55,7 +55,7 @@ export default function FormAlerta({ alerta }: FormAlertaProps) {
             .then((response) => {
                 setTipoParametros(response)
             })
-    }, [selectedStation, alerta, setValue])
+    }, [selectedStation])
 
     function handleSubmitAlerta(data: CadastroAlertaSchema) {
         if (alerta) {
