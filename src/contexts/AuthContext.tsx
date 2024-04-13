@@ -8,6 +8,7 @@ import api from "@services/api";
 interface AuthContextData {
     isAuthenticated: boolean;
     signIn: (data: UsuarioLoginSchema) => Promise<void>;
+    signOut: () => void;
 }
 
 export const AuthContext = createContext({} as AuthContextData);
@@ -30,8 +31,15 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         }
     }
 
+    function signOut() {
+        setCookie(undefined, 'nextauth.token', '', {
+            maxAge: -1,
+            path: '/'
+        });
+    }
+
     return (
-        <AuthContext.Provider value={{ isAuthenticated: true, signIn }}>
+        <AuthContext.Provider value={{ isAuthenticated: true, signIn, signOut }}>
             {children}
         </AuthContext.Provider>
     )

@@ -1,15 +1,16 @@
 'use client'
-import Link from "next/link";
 import Image from "next/image";
 import NavLink from "./NavLink";
-import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { useContext, useState } from "react";
 import { AiOutlineCloud } from "react-icons/ai";
 import { RiArrowUpSFill, RiArrowDownSFill, RiLogoutCircleLine } from "react-icons/ri";
+import { AuthContext } from "@contexts/AuthContext";
 
 export default function NavBar() {
     const [isOpen, setIsOpen] = useState(true);
-    const pathname = usePathname();
+    const { signOut } = useContext(AuthContext);
+    const router = useRouter();
 
     return (
         <>
@@ -62,8 +63,9 @@ export default function NavBar() {
                         )}
                     </div>
                 </div>
-                <div className={`flex items-center px-2 py-2 gap-2 rounded-md border border-bg-100 hover:border-secondary-54 duration-200 cursor-pointer text-neutral-47`}>
-                    <RiLogoutCircleLine size={24}/>
+                <div className={`flex items-center px-2 py-2 gap-2 rounded-md border border-bg-100 hover:border-secondary-54 duration-200 cursor-pointer text-neutral-47`}
+                    onClick={() => {signOut(); router.push("/login")}}>
+                    <RiLogoutCircleLine size={24} />
                     <span>Sair</span>
                 </div>
             </aside>
