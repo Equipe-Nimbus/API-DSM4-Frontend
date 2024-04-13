@@ -40,9 +40,9 @@ export default function ListagemUsuario() {
             .get({ pagina, tamanhoPagina: 10, ...filter })
             .then((response) => {
                 //console.log(response.data);
-                const { usuarios } = response.data;
+                const { usuarios, quantidadePaginas } = response.data;
                 setUsuarios(usuarios);
-                setTotalPaginas(response.data.quantidadePaginas);
+                setTotalPaginas(quantidadePaginas);
             })
             .finally(() => setIsLoading(false));
     }, [pagina, key, getValues, filterSubmitted]);

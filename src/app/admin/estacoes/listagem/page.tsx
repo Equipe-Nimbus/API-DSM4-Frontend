@@ -104,7 +104,7 @@ export default function ListagemEstacao() {
                                         <td className="px-4 w-52 max-w-52 truncate">{estacao.cepEstacao}</td>
                                         <td className="px-4 w-24 max-w-24 text-center">
                                             <ActionsDrodown actions={[
-                                                { label: "Editar", onClick: () => { } },
+                                                { label: "Editar", onClick: () => {router.push(`/admin/estacoes/listagem/${estacao.idEstacao}`) } },
                                                 { label: "Excluir", onClick: () => {
                                                     setEstacaoId(estacao.idEstacao)
                                                     setOpenDialog(true)

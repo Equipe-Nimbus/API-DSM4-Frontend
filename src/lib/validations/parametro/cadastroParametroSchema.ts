@@ -1,6 +1,6 @@
 import zod from "zod";
 
-const cadastroParametroSchema = zod.object({
+export const cadastroParametroSchema = zod.object({
     nomeTipoParametro: zod
         .string()
         .min(1, { message: 'Nome do tipo de parâmetro é obrigatório' })
@@ -16,17 +16,3 @@ const cadastroParametroSchema = zod.object({
         .coerce.number()
         .optional(),
 });
-
-const listagemParametroSchema = zod.object({
-    idTipoParametro: zod
-        .number(),
-    nomeTipoParametro: zod
-        .string(),
-    unidadeTipoParametro: zod
-        .string(),
-    fatorTipoParametro: zod
-        .string()
-        .optional()
-});
-
-export { cadastroParametroSchema, listagemParametroSchema };
