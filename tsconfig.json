@@ -24,24 +24,28 @@
     "baseUrl": ".",
     "paths": {
       "@components/*": [
-        "/src/components/*"
+        "src/components/*"
       ],
       "@lib/*": [
-        "/src/lib/*"
+        "src/lib/*"
       ],
       "@styles/*": [
-        "/src/styles/*"
+        "src/styles/*"
       ],
       "@services/*": [
-        "/src/services/*"
-      ]
+        "src/services/*"
+      ],
+      "@contexts/*": [
+        "src/contexts/*"
+      ],
     }
   },
   "include": [
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    ".next/types/**/*.ts"
+    ".next/types/**/*.ts",
+    ".env"
   ],
   "exclude": [
     "node_modules"

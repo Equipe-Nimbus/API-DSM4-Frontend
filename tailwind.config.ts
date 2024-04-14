@@ -37,7 +37,7 @@ const config: Config = {
         },
         'bg': {
           100: '#FFFFFF',
-          99: '#FAFBFE',
+          98: '#F7F7FD',
         },
         'text': {
           'on-background': '#363636',
@@ -60,6 +60,20 @@ const config: Config = {
         '4xl': "40px",
         '2xl': "22px",
         '2.5xl': "26px",
+      },
+      animation: {
+        'slide-in-left': 'slideInLeft 0.2s ease-in-out',
+        'slide-in-right': 'slideInRight 0.2s ease-in-out'
+      },
+      keyframes: {
+        slideInLeft: {
+          '0%': { transform: 'translateX(-100%)' },
+          '100%': { transform: 'translateX(0)'},
+        },
+        slideInRight: {
+          '0%': { transform: 'translateX(100%)' },
+          '100%': { transform: 'translateX(0)'},
+        }
       },
     },
   },
