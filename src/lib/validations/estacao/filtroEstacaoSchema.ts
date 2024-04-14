@@ -4,7 +4,7 @@ const filtroEstacaoSchema = zod.object({
     nome: zod
         .string()
         .optional(),
-    cep: zod
+    cidade: zod
         .string()
         .optional(),
 })

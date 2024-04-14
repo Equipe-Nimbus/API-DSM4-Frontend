@@ -18,7 +18,9 @@ export interface Estacao {
 export interface EstacaoListagem {
     idEstacao: number;
     nomeEstacao: string;
-    cepEstacao: string;
+    cidadeEstacao: string;
+    bairroEstacao: string;
+    ruaAvenidaEstacao: string;
 }
 
 export type CadastroEstacaoSchema = zod.infer<typeof cadastroEstacaoSchema>;
@@ -27,7 +29,10 @@ export interface EstacaoListagemGetParams {
     pagina: number;
     tamanhoPagina: number;
     nome?: string;
-    cep?: string;
+    cidade?: string;
+    bairro?: string;
+    endereco?: string;
+    avenida?: string;
 }
 
 export interface EstacaoListagemGetOutput {

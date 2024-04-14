@@ -80,7 +80,7 @@ export default function ListagemEstacao() {
             </div>
             <form onSubmit={handleSubmit(handleFiltroEstacao)} className="bg-bg-100 p-4 rounded-md drop-shadow flex gap-4">
                 <Input width="w-60" placeholder="Nome da estação..." {...register("nome")} />
-                <Input width="w-52" placeholder="Endereço..." {...register("cep")} />
+                <Input width="w-52" placeholder="Endereço..." {...register("cidade")} />
                 <Button type="submit" variant="ghost" text="Filtrar" />
             </form>
             <div className="flex flex-col gap-2 w-fit h-fit">
@@ -91,7 +91,9 @@ export default function ListagemEstacao() {
                             <tr>
                                 <th className="p-4 text-left">ID</th>
                                 <th className="p-4 text-left">NOME</th>
-                                <th className="p-4 text-left">CEP</th>
+                                <th className="p-4 text-left">CIDADE</th>
+                                <th className="p-4 text-left">BAIRRO</th>
+                                <th className="p-4 text-left">AVENIDA</th>
                                 <th className="p-4 text-center">AÇÕES</th>
                             </tr>
                         </thead>
@@ -101,7 +103,9 @@ export default function ListagemEstacao() {
                                     <tr key={index}>
                                         <td className="px-4 py-4 w-24 max-w-24 truncate">{estacao.idEstacao}</td>
                                         <td className="px-4 w-80 max-w-80 truncate">{estacao.nomeEstacao}</td>
-                                        <td className="px-4 w-52 max-w-52 truncate">{estacao.cepEstacao}</td>
+                                        <td className="px-4 w-52 max-w-52 truncate">{estacao.cidadeEstacao}</td>
+                                        <td className="px-4 w-52 max-w-52 truncate">{estacao.bairroEstacao}</td>
+                                        <td className="px-4 w-52 max-w-52 truncate">{estacao.ruaAvenidaEstacao}</td>
                                         <td className="px-4 w-24 max-w-24 text-center">
                                             <ActionsDrodown actions={[
                                                 { label: "Editar", onClick: () => {router.push(`/admin/estacoes/listagem/${estacao.idEstacao}`) } },
