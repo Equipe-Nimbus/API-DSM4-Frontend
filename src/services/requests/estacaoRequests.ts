@@ -5,8 +5,8 @@ import api from "@services/api";
 import { AxiosResponse } from "axios";
 
 class EstacaoRequests {
-    async get({ pagina, tamanhoPagina, nome = '', cep = ''}: EstacaoListagemGetParams): Promise<AxiosResponse<EstacaoListagemGetOutput>> {
-        const response = await api.get(`/estacao/listarGeral/paginada?pagina=${pagina}&tamanhoPagina=${tamanhoPagina}&nome=${nome}&cep=${cep}`)
+    async get({ pagina, tamanhoPagina, nome = '', cidade = ''}: EstacaoListagemGetParams): Promise<AxiosResponse<EstacaoListagemGetOutput>> {
+        const response = await api.get(`/estacao/listarGeral/paginada?pagina=${pagina}&tamanhoPagina=${tamanhoPagina}&nome=${nome}&cidade=${cidade}`)
         return response;
     }
 
