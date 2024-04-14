@@ -3,28 +3,31 @@ import { ToastContext } from "@contexts/ToastContext";
 import { zodResolver } from "@hookform/resolvers/zod";
 import estados from "@lib/models/estados";
 import { cadastroUsuarioSchema } from "@lib/validations/usuario/cadastroUsuarioSchema";
+import { atualizacaoUsuarioSchema } from "@lib/validations/usuario/atualizacaoUsuarioSchema";
 import enderecoRequests from "@services/requests/enderecoRequests";
 import usuarioRequests from "@services/requests/usuarioRequests";
 import { useRouter } from "next/navigation";
-import Input  from "@components/Input";
+import Input from "@components/Input";
 import { useContext, useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import ReactInputMask from "react-input-mask";
 import { Button } from "./Button";
 import Select from "./Select";
 import { CadastroUsuarioSchema, Usuario, UsuarioAtualizacao } from "@lib/models/Usuario";
-import { set } from "zod";
+import { AuthContext } from "@contexts/AuthContext";
 
 interface FormUsuarioProps {
     usuario?: Usuario
 }
 
 export default function FormUsuario({ usuario }: FormUsuarioProps) {
+    const { currentUser, signOut } = useContext(AuthContext);
     const { addToast } = useContext(ToastContext)
     const router = useRouter();
 
+    const schemaValidacao = usuario ? atualizacaoUsuarioSchema : cadastroUsuarioSchema;
     const { register, handleSubmit, formState: { errors }, setValue, control } = useForm<CadastroUsuarioSchema>({
-        resolver: zodResolver(cadastroUsuarioSchema)
+        resolver: zodResolver(schemaValidacao)
     });
 
     useEffect(() => {
@@ -33,8 +36,8 @@ export default function FormUsuario({ usuario }: FormUsuarioProps) {
             setValue("cpfUsuario", usuario.cpfUsuario);
             setValue("dataNascimentoUsuario", usuario.dataNascimentoUsuario ? usuario.dataNascimentoUsuario.slice(0, 10) : "");
             setValue("emailUsuario", usuario.emailUsuario);
-            setValue("senhaUsuario", usuario.senhaUsuario);
-            setValue("perfilUsuario", usuario.perfilUsuario);   
+            //setValue("senhaUsuario", usuario.senhaUsuario);
+            setValue("perfilUsuario", usuario.perfilUsuario);
             setValue("cepUsuario", usuario.cepUsuario);
             setValue("ruaAvenidaUsuario", usuario.ruaAvenidaUsuario);
             setValue("numeroCasaUsuario", usuario.numeroCasaUsuario);
@@ -49,7 +52,7 @@ export default function FormUsuario({ usuario }: FormUsuarioProps) {
             handleAtualizacaoUsuario(data);
         } else {
             handleCadastroUsuario(data);
-        }   
+        }
     }
 
     async function handleCadastroUsuario(data: CadastroUsuarioSchema) {
@@ -76,12 +79,22 @@ export default function FormUsuario({ usuario }: FormUsuarioProps) {
             return;
         }
 
-        const body: UsuarioAtualizacao = {idUsuario: usuario.idUsuario, ...data} 
+        const body: UsuarioAtualizacao = { idUsuario: usuario.idUsuario, ...data }
         try {
             const response = await usuarioRequests.update(body);
             //console.log(response);
             if (response.status === 200) {
+                const isSameUser = currentUser?.idUsuario === usuario.idUsuario;
+                const hasEmailChanged = body.emailUsuario !== usuario.emailUsuario;
+                const hasPasswordChanged = body.senhaUsuario !== "" && body.senhaUsuario !== usuario.senhaUsuario;
+
+                if (isSameUser && (hasEmailChanged || hasPasswordChanged)) {
+                    addToast({ visible: true, message: `Você alterou suas credenciais, por favor, faça login novamente.`, type: 'success', position: 'bottom-left' });
+                    signOut()
+                    return router.push('/login');
+                }
                 addToast({ visible: true, message: `Usuário atualizado com sucesso`, type: 'success', position: 'bottom-left' });
+                router.push('/admin/usuarios/listagem');
             }
         } catch (error: any) {
             console.log(error);
@@ -92,7 +105,7 @@ export default function FormUsuario({ usuario }: FormUsuarioProps) {
                 addToast({ visible: true, message: `Erro durante a atualização do usuário`, type: 'error', position: 'bottom-left' });
             }
         }
-    }   
+    }
 
     async function handleCepBlur(cep: string) {
         const cepFormatted = cep.replace(/\D/g, "");
@@ -116,7 +129,7 @@ export default function FormUsuario({ usuario }: FormUsuarioProps) {
                     Informações Pessoais
                 </h2>
                 <div className="flex flex-col gap-4">
-                    <Input label="Nome Completo" type="text" width="w-96" {...register("nomeUsuario")} error={errors.nomeUsuario?.message} id="nomeUsuario"/>
+                    <Input label="Nome Completo" type="text" width="w-96" {...register("nomeUsuario")} error={errors.nomeUsuario?.message} id="nomeUsuario" />
                     <div className="flex gap-4">
                         <Controller
                             name="cpfUsuario"
@@ -140,7 +153,7 @@ export default function FormUsuario({ usuario }: FormUsuarioProps) {
                     </div>
                     <Input label="E-mail" type="email" width="w-96" {...register("emailUsuario")} error={errors.emailUsuario?.message} id="emailUsuario" />
                     <Input label="Senha" type="password" width="w-96" {...register("senhaUsuario")} error={errors.senhaUsuario?.message} id="senhaUsuario" />
-                    <Select label="Perfil" width="w-40" options={[{ value: "Administrador", label: "Administrador" }]} {...register("perfilUsuario")} error={errors.perfilUsuario?.message} id="perfilUsuario"/>
+                    <Select label="Perfil" width="w-40" options={[{ value: "Administrador", label: "Administrador" }]} {...register("perfilUsuario")} error={errors.perfilUsuario?.message} id="perfilUsuario" />
                 </div>
                 <hr />
                 <h2 className="text-text-on-background text-base font-medium">
@@ -165,12 +178,12 @@ export default function FormUsuario({ usuario }: FormUsuarioProps) {
                         )}
                     />
                     <div className="flex gap-4">
-                        <Input label="Rua" type="text" width="w-80" {...register("ruaAvenidaUsuario")} error={errors.ruaAvenidaUsuario?.message} id="ruaAvenidaUsuario"/>
-                        <Input label="Número" type="text" width="w-24" {...register("numeroCasaUsuario")} error={errors.numeroCasaUsuario?.message} id="numeroCasaUsuario"/>
+                        <Input label="Rua" type="text" width="w-80" {...register("ruaAvenidaUsuario")} error={errors.ruaAvenidaUsuario?.message} id="ruaAvenidaUsuario" />
+                        <Input label="Número" type="text" width="w-24" {...register("numeroCasaUsuario")} error={errors.numeroCasaUsuario?.message} id="numeroCasaUsuario" />
                     </div>
                     <div className="flex gap-4">
-                        <Input label="Cidade" type="text" width="w-52" {...register("cidadeUsuario")} error={errors.cidadeUsuario?.message} id="cidadeUsuario"/>
-                        <Input label="Bairro" type="text" width="w-52" {...register("bairroUsuario")} error={errors.bairroUsuario?.message} id="bairroUsuario"/>
+                        <Input label="Cidade" type="text" width="w-52" {...register("cidadeUsuario")} error={errors.cidadeUsuario?.message} id="cidadeUsuario" />
+                        <Input label="Bairro" type="text" width="w-52" {...register("bairroUsuario")} error={errors.bairroUsuario?.message} id="bairroUsuario" />
                     </div>
                     <Select
                         label="Estado"
@@ -182,8 +195,8 @@ export default function FormUsuario({ usuario }: FormUsuarioProps) {
                     />
                 </div>
                 <div className="flex justify-end gap-4">
-                    <Button text="Voltar" variant="outline" onClick={() => router.push("/admin/usuarios/listagem")} type="button"/>
-                    <Button text="Salvar" variant="primary" type="submit"/>
+                    <Button text="Voltar" variant="outline" onClick={() => router.push("/admin/usuarios/listagem")} type="button" />
+                    <Button text="Salvar" variant="primary" type="submit" />
                 </div>
             </form>
         </>

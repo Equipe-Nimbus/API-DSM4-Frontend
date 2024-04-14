@@ -12,7 +12,6 @@ export default function ListagemUsuarioEspecifico({ params }: { params: {id: str
         const id = Number(params.id);
         usuarioRequests.getById(id)
             .then((response) => {
-                console.log(response.data);
                 setUsuario(response.data);
             })
     }, [params.id])

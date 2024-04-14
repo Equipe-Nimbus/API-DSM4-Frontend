@@ -44,7 +44,12 @@ export interface UsuarioAtualizacao extends Omit<CadastroUsuarioSchema, 'cpfUsua
 
 export type UsuarioLoginSchema = zod.infer<typeof loginUsuarioSchema>;
 
+export interface UsuarioLogado {
+    idUsuario: number;
+    nomeUsuario: string;
+    perfilUsuario: string;
+}
 export interface UsuarioLoginOutput {
     token: string;
-    usuario?: {id: number, nome: string, perfil: string}
+    usuario: UsuarioLogado;
 }
