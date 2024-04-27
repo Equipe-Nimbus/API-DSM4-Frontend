@@ -1,11 +1,24 @@
 'use client';
 import { AuthContext } from "@contexts/AuthContext";
-import { useContext } from "react";
-import {RiArrowDownSFill} from "react-icons/ri";
+import { useContext, useEffect, useState } from "react";
 import Card from "@components/Card";
+import { AdminDashboard } from "@components/AdminDashboard";
+import { RiArrowDownSFill } from "react-icons/ri";
+import { FaSortAmountUp } from "react-icons/fa"
+
+//Imports de placeholders
+import { totalEstacoesPlaceholder, ultimoAlertaPlaceholder } from "@lib/dashboardPlaceholderData";
+import { UltimoAlertaDashboard } from "@lib/models/Alerta";
 
 export default function HomeAdmin() {
+    const [totalEstacoes, setTotalEstacoes] = useState(0);
+    const [ultimoAlerta, setUltimoAlerta] = useState<UltimoAlertaDashboard>({} as UltimoAlertaDashboard);
     const { currentUser } = useContext(AuthContext);
+
+    useEffect(() => {
+        setTotalEstacoes(totalEstacoesPlaceholder)
+        setUltimoAlerta(ultimoAlertaPlaceholder)
+    }, [])
 
     return (
         <>
@@ -14,14 +27,28 @@ export default function HomeAdmin() {
             </div>
             <div className="flex items-center gap-2">
                 <span>Acessos</span>
-                <span><RiArrowDownSFill/></span>
+                <span><RiArrowDownSFill /></span>
             </div>
             <div className="flex flex-wrap justify-between gap-10">
-                <Card imageSrc="/station-icon.svg" altText="station icon" title="Estações" buttonText="Acessar" linkTo="/admin/estacoes/listagem"/>
-                <Card imageSrc="/parameter-icon.svg" altText="parameter icon" title="Parâmetros" buttonText="Acessar" linkTo="/admin/parametros/listagem"/>
-                <Card imageSrc="/alert-icon.svg" altText="alert icon" title="Alertas" buttonText="Acessar" linkTo="/admin/alertas/listagem"/>
-                <Card imageSrc="/user-icon.svg" altText="user icon" title="Usuários" buttonText="Acessar" linkTo="/admin/usuarios/listagem"/>
+                <Card imageSrc="/station-icon.svg" altText="station icon" title="Estações" buttonText="Acessar" linkTo="/admin/estacoes/listagem" />
+                <Card imageSrc="/parameter-icon.svg" altText="parameter icon" title="Parâmetros" buttonText="Acessar" linkTo="/admin/parametros/listagem" />
+                <Card imageSrc="/alert-icon.svg" altText="alert icon" title="Alertas" buttonText="Acessar" linkTo="/admin/alertas/listagem" />
+                <Card imageSrc="/user-icon.svg" altText="user icon" title="Usuários" buttonText="Acessar" linkTo="/admin/usuarios/listagem" />
             </div>
+            <div className="flex items-center gap-2">
+                <span>Informações do sistema</span>
+                <span><RiArrowDownSFill /></span>
+            </div>
+            <AdminDashboard.Root>
+                    <div className="flex flex-col gap-5">
+                        <div className="flex gap-5 w-fit">
+                            <AdminDashboard.Card icon={FaSortAmountUp} title="Total de Estações" value={totalEstacoes} />
+                            <AdminDashboard.Card icon={FaSortAmountUp} title="Dado Exemplo" value="XXX" />
+                        </div>
+                        <AdminDashboard.UltimoAlerta alerta={ultimoAlerta} />
+                    </div>
+                    <AdminDashboard.EstacoesAtivas />
+            </AdminDashboard.Root>
         </>
     )
 }

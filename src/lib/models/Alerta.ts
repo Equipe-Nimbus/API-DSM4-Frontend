@@ -49,3 +49,10 @@ export interface AlertasFromServer {
 export interface AtualizacaoAlerta extends CadastroAlertaSchema {
     idAlerta: number;
 }
+
+export interface UltimoAlertaDashboard {
+    nomeAlerta: string;
+    valorMedida: number;
+    unidadeTipoParametro: string;
+    dataMedida: string;
+}
