@@ -2,18 +2,21 @@ import dynamic from "next/dynamic";
 import { ApexOptions } from "apexcharts";
 import { useEffect, useState } from "react";
 const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
+import { EstacoesAtivasPorMes } from "@lib/models/Estacao";
 
 //imports de placeholders
-import { estacoesAtivasPlaceholder } from "@lib/dashboardPlaceholderData";
 
+interface GraficoEstacoesAtivasProps {
+    estacoesAtivas: EstacoesAtivasPorMes
+}
 
-export default function GraficoEstacoesAtivas() {
+export default function GraficoEstacoesAtivas({ estacoesAtivas }: GraficoEstacoesAtivasProps) {
     const [options, setOptions] = useState<ApexOptions>({});
-    const [series, setSeries] = useState<Array<{ name: string, data: number[] }>>([]);
+    const [series, setSeries] = useState<ApexAxisChartSeries>([]);
 
     useEffect(() => {
         setOptions({
-            colors: ["#52ACFA"],
+            colors: ["#7F9AFA"],
             fill: {
                 opacity: 1
             },
@@ -22,8 +25,8 @@ export default function GraficoEstacoesAtivas() {
             },
             plotOptions: {
                 bar: {
-                    columnWidth: "15%",
-                    borderRadius: 10,
+                    columnWidth: "20%",
+                    borderRadius: 5,
                     borderRadiusApplication: "around",
                     dataLabels: {
                         position: "top",
@@ -38,7 +41,7 @@ export default function GraficoEstacoesAtivas() {
                 offsetY: -25
             },
             xaxis: {
-                categories: estacoesAtivasPlaceholder.meses,
+                categories: estacoesAtivas.meses,
                 labels: {
                     style: {
                         colors: "#97A3B4"
@@ -61,21 +64,32 @@ export default function GraficoEstacoesAtivas() {
                         colors: "#97A3B4"
                     }
                 }
+            },
+            legend: {
+                show: true,
+                showForSingleSeries: true,
+                position: "top",
+                horizontalAlign: "left",
+                customLegendItems: ["2024"],
+                labels: {
+                    colors: "#64748B"
+                    
+                }
             }
         })
 
         setSeries([
             {
                 name: "Estações ativas",
-                data: estacoesAtivasPlaceholder.quantidade
+                data: estacoesAtivas.quantidade
             }
         ])
-    }, [])
+    }, [estacoesAtivas])
 
     return (   
-        <div className=" bg-bg-100 p-4 rounded-md drop-shadow" style={{ flexGrow: 1}}>
-            <span className="text-lg font-medium text-text-on-background ml-10">Estações Ativas por Mês</span>
-            <Chart options={options} series={series} type="bar" width={"100%"} height={348}/>
+        <div className=" bg-bg-100 p-4 rounded-md drop-shadow grow">
+            <span className="text-lg font-medium text-text-on-background ml-4">Estações Ativas por Mês</span>
+            <Chart options={options} series={series} type="bar" width={"100%"} height={318}/>
         </div>
     )
 }

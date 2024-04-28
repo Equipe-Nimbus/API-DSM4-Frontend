@@ -56,3 +56,15 @@ export interface UltimoAlertaDashboard {
     unidadeTipoParametro: string;
     dataMedida: string;
 }
+
+export interface AlertasPorMes {
+    totalAlertas: number,
+    relacaoTipoParametro: {
+        valorPorTipoParametro: number[],
+        tipoParametros: string[]
+    },
+    relacaoEstado: {
+        valorPorEstado: number[],
+        estados: string[]
+    }
+}
