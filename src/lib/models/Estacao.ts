@@ -23,6 +23,18 @@ export interface EstacaoListagem {
     ruaAvenidaEstacao: string;
 }
 
+export interface EstacaoListagemPublic {
+    idEstacao: string;
+    nomeEstacao: string;
+    ruaAvenidaEstacao: string;
+    numeroEnderecoEstacao: string;
+    bairroEstacao: string;
+    cidadeEstacao: string;
+    estadoEstacao: string;
+    latitudeEstacao: number;
+    longitudeEstacao: number;
+}
+
 export type CadastroEstacaoSchema = zod.infer<typeof cadastroEstacaoSchema>;
 
 export interface EstacaoListagemGetParams {

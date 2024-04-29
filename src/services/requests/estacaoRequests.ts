@@ -1,6 +1,6 @@
 import { Option } from "@components/Select";
 import mapearEstacoesSelecao from "@lib/estacoesSelecao";
-import { CadastroEstacaoSchema, Estacao, EstacaoAtualizacao, EstacaoListagemGetOutput, EstacaoListagemGetParams, EstacaoSelect } from "@lib/models/Estacao";
+import { CadastroEstacaoSchema, Estacao, EstacaoAtualizacao, EstacaoListagemGetOutput, EstacaoListagemGetParams, EstacaoListagemPublic, EstacaoSelect } from "@lib/models/Estacao";
 import api from "@services/api";
 import { AxiosResponse } from "axios";
 
@@ -12,6 +12,11 @@ class EstacaoRequests {
 
     async getById(id:number): Promise<AxiosResponse<Estacao>> {
         const response = await api.get<Estacao>(`/estacao/listarEspecifico/${id}`)
+        return response
+    }
+
+    async getPublic(): Promise<AxiosResponse<EstacaoListagemPublic[]>> {
+        const response = await api.get("/estacao/listarGeralPublico")
         return response
     }
 
