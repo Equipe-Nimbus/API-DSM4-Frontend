@@ -1,7 +1,6 @@
 'use client';
 import FormEstacao from "@components/FormEstacao";
 import { Estacao } from "@lib/models/Estacao";
-import { estacaoPlaceholder } from "@lib/placeholderData";
 import estacaoRequests from "@services/requests/estacaoRequests";
 import { useEffect, useState } from "react";
 
