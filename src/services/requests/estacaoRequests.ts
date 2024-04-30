@@ -10,7 +10,7 @@ class EstacaoRequests {
         return response;
     }
 
-    async getById(id:number): Promise<AxiosResponse<Estacao>> {
+    async getById(id:string): Promise<AxiosResponse<Estacao>> {
         const response = await api.get<Estacao>(`/estacao/listarEspecifico/${id}`)
         return response
     }

@@ -3,7 +3,7 @@ import zod from 'zod';
 import { ListagemParametroSchema } from './Parametro';
 
 export interface Estacao {
-    idEstacao: number;
+    idEstacao: string;
     nomeEstacao: string;
     cepEstacao: string;
     ruaAvenidaEstacao: string;
@@ -55,7 +55,7 @@ export interface EstacaoListagemGetOutput {
 }
 
 export interface EstacaoAtualizacao extends CadastroEstacaoSchema {
-    idEstacao: number;
+    idEstacao: string;
 }
 
 export interface EstacaoSelect {
