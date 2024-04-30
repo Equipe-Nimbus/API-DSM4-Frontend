@@ -50,8 +50,3 @@ export interface EstacaoSelect {
     idEstacao: number;
     nomeEstacao: string;
 }
-
-export interface EstacoesAtivasPorMes {
-    quantidade: number[],
-    meses: String[]
-}

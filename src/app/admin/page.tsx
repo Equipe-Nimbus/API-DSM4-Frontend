@@ -4,12 +4,14 @@ import { useContext, useEffect, useState } from "react";
 import Card from "@components/Card";
 import { AdminDashboard } from "@components/AdminDashboard";
 import { AlertasPorMes, UltimoAlertaDashboard } from "@lib/models/Alerta";
-import { EstacoesAtivasPorMes } from "@lib/models/Estacao";
+import { EstacoesAtivasPorMes } from "@lib/models/Dashboard";
 import { RiArrowDownSFill } from "react-icons/ri";
 import { FaSortAmountUp } from "react-icons/fa"
 
 //Imports de placeholders
-import { totalEstacoesPlaceholder, ultimoAlertaPlaceholder, estacoesAtivasPlaceholder, alertasPorMesPlaceholder } from "@lib/dashboardPlaceholderData";
+import { ultimoAlertaPlaceholder, alertasPorMesPlaceholder } from "@lib/dashboardPlaceholderData";
+import dashboardRequests from "@services/requests/dashboardRequests";
+
 
 export default function HomeAdmin() {
     const [totalEstacoes, setTotalEstacoes] = useState(0);
@@ -19,10 +21,16 @@ export default function HomeAdmin() {
     const { currentUser } = useContext(AuthContext);
 
     useEffect(() => {
-        setTotalEstacoes(totalEstacoesPlaceholder)
-        setUltimoAlerta(ultimoAlertaPlaceholder)
-        setEstacoesAtivas(estacoesAtivasPlaceholder)
-        setAlertasDoMes(alertasPorMesPlaceholder)
+        dashboardRequests.getDashboardGeral()
+            .then((response) => {
+                const { data } = response;
+                const ativasPorMes = data.estacoes.ativasPorMes
+                console.log(ativasPorMes)
+                setTotalEstacoes(data.estacoes.numeroTotalEstacoes)
+                setEstacoesAtivas(ativasPorMes)
+                setUltimoAlerta(ultimoAlertaPlaceholder)
+                setAlertasDoMes(alertasPorMesPlaceholder)
+            })
     }, [])
 
     return (

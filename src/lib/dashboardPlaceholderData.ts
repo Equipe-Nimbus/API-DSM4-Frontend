@@ -1,5 +1,4 @@
 import { AlertasPorMes, UltimoAlertaDashboard } from "./models/Alerta";
-import { EstacoesAtivasPorMes } from "./models/Estacao";
 
 export const totalEstacoesPlaceholder = 50;
 export const ultimoAlertaPlaceholder: UltimoAlertaDashboard = {
@@ -9,10 +8,6 @@ export const ultimoAlertaPlaceholder: UltimoAlertaDashboard = {
     dataMedida: "2021-10-10"
 }
 
-export const estacoesAtivasPlaceholder: EstacoesAtivasPorMes = {
-    quantidade: [10, 12, 8, 15, 5, 9, 11, 13, 7, 14, 6, 10],
-    meses: ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"]
-}
 
 export const alertasPorMesPlaceholder: AlertasPorMes = {
     totalAlertas: 30,

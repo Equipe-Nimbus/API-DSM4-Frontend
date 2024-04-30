@@ -2,9 +2,7 @@ import dynamic from "next/dynamic";
 import { ApexOptions } from "apexcharts";
 import { useEffect, useState } from "react";
 const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
-import { EstacoesAtivasPorMes } from "@lib/models/Estacao";
-
-//imports de placeholders
+import { EstacoesAtivasPorMes } from "@lib/models/Dashboard";
 
 interface GraficoEstacoesAtivasProps {
     estacoesAtivas: EstacoesAtivasPorMes
@@ -12,78 +10,84 @@ interface GraficoEstacoesAtivasProps {
 
 export default function GraficoEstacoesAtivas({ estacoesAtivas }: GraficoEstacoesAtivasProps) {
     const [options, setOptions] = useState<ApexOptions>({});
-    const [series, setSeries] = useState<ApexAxisChartSeries>([]);
+    const [series, setSeries] = useState<ApexAxisChartSeries>([{ name: "Estações ativas", data: [] }]);
 
     useEffect(() => {
-        setOptions({
-            colors: ["#7F9AFA"],
-            fill: {
-                opacity: 1
-            },
-            grid: {
-                strokeDashArray: 15,
-            },
-            plotOptions: {
-                bar: {
-                    columnWidth: "20%",
-                    borderRadius: 5,
-                    borderRadiusApplication: "around",
-                    dataLabels: {
-                        position: "top",
-                    }
-                }
-            },
-            dataLabels: {
-                enabled: true,
-                style: {
-                    colors: ["#363636"]
+        if(estacoesAtivas && estacoesAtivas.meses && estacoesAtivas.quantidades){
+            const maiorQuantidade = Math.max(...estacoesAtivas.quantidades);
+            const maximoEixoY = Math.ceil(maiorQuantidade + (maiorQuantidade * 0.1));
+            setOptions({
+                colors: ["#7F9AFA"],
+                fill: {
+                    opacity: 1
                 },
-                offsetY: -25
-            },
-            xaxis: {
-                categories: estacoesAtivas.meses,
-                labels: {
+                grid: {
+                    strokeDashArray: 15,
+                },
+                plotOptions: {
+                    bar: {
+                        columnWidth: "20%",
+                        borderRadius: 5,
+                        borderRadiusApplication: "around",
+                        dataLabels: {
+                            position: "top",
+                        }
+                    }
+                },
+                dataLabels: {
+                    enabled: true,
                     style: {
-                        colors: "#97A3B4"
+                        colors: ["#363636"]
+                    },
+                    offsetY: -25
+                },
+                xaxis: {
+                    categories: estacoesAtivas.meses,
+                    labels: {
+                        style: {
+                            colors: "#97A3B4"
+                        }
+                    },
+                    axisBorder: {
+                        show: false
                     }
                 },
-                axisBorder: {
-                    show: false
-                }
-            },
-            yaxis: {
-                axisBorder: {
-                    show: true
+                yaxis: {
+                    max: maximoEixoY,
+                    axisBorder: {
+                        show: true
+                    },
+                    axisTicks: {
+                        show: true,
+                    },
+                    labels: {
+                        show: true,
+                        style: {
+                            colors: "#97A3B4"
+                        }
+                    }
                 },
-                axisTicks: {
+                legend: {
                     show: true,
-                },
-                labels: {
-                    show: true,
-                    style: {
-                        colors: "#97A3B4"
+                    showForSingleSeries: true,
+                    position: "top",
+                    horizontalAlign: "left",
+                    customLegendItems: ["2024"],
+                    labels: {
+                        colors: "#64748B"
+                        
                     }
                 }
-            },
-            legend: {
-                show: true,
-                showForSingleSeries: true,
-                position: "top",
-                horizontalAlign: "left",
-                customLegendItems: ["2024"],
-                labels: {
-                    colors: "#64748B"
-                    
+            })
+            
+            console.log('o que chegou no gráfico:', estacoesAtivas.quantidades);
+            setSeries([
+                {
+                    name: "Estações ativas",
+                    data: estacoesAtivas.quantidades || []
                 }
-            }
-        })
-
-        setSeries([
-            {
-                name: "Estações ativas",
-                data: estacoesAtivas.quantidade
-            }
-        ])
+            ])
+        }
     }, [estacoesAtivas])
 
     return (   
