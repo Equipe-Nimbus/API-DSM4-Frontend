@@ -9,6 +9,8 @@ const MapaEstacoes = dynamic(() => import("@components/MapaEstacoes"), { ssr: fa
 import { FiltroEstacaoSchema } from "@lib/validations/estacao/filtroEstacaoSchema"
 import estacaoRequests from "@services/requests/estacaoRequests"
 import { usePagination } from "src/hooks/usePagination"
+import { useRouter } from "next/navigation"
+import CardEstacao from "@components/CardEstacao"
 
 export default function HomePublica() {
     const [estacoes, setEstacoes] = useState<EstacaoListagemPublic[]>([])
@@ -19,7 +21,7 @@ export default function HomePublica() {
     const { page, currentItems, nextPage, prevPage } = usePagination(estacoes, estacoesPorPagina);
     const hasMorePages = page < totalPaginas;
     
-
+    const router = useRouter()
     const { register, handleSubmit } = useForm()
     function handleFiltroEstacao(data: FiltroEstacaoSchema) {
         return setFilterSubmitted(data)
@@ -48,10 +50,7 @@ export default function HomePublica() {
                 <Button type="submit" variant="ghost" text="Filtrar" />
             </form>
                 {currentItems?.map((estacao) => (
-                    <div className="flex flex-col gap-2 px-4 py-3 bg-bg-100 rounded-md drop-shadow border border-bg-100 cursor-pointer hover:border-secondary-65" key={estacao.idEstacao}>
-                        <span className="font-medium text-text-on-background">{estacao.nomeEstacao}</span>
-                        <span className="text-sm text-neutral-47">{`${estacao.ruaAvenidaEstacao}, ${estacao.numeroEnderecoEstacao} - ${estacao.bairroEstacao} - ${estacao.cidadeEstacao} - ${estacao.estadoEstacao}`}</span>
-                    </div>
+                    <CardEstacao estacao={estacao} key={estacao.idEstacao} onClick={() => router.push(`/publico/estacoes/${estacao.idEstacao}`)} />
                 ))
                 }
                 <div className="flex justify-end">
