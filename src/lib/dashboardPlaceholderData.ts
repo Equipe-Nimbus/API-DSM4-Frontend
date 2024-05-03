@@ -1,11 +1,27 @@
-import { AlertasPorMes, UltimoAlertaDashboard } from "./models/Alerta";
+import { AlertasPorMes, UltimosAlertasDashboard } from "./models/Alerta";
 
 export const totalEstacoesPlaceholder = 50;
-export const ultimoAlertaPlaceholder: UltimoAlertaDashboard = {
-    nomeAlerta: "Alta temperatura crítica",
-    valorMedida: 45,
-    unidadeTipoParametro: "°C",
-    dataMedida: "2021-10-10"
+export const ultimosAlertasPlaceholder: UltimosAlertasDashboard = {
+    alertas: [
+        {
+            nomeAlerta: "Alerta de chuva",
+            cidadeAlerta: "São Paulo",
+            estadoAlerta: "SP",
+            dataMedida: "2021-09-01"
+        },
+        {
+            nomeAlerta: "Alta temperatura",
+            cidadeAlerta: "Rio de Janeiro",
+            estadoAlerta: "RJ",
+            dataMedida: "2021-09-02"
+        },
+        {
+            nomeAlerta: "Ventos fortes",
+            cidadeAlerta: "Belo Horizonte",
+            estadoAlerta: "MG",
+            dataMedida: "2021-09-03"
+        }
+    ]
 }
 
 

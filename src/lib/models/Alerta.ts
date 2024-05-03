@@ -50,11 +50,14 @@ export interface AtualizacaoAlerta extends CadastroAlertaSchema {
     idAlerta: number;
 }
 
-export interface UltimoAlertaDashboard {
-    nomeAlerta: string;
-    valorMedida: number;
-    unidadeTipoParametro: string;
-    dataMedida: string;
+export interface UltimosAlertasDashboard {
+    alertas:
+    {
+        nomeAlerta: string;
+        cidadeAlerta: string;
+        estadoAlerta: string;
+        dataMedida: string;
+    }[]
 }
 
 export interface AlertasPorMes {
