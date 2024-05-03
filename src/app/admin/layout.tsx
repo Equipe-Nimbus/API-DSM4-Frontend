@@ -7,7 +7,7 @@ export default function AdminLayout({
 }>) {
     return (
         <div className="min-h-screen bg-bg-98 flex overflow-x-hidden">
-            <div className="w-fit min-w-fit h-screen fixed flex-shrink-0">
+            <div className="w-fit min-w-fit h-screen fixed flex-shrink-0 z-10">
                 <NavBar />
             </div>
             <div className="flex flex-col p-8 gap-8 w-full pl-64 overflow-auto">

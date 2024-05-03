@@ -72,7 +72,7 @@ export default function GraficoEstacoesAtivas({ estacoesAtivas }: GraficoEstacoe
                     showForSingleSeries: true,
                     position: "top",
                     horizontalAlign: "left",
-                    customLegendItems: ["2024"],
+                    customLegendItems: ["6 meses"],
                     labels: {
                         colors: "#64748B"
                         
@@ -80,7 +80,6 @@ export default function GraficoEstacoesAtivas({ estacoesAtivas }: GraficoEstacoe
                 }
             })
             
-            console.log('o que chegou no gráfico:', estacoesAtivas.quantidades);
             setSeries([
                 {
                     name: "Estações ativas",
@@ -91,7 +90,7 @@ export default function GraficoEstacoesAtivas({ estacoesAtivas }: GraficoEstacoe
     }, [estacoesAtivas])
 
     return (   
-        <div className=" bg-bg-100 p-4 rounded-md drop-shadow grow">
+        <div className=" bg-bg-100 p-4 rounded-md drop-shadow flex-grow min-w-[900px]">
             <span className="text-lg font-medium text-text-on-background ml-4">Estações Ativas por Mês</span>
             <Chart options={options} series={series} type="bar" width={"100%"} height={318}/>
         </div>
