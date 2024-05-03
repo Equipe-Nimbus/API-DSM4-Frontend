@@ -65,7 +65,7 @@ export default function NavBar() {
                             )}
                             <div className="flex flex-col gap-3">
                                 <NavLink href="/publico/estacoes">
-                                    <Image src="/station-icon.svg" alt="station icon" width={24} height={24} />
+                                    <Image src="/map-icon.svg" alt="station icon" width={24} height={24} />
                                     <span>Mapa de Estações</span>
                                 </NavLink>
                             </div>
@@ -74,7 +74,7 @@ export default function NavBar() {
                     {!currentUser && (
                         <div className="flex flex-col gap-3">
                             <NavLink href="/publico/estacoes">
-                                <Image src="/station-icon.svg" alt="station icon" width={24} height={24} />
+                                <Image src="/map-icon.svg" alt="station icon" width={24} height={24} />
                                 <span>Mapa de Estações</span>
                             </NavLink>
                         </div>
