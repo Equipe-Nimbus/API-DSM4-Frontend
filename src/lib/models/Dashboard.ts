@@ -29,20 +29,20 @@ export interface DashboardGeral {
     };
 };
 
-export interface DashboardEstacao {
-    parametros: [
+export interface ParametroDashboard {
+    nomeTipoParametro: string;
+    unidadeMedida: string;
+    valorMaximo: number;
+    valorMinimo: number;
+    medicoes: [
         {
-            nomeTipoParametro: string;
-            unidadeMedida: string;
-            valorMaximo: number;
-            valorMinimo: number;
-            medicoes: [
-                {
-                    valor: number;
-                    data: string;
-                }
-            ],
-            alertas: []
+            valor: number;
+            data: string;
         }
-    ]
+    ],
+    alertas: []
+}
+
+export interface DashboardEstacao {
+    parametros: ParametroDashboard[]
 }

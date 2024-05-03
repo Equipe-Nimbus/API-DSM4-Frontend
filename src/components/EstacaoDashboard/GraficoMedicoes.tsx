@@ -2,9 +2,10 @@ import dynamic from "next/dynamic";
 import { ApexOptions } from "apexcharts";
 import { useCallback, useEffect, useState } from "react";
 const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
-import { DashboardEstacao } from "@lib/models/Dashboard";
+import { DashboardEstacao, ParametroDashboard } from "@lib/models/Dashboard";
 import moment from "moment";
 import 'moment-timezone';
+import { FaLongArrowAltUp, FaLongArrowAltDown } from "react-icons/fa"
 
 interface GraficoMedicoesProps {
     dadosDashboard: DashboardEstacao
@@ -12,15 +13,15 @@ interface GraficoMedicoesProps {
 
 export default function GraficoMedicoes({ dadosDashboard }: GraficoMedicoesProps) {
     const dataAtual = new Date().toLocaleDateString('pt-BR', { year: 'numeric', month: 'long', day: 'numeric' });
-    const [parametroSelecionado, setParametroSelecionado] = useState("")
+    const [parametroSelecionado, setParametroSelecionado] = useState<ParametroDashboard>()
     const [options, setOptions] = useState<ApexOptions>({});
     const [series, setSeries] = useState<ApexAxisChartSeries>([]);
     const [loading, setLoading] = useState(true)
 
-    const selecionarParametro = useCallback((nomeParametro: string) => {
-        setParametroSelecionado(nomeParametro)
+    const selecionarParametro = useCallback((parametroSelecionado: ParametroDashboard) => {
+        setParametroSelecionado(parametroSelecionado)
 
-        const parametro = dadosDashboard.parametros?.find(parametro => parametro.nomeTipoParametro === nomeParametro)
+        const parametro = dadosDashboard.parametros?.find(parametro => parametro.nomeTipoParametro === parametroSelecionado.nomeTipoParametro)
         if (!parametro) return
 
         const series = parametro.medicoes.map(medicao => ({
@@ -94,13 +95,13 @@ export default function GraficoMedicoes({ dadosDashboard }: GraficoMedicoesProps
                     stops: [0, 100]
                 }
             }
-            
+
         });
     }, [dadosDashboard.parametros])
 
     useEffect(() => {
         if (dadosDashboard.parametros && dadosDashboard.parametros.length > 0) {
-            selecionarParametro(dadosDashboard.parametros[0].nomeTipoParametro);
+            selecionarParametro(dadosDashboard.parametros[0]);
             setLoading(false);
         }
     }, [dadosDashboard.parametros, selecionarParametro]);
@@ -108,7 +109,7 @@ export default function GraficoMedicoes({ dadosDashboard }: GraficoMedicoesProps
     if (loading) return <div>Carregando...</div>
 
     return (
-        <div className="flex flex-col p-4 gap-8 bg-bg-100 rounded-md drop-shadow">
+        <div className="flex flex-col p-4 gap-10 bg-bg-100 rounded-md drop-shadow">
             <div className="flex flex-col ml-4 mt-4 gap-2">
                 <h1 className="text-2xl font-semibold text-text-on-background">Dados do dia</h1>
                 <h2 className="text-xl text-text-on-background">{dataAtual}</h2>
@@ -116,15 +117,27 @@ export default function GraficoMedicoes({ dadosDashboard }: GraficoMedicoesProps
             <div className="flex gap-4 ml-4 w-full">
                 {dadosDashboard.parametros?.map((parametro, index) => (
                     <span
-                        className={` text-text-on-background-disabled p-2 cursor-pointer ${parametroSelecionado === parametro.nomeTipoParametro ? "text-text-on-primary font-medium bg-primary-65 rounded-md" : ""}`}
+                        className={` text-text-on-background-disabled p-2 cursor-pointer ${parametroSelecionado?.nomeTipoParametro === parametro.nomeTipoParametro ? "text-text-on-primary font-medium bg-primary-65 rounded-md" : ""}`}
                         key={index}
-                        onClick={() => selecionarParametro(parametro.nomeTipoParametro)}
+                        onClick={() => selecionarParametro(parametro)}
                     >
                         {parametro.nomeTipoParametro}
                     </span>
                 ))}
             </div>
-            <Chart height={350} width={"100%"} type="area" options={options} series={series} />
+            <div>
+                <div className="flex gap-4 ml-4">
+                    <div className="flex gap-1 items-center">
+                        <FaLongArrowAltUp size={40} className="text-primary-65" />
+                        <span className="text-text-on-background text-xl font-medium">{`${parametroSelecionado?.valorMaximo} ${parametroSelecionado?.unidadeMedida}`}</span>
+                    </div>
+                    <div className="flex gap-1 items-center">
+                        <FaLongArrowAltDown size={40} className="text-primary-65" />
+                        <span className="text-text-on-background text-xl font-medium">{`${parametroSelecionado?.valorMinimo} ${parametroSelecionado?.unidadeMedida}`}</span>
+                    </div>
+                </div>
+                <Chart height={350} width={"100%"} type="area" options={options} series={series} />
+            </div>
         </div>
     )
 
