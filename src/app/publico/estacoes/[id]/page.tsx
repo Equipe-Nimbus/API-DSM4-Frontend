@@ -20,6 +20,9 @@ export default function DashboardEstacao({ params }: { params: {id: string} }) {
 
         dashboardRequests.getDashboardEstacoes(params.id)
             .then((response) => {
+                response.data.parametros.forEach(parametro => {
+                    parametro.medicoes.sort((a, b) => new Date(a.data).getTime() - new Date(b.data).getTime());
+                });
                 setDashboardEstacao(response.data)
             })
     }, [params.id])

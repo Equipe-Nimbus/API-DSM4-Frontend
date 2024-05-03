@@ -15,8 +15,8 @@ class EstacaoRequests {
         return response
     }
 
-    async getPublic(): Promise<AxiosResponse<EstacaoListagemPublic[]>> {
-        const response = await api.get("/estacao/listarAtivas")
+    async getPublic({nome = '', cidade = ''}): Promise<AxiosResponse<EstacaoListagemPublic[]>> {
+        const response = await api.get(`/estacao/listarAtivas/filtro?nome=${nome}&cidade=${cidade}`)
         return response
     }
 

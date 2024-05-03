@@ -24,6 +24,7 @@
     "dotenv": "^16.4.5",
     "leaflet": "^1.9.4",
     "leaflet-defaulticon-compatibility": "^0.1.2",
+    "moment-timezone": "^0.5.45",
     "next": "14.1.4",
     "nookies": "^2.5.2",
     "react": "^18",

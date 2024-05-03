@@ -17,5 +17,5 @@ export function usePagination<T>(items: T[], itemsPerPage: number) {
         page * itemsPerPage
     );
 
-    return { page, currentItems, nextPage, prevPage };
+    return { page, currentItems, nextPage, prevPage, setPage };
 }

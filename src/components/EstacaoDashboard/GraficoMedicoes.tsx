@@ -3,6 +3,8 @@ import { ApexOptions } from "apexcharts";
 import { useCallback, useEffect, useState } from "react";
 const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
 import { DashboardEstacao } from "@lib/models/Dashboard";
+import moment from "moment";
+import 'moment-timezone';
 
 interface GraficoMedicoesProps {
     dadosDashboard: DashboardEstacao
@@ -22,7 +24,7 @@ export default function GraficoMedicoes({ dadosDashboard }: GraficoMedicoesProps
         if (!parametro) return
 
         const series = parametro.medicoes.map(medicao => ({
-            x: new Date(medicao.data).getTime(),
+            x: moment.utc(medicao.data).add(3, 'hours').valueOf(),
             y: medicao.valor
         }))
         setSeries([{ name: parametro.nomeTipoParametro, data: series }])
@@ -38,7 +40,7 @@ export default function GraficoMedicoes({ dadosDashboard }: GraficoMedicoesProps
                         colors: "#97A3B4",
                     },
                     formatter: function (value) {
-                        return new Date(value).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+                        return moment(value).tz('America/Sao_Paulo').format('HH:mm');
                     }
                 },
             },
@@ -67,7 +69,7 @@ export default function GraficoMedicoes({ dadosDashboard }: GraficoMedicoesProps
                 x: {
                     format: 'HH:mm',
                     formatter: function (value) {
-                        return new Date(value).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+                        return moment(value).tz('America/Sao_Paulo').format('HH:mm');
                     }
                 },
                 y: {

@@ -14,11 +14,12 @@ import CardEstacao from "@components/CardEstacao"
 
 export default function HomePublica() {
     const [estacoes, setEstacoes] = useState<EstacaoListagemPublic[]>([])
+    const [estacoesListagem, setEstacoesListagem] = useState<EstacaoListagemPublic[]>([])
     const [totalPaginas, setTotalPaginas] = useState(1)
     const [filterSubmitted, setFilterSubmitted] = useState<FiltroEstacaoSchema | null>(null)
 
     const estacoesPorPagina = 10;
-    const { page, currentItems, nextPage, prevPage } = usePagination(estacoes, estacoesPorPagina);
+    const { page, currentItems, nextPage, prevPage, setPage } = usePagination(estacoesListagem, estacoesPorPagina);
     const hasMorePages = page < totalPaginas;
     
     const router = useRouter()
@@ -28,14 +29,27 @@ export default function HomePublica() {
     }
 
     useEffect(() => {
-        estacaoRequests.getPublic()
+        estacaoRequests.getPublic({})
             .then((response) => {
                 const { data } = response;
                 const totalPaginas = Math.ceil(data.length / estacoesPorPagina);
                 setEstacoes(data);
+                setEstacoesListagem(data);
                 setTotalPaginas(totalPaginas);
             })
     }, [estacoesPorPagina])
+
+    useEffect(() => {
+        const filter = filterSubmitted || {};
+        estacaoRequests.getPublic(filter)
+            .then((response) => {
+                const { data } = response;
+                const totalPaginas = Math.ceil(data.length / estacoesPorPagina);
+                setEstacoesListagem(data);
+                setPage(1)
+                setTotalPaginas(totalPaginas);
+            })
+    }, [filterSubmitted, setPage])
 
     return (
         <>
