@@ -4,9 +4,8 @@ import type { DashboardEstacao } from "@lib/models/Dashboard"
 import dashboardRequests from "@services/requests/dashboardRequest"
 import { useEffect, useState } from "react"
 import estacaoRequests from "@services/requests/estacaoRequests"
-import GraficoMedicoes from "@components/EstacaoDashboard/GraficoMedicoes"
 import { EstacaoDashboard } from "@components/EstacaoDashboard"
-import { set } from "zod"
+
 
 
 export default function DashboardEstacao({ params }: { params: {id: string} }) {
@@ -37,6 +36,7 @@ export default function DashboardEstacao({ params }: { params: {id: string} }) {
                 <span className=" text-neutral-47">{estacao.tipoParametros?.length} Parâmetros cadastrados</span>            
             </div>
             <EstacaoDashboard.GraficoMedicoes dadosDashboard={dashboardEstacao} />
+            <EstacaoDashboard.GraficoAlertas dadosDashboard={dashboardEstacao}/>
         </>
     )
 }
