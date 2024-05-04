@@ -102,43 +102,55 @@ export default function GraficoMedicoes({ dadosDashboard }: GraficoMedicoesProps
     useEffect(() => {
         if (dadosDashboard.parametros && dadosDashboard.parametros.length > 0) {
             selecionarParametro(dadosDashboard.parametros[0]);
-            setLoading(false);
         }
+        setLoading(false);
     }, [dadosDashboard.parametros, selecionarParametro]);
 
     if (loading) return <div>Carregando...</div>
 
     return (
-        <div className="flex flex-col p-4 gap-10 bg-bg-100 rounded-md drop-shadow">
-            <div className="flex flex-col ml-4 mt-4 gap-2">
-                <h1 className="text-2xl font-semibold text-text-on-background">Dados do dia</h1>
-                <h2 className="text-xl text-text-on-background">{dataAtual}</h2>
-            </div>
-            <div className="flex gap-4 ml-4 w-full">
-                {dadosDashboard.parametros?.map((parametro, index) => (
-                    <span
-                        className={` text-text-on-background-disabled p-2 cursor-pointer ${parametroSelecionado?.nomeTipoParametro === parametro.nomeTipoParametro ? "text-text-on-primary font-medium bg-primary-65 rounded-md" : ""}`}
-                        key={index}
-                        onClick={() => selecionarParametro(parametro)}
-                    >
-                        {parametro.nomeTipoParametro}
-                    </span>
-                ))}
-            </div>
-            <div>
-                <div className="flex gap-4 ml-4">
-                    <div className="flex gap-1 items-center">
-                        <FaLongArrowAltUp size={40} className="text-primary-65" />
-                        <span className="text-text-on-background text-xl font-medium">{`${parametroSelecionado?.valorMaximo} ${parametroSelecionado?.unidadeMedida}`}</span>
+        <>
+            {!dadosDashboard.parametros ?
+                <div className="flex flex-col p-4 gap-10 bg-bg-100 rounded-md drop-shadow">
+                    <div className="flex flex-col ml-4 mt-4 gap-2">
+                        <h1 className="text-2xl font-semibold text-text-on-background">Dados do dia</h1>
+                        <h2 className="text-xl text-text-on-background">{dataAtual}</h2>
                     </div>
-                    <div className="flex gap-1 items-center">
-                        <FaLongArrowAltDown size={40} className="text-primary-65" />
-                        <span className="text-text-on-background text-xl font-medium">{`${parametroSelecionado?.valorMinimo} ${parametroSelecionado?.unidadeMedida}`}</span>
+                    <span className="text-neutral-47 text-lg font-medium ml-4">Nenhum dado disponível para o dia de hoje.</span>
+                </div>
+                :
+                <div className="flex flex-col p-4 gap-10 bg-bg-100 rounded-md drop-shadow">
+                    <div className="flex flex-col ml-4 mt-4 gap-2">
+                        <h1 className="text-2xl font-semibold text-text-on-background">Dados do dia</h1>
+                        <h2 className="text-xl text-text-on-background">{dataAtual}</h2>
+                    </div>
+                    <div className="flex gap-4 ml-4 w-full">
+                        {dadosDashboard.parametros?.map((parametro, index) => (
+                            <span
+                                className={` text-text-on-background-disabled p-2 cursor-pointer ${parametroSelecionado?.nomeTipoParametro === parametro.nomeTipoParametro ? "text-text-on-primary font-medium bg-primary-65 rounded-md" : ""}`}
+                                key={index}
+                                onClick={() => selecionarParametro(parametro)}
+                            >
+                                {parametro.nomeTipoParametro}
+                            </span>
+                        ))}
+                    </div>
+                    <div>
+                        <div className="flex gap-4 ml-4">
+                            <div className="flex gap-1 items-center">
+                                <FaLongArrowAltUp size={40} className="text-primary-65" />
+                                <span className="text-text-on-background text-xl font-medium">{`${parametroSelecionado?.valorMaximo} ${parametroSelecionado?.unidadeMedida}`}</span>
+                            </div>
+                            <div className="flex gap-1 items-center">
+                                <FaLongArrowAltDown size={40} className="text-primary-65" />
+                                <span className="text-text-on-background text-xl font-medium">{`${parametroSelecionado?.valorMinimo} ${parametroSelecionado?.unidadeMedida}`}</span>
+                            </div>
+                        </div>
+                        <Chart height={350} width={"100%"} type="area" options={options} series={series} />
                     </div>
                 </div>
-                <Chart height={350} width={"100%"} type="area" options={options} series={series} />
-            </div>
-        </div>
+            }
+        </>
     )
 
 }

@@ -40,7 +40,12 @@ export interface ParametroDashboard {
             data: string;
         }
     ],
-    alertas: []
+    alertas: [
+        {
+            valor: number;
+            data: string;
+        }
+    ]
 }
 
 export interface DashboardEstacao {

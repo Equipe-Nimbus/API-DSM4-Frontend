@@ -6,6 +6,7 @@ import { useEffect, useState } from "react"
 import estacaoRequests from "@services/requests/estacaoRequests"
 import GraficoMedicoes from "@components/EstacaoDashboard/GraficoMedicoes"
 import { EstacaoDashboard } from "@components/EstacaoDashboard"
+import { set } from "zod"
 
 
 export default function DashboardEstacao({ params }: { params: {id: string} }) {
@@ -20,6 +21,7 @@ export default function DashboardEstacao({ params }: { params: {id: string} }) {
 
         dashboardRequests.getDashboardEstacoes(params.id)
             .then((response) => {
+                if(!response.data.parametros) return
                 response.data.parametros.forEach(parametro => {
                     parametro.medicoes.sort((a, b) => new Date(a.data).getTime() - new Date(b.data).getTime());
                 });
