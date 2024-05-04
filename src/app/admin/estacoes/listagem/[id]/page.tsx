@@ -8,7 +8,7 @@ export default function ListagemEstacaoEspecifica({ params }: { params: {id: str
     const [estacao, setEstacao] = useState<Estacao>({} as Estacao)
 
     useEffect(() => {
-        const id = Number(params.id);
+        const id = params.id;
         //requisição para buscar estação pelo id
         estacaoRequests.getById(id)
             .then((response) => {

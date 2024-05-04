@@ -28,3 +28,27 @@ export interface DashboardGeral {
         };
     };
 };
+
+export interface ParametroDashboard {
+    nomeTipoParametro: string;
+    unidadeMedida: string;
+    valorMaximo: number;
+    valorMinimo: number;
+    medicoes: [
+        {
+            valor: number;
+            data: string;
+        }
+    ],
+    alertas: [
+        {
+            valor: number;
+            data: string;
+        }
+    ]
+}
+
+export interface DashboardEstacao {
+    parametros: ParametroDashboard[]
+}
+
