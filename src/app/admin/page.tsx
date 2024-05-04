@@ -3,26 +3,38 @@ import { AuthContext } from "@contexts/AuthContext";
 import { useContext, useEffect, useState } from "react";
 import Card from "@components/Card";
 import { AdminDashboard } from "@components/AdminDashboard";
-import { AlertasPorMes, UltimoAlertaDashboard } from "@lib/models/Alerta";
-import { EstacoesAtivasPorMes } from "@lib/models/Estacao";
+import { AlertasPorMes, UltimosAlertasDashboard } from "@lib/models/Alerta";
+import { EstacoesAtivasPorMes } from "@lib/models/Dashboard";
 import { RiArrowDownSFill } from "react-icons/ri";
 import { FaSortAmountUp } from "react-icons/fa"
+import { LuAlertCircle } from "react-icons/lu";
+import dashboardRequests from "@services/requests/dashboardRequests";
+
 
 //Imports de placeholders
-import { totalEstacoesPlaceholder, ultimoAlertaPlaceholder, estacoesAtivasPlaceholder, alertasPorMesPlaceholder } from "@lib/dashboardPlaceholderData";
+import { ultimosAlertasPlaceholder, alertasPorMesPlaceholder } from "@lib/dashboardPlaceholderData";
+import { useRouter } from "next/navigation";
+
 
 export default function HomeAdmin() {
     const [totalEstacoes, setTotalEstacoes] = useState(0);
-    const [ultimoAlerta, setUltimoAlerta] = useState<UltimoAlertaDashboard>({} as UltimoAlertaDashboard);
     const [estacoesAtivas, setEstacoesAtivas] = useState<EstacoesAtivasPorMes>({} as EstacoesAtivasPorMes);
     const [alertasDoMes, setAlertasDoMes] = useState<AlertasPorMes>({} as AlertasPorMes)
+    const [historicoAlertas, setHistoricoAlertas] = useState<UltimosAlertasDashboard>({} as UltimosAlertasDashboard)
     const { currentUser } = useContext(AuthContext);
+    const router = useRouter()
 
     useEffect(() => {
-        setTotalEstacoes(totalEstacoesPlaceholder)
-        setUltimoAlerta(ultimoAlertaPlaceholder)
-        setEstacoesAtivas(estacoesAtivasPlaceholder)
-        setAlertasDoMes(alertasPorMesPlaceholder)
+        dashboardRequests.getDashboardGeral()
+            .then((response) => {
+                const { data } = response;
+                const ativasPorMes = data.estacoes.ativasPorMes
+                console.log(ativasPorMes)
+                setTotalEstacoes(data.estacoes.numeroTotalEstacoes)
+                setEstacoesAtivas(ativasPorMes)
+                setAlertasDoMes(alertasPorMesPlaceholder)
+                setHistoricoAlertas(ultimosAlertasPlaceholder)
+            })
     }, [])
 
     return (
@@ -46,22 +58,46 @@ export default function HomeAdmin() {
             </div>
             <AdminDashboard.Root>
                 <div className="flex gap-5">
-                    <AdminDashboard.EstacoesAtivas estacoesAtivas={estacoesAtivas}/>
+                    <AdminDashboard.EstacoesAtivas estacoesAtivas={estacoesAtivas} />
                     <div className="flex flex-col gap-5">
                         <div className="flex gap-5 w-fit">
                             <AdminDashboard.Card icon={FaSortAmountUp} title="Total de Estações" value={totalEstacoes} />
-                            <AdminDashboard.Card icon={FaSortAmountUp} title="Dado Exemplo" value="XXX" />
+                            <AdminDashboard.Card icon={LuAlertCircle} title="Alertas este mês" value={`${alertasDoMes.totalAlertas}`} />
                         </div>
-                        <AdminDashboard.UltimoAlerta alerta={ultimoAlerta} />
-                        <AdminDashboard.Card title="Total de alertas este mês" value={`${alertasDoMes.totalAlertas} Alertas`}/>
+                        <div className="w-full min-w-[550px] flex flex-col p-4 gap-3 bg-bg-100 rounded-md drop-shadow">
+                            <div className="flex justify-between items-center">
+                                <h1 className="text-lg font-medium text-text-on-background">Últimos alertas disparados</h1>
+                                <span className="text-sm text-primary-65 cursor-pointer" onClick={() => router.push(`/admin/alertas/historico`)}>Ver todos</span>
+                            </div>
+                            <table className="w-full">
+                                <thead className="text-text-on-background-disabled text-sm border-b-2 border-text-on-background-disabled">
+                                    <tr>
+                                        <th className="font-medium text-left">ALERTA</th>
+                                        <th className="font-medium text-left">CIDADE</th>
+                                        <th className="font-medium text-left">DATA</th>
+                                    </tr>
+                                </thead>
+                                <tbody className="text-text-on-background">
+                                    {historicoAlertas?.alertas?.map((alerta, index) => {
+                                        return (
+                                            <tr key={index}>
+                                                <td className="py-4 w-2/3 max-w-38 truncate pr-3">{alerta.nomeAlerta}</td>
+                                                <td className="w-1/3 max-w-38 truncate pr-3">{`${alerta.cidadeAlerta} - ${alerta.estadoAlerta}`}</td>
+                                                <td className="w-1/3 max-w-38 truncate">{alerta.dataMedida}</td>
+                                            </tr>
+                                        )
+                                    })}
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
                 <div className="flex gap-5">
-                    <AdminDashboard.AlertasPorEstado alertasDoMes={alertasDoMes}/>
-                    <AdminDashboard.AlertasPorParametro alertasDoMes={alertasDoMes}/>
+                    <AdminDashboard.AlertasPorEstado alertasDoMes={alertasDoMes} />
+                    <AdminDashboard.AlertasPorParametro alertasDoMes={alertasDoMes} />
                 </div>
             </AdminDashboard.Root>
-            
+
         </>
     )
 }

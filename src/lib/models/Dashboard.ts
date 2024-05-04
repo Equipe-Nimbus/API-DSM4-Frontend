@@ -51,3 +51,4 @@ export interface ParametroDashboard {
 export interface DashboardEstacao {
     parametros: ParametroDashboard[]
 }
+
