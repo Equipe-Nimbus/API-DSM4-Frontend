@@ -16,7 +16,7 @@ export interface Estacao {
     tipoParametros: Array<ListagemParametroSchema>
 }
 export interface EstacaoListagem {
-    idEstacao: number;
+    idEstacao: string;
     nomeEstacao: string;
     cidadeEstacao: string;
     bairroEstacao: string;
