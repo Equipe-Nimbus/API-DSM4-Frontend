@@ -22,7 +22,7 @@ export default function ListagemEstacao() {
     const [filterSubmitted, setFilterSubmitted] = useState<FiltroEstacaoSchema | null>(null)
     const [isLoading, setIsLoading] = useState(true)
     const [openDialog, setOpenDialog] = useState(false)
-    const [estacaoId, setEstacaoId] = useState<number | null>(null)
+    const [estacaoId, setEstacaoId] = useState<string | null>(null)
     const hasMorePages = pagina < totalPaginas;
 
     const { addToast } = useContext(ToastContext)
