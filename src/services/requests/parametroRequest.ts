@@ -38,7 +38,7 @@ export class ParametroRequests {
         return {parametrosSelecao, parametrosResgatados};
     }
 
-    async getSelectParametrosPorEstacao(idEstacao: number): Promise<Option[]> {
+    async getSelectParametrosPorEstacao(idEstacao: string): Promise<Option[]> {
         const response = await api.get<ListagemParametroSchema[]>(`/tipoParametro/listarParaSelecao/${idEstacao}`);
         const parametrosResgatados = response.data;
         const parametrosSelecao = mapearParametrosSelecao(parametrosResgatados);

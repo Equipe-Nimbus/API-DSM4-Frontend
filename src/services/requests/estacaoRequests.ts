@@ -30,7 +30,7 @@ class EstacaoRequests {
         return response
     }
 
-    async delete(id: number): Promise<AxiosResponse> {
+    async delete(id: string): Promise<AxiosResponse> {
         const response = await api.delete(`/estacao/deletar/${id}`)
         return response
     }
