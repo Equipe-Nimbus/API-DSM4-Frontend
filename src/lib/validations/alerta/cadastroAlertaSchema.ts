@@ -2,8 +2,7 @@ import zod from 'zod';
 
 export const cadastroAlertaSchema = zod.object({
     idEstacao: zod
-        .coerce
-        .number()
+        .string()
         .min(1, { message: 'Estação é obrigatória' }),
     idTipoParametro: zod
         .coerce

@@ -1,7 +1,6 @@
 'use client';
 import FormEstacao from "@components/FormEstacao";
 import { Estacao } from "@lib/models/Estacao";
-import { estacaoPlaceholder } from "@lib/placeholderData";
 import estacaoRequests from "@services/requests/estacaoRequests";
 import { useEffect, useState } from "react";
 
@@ -9,7 +8,7 @@ export default function ListagemEstacaoEspecifica({ params }: { params: {id: str
     const [estacao, setEstacao] = useState<Estacao>({} as Estacao)
 
     useEffect(() => {
-        const id = Number(params.id);
+        const id = params.id;
         //requisição para buscar estação pelo id
         estacaoRequests.getById(id)
             .then((response) => {

@@ -8,7 +8,7 @@ export interface Alerta {
     nomeAlerta: string;
     condicaoAlerta: string;
     valorMedicaoAlerta: number;
-    idEstacao: number;
+    idEstacao: string;
     idTipoParametro: number;
 }
 
@@ -48,4 +48,26 @@ export interface AlertasFromServer {
 
 export interface AtualizacaoAlerta extends CadastroAlertaSchema {
     idAlerta: number;
+}
+
+export interface UltimosAlertasDashboard {
+    alertas:
+    {
+        nomeAlerta: string;
+        cidadeAlerta: string;
+        estadoAlerta: string;
+        dataMedida: string;
+    }[]
+}
+
+export interface AlertasPorMes {
+    totalAlertas: number,
+    relacaoTipoParametro: {
+        valorPorTipoParametro: number[],
+        tipoParametros: string[]
+    },
+    relacaoEstado: {
+        valorPorEstado: number[],
+        estados: string[]
+    }
 }

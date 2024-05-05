@@ -149,10 +149,21 @@ export default function FormEstacao({ estacao }: FormEstacaoProps) {
 
     function handleAdicionarParametro() {
         if (parametroSelecionado) {
-            const parametroJaAdicionado = fields.find(parametro => parametro.idTipoParametro === parametroSelecionado.idTipoParametro);
+            // Verifica se já existe um parâmetro com o mesmo nome e unidade
+            const parametroJaAdicionado = fields.find(parametro =>
+                parametro.nomeTipoParametro === parametroSelecionado.nomeTipoParametro &&
+                parametro.unidadeTipoParametro === parametroSelecionado.unidadeTipoParametro
+            );
+    
             if (parametroJaAdicionado) {
-                return addToast({ visible: true, message: `Parâmetro já adicionado`, type: 'error', position: 'bottom-left' });
+                return addToast({
+                    visible: true,
+                    message: `Parâmetro com nome "${parametroSelecionado.nomeTipoParametro}" e unidade "${parametroSelecionado.unidadeTipoParametro}" já adicionado`,
+                    type: 'error',
+                    position: 'bottom-left'
+                });
             }
+    
             append(parametroSelecionado);
         }
     }
