@@ -8,7 +8,7 @@ export interface Alerta {
     nomeAlerta: string;
     condicaoAlerta: string;
     valorMedicaoAlerta: number;
-    idEstacao: number;
+    idEstacao: string;
     idTipoParametro: number;
 }
 
