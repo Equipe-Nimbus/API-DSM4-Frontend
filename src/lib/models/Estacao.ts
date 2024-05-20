@@ -4,6 +4,7 @@ import { ListagemParametroSchema } from './Parametro';
 
 export interface Estacao {
     idEstacao: string;
+    idPlacaEstacao: string;
     nomeEstacao: string;
     cepEstacao: string;
     ruaAvenidaEstacao: string;

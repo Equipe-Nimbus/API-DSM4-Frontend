@@ -49,6 +49,7 @@ export default function FormEstacao({ estacao }: FormEstacaoProps) {
     useEffect(() => {
         if(estacao) {
             setValue("nomeEstacao", estacao.nomeEstacao);
+            setValue("idPlacaEstacao", estacao.idPlacaEstacao)
             setValue("cepEstacao", estacao.cepEstacao);
             setValue("ruaAvenidaEstacao", estacao.ruaAvenidaEstacao);
             setValue("numeroEnderecoEstacao", estacao.numeroEnderecoEstacao);
@@ -62,7 +63,7 @@ export default function FormEstacao({ estacao }: FormEstacaoProps) {
     }, [estacao, setValue])
 
     function handleSubmitEstacao(data: CadastroEstacaoSchema) {
-        //console.log(data)
+        console.log(data)
         if(data.tipoParametros.length === 0) {
             return addToast({ visible: true, message: `É necessário adicionar ao menos um parâmetro de medição`, type: 'error', position: 'bottom-left' });
         }
@@ -177,6 +178,9 @@ export default function FormEstacao({ estacao }: FormEstacaoProps) {
                     </h2>
                     <div className="flex flex-col gap-4">
                         <Input label="Nome" type="text" width="w-96" {...register("nomeEstacao")} error={errors.nomeEstacao?.message} id="nomeEstacao" />
+                    </div>
+                    <div className="flex flex-col gap-4">
+                        <Input label="ID Placa" type="text" width="w-96" {...register("idPlacaEstacao")} error={errors.idPlacaEstacao?.message} id="idPlacaEstacao" />
                     </div>
                     <hr />
                     <h2 className="text-text-on-background text-base font-medium">
