@@ -21,7 +21,7 @@ const Select = React.forwardRef<HTMLSelectElement, SelectProps>(({ label, width,
                 </label>}
                 <select ref={ref} {...rest} defaultValue={defaultValue} className={`${width} border border-neutral-65 text-base rounded-md px-3 py-2 focus:border-primary-65 focus:outline-none focus:ring-0`}>
                     <option value="">Selecione uma opção</option>
-                    {options.map((option, index) => (
+                    {options?.map((option, index) => (
                         <option key={index} value={option.value}>{option.label}</option>
                     ))}
                 </select>
