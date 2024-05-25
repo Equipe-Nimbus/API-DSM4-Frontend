@@ -3,9 +3,7 @@ import { MedicaoRelatorio } from "@lib/models/Medicao";
 import { FiltroRelatorioMedicoesSchema } from "@lib/models/Relatorios";
 import api from "@services/api";
 import { AxiosResponse } from "axios";
-
-//import de placeholder para dados mockados
-import { medicoesRelatorioPlaceholder } from "../../lib/dashboardPlaceholderData"
+import { parseMedicaoArrayFromServer } from "@lib/parseMedicaoData";
 
 class DashboardRequets {
     async getDashboardGeral(): Promise<AxiosResponse<DashboardGeral>> {
@@ -18,9 +16,11 @@ class DashboardRequets {
         return response
     }
 
-    //dados mockados, substituir por chamada a api
     async getRelatorioMedicoes(id: string, filtros: FiltroRelatorioMedicoesSchema): Promise<MedicaoRelatorio[]> {
-        return medicoesRelatorioPlaceholder
+        const { dataInicio, dataFim } = filtros 
+        const { data } = await api.get(`/relatorio/medicoes/${dataInicio}/${dataFim}/${id}`)
+        const medicoes = parseMedicaoArrayFromServer(data)
+        return medicoes
     }
 }
 

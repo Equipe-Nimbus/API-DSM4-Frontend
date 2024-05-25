@@ -1,6 +1,5 @@
 import { Button } from "@components/Button"
 import Input from "@components/Input"
-import Select from "@components/Select"
 import { ToastContext } from "@contexts/ToastContext"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { calcularDiferencaMeses } from "@lib/calcularDiferencaMeses"
@@ -26,13 +25,6 @@ export default function RelatorioMedicoes({ idEstacao, parametros }: RelatorioMe
     const hasMorePages = page < totalPaginas;
     const { register, handleSubmit, formState: { errors } } = useForm<FiltroRelatorioMedicoesSchema>({
         resolver: zodResolver(filtroRelatorioMedicoesSchema),
-        mode: "onChange"
-    });
-    const parametrosSelecao = parametros?.map(parametro => {
-        return {
-            value: parametro.nomeTipoParametro,
-            label: parametro.nomeTipoParametro
-        }
     });
     const { addToast } = useContext(ToastContext);
 
@@ -58,7 +50,6 @@ export default function RelatorioMedicoes({ idEstacao, parametros }: RelatorioMe
                 <form className="flex gap-4 ml-6 items-end" onSubmit={handleSubmit(handleGerarRelatorio)}>
                     <Input type="date" width="w-52" label="Data Início" {...register("dataInicio")} error={errors?.dataInicio?.message} />
                     <Input type="date" width="w-52" label="Data Fim" {...register("dataFim")} error={errors?.dataFim?.message} />
-                    <Select width="w-52" label="Parâmetro" {...register("parametro")} error={errors?.parametro?.message} options={parametrosSelecao} />
                     <Button text="Gerar" variant="ghost" type="submit" />
                 </form>
             </div>

@@ -7,7 +7,4 @@ export const filtroRelatorioMedicoesSchema = zod.object({
     dataFim: zod
         .string()
         .min(10, { message: "Data de fim inválida" }),
-    parametro: zod
-        .string()
-        .optional()
 });
