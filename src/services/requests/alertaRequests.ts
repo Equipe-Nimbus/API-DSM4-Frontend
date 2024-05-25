@@ -1,7 +1,11 @@
 import { AxiosResponse } from "axios";
-import { Alerta, AlertaListagemGetOutput, AlertaListagemGetParams, CadastroAlertaSchema } from "@lib/models/Alerta";
+import { Alerta, AlertaListagemGetOutput, AlertaListagemGetParams, CadastroAlertaSchema, OcorrenciaAlerta } from "@lib/models/Alerta";
 import api from "@services/api";
 import { parserAlertaFromServer, parserAlertasArrayFromServer } from "@lib/parseAlertasData";
+import { FiltroHistoricoAlertasSchema } from "@lib/models/Relatorios";
+
+//imports de placeholder para simular retorno de dados
+import { ultimosAlertasPlaceholder } from '@lib/dashboardPlaceholderData'
 
 class AlertaRequests {
     async get({ pagina, tamanhoPagina, nome = '' }: AlertaListagemGetParams): Promise<AlertaListagemGetOutput> {
@@ -37,6 +41,12 @@ class AlertaRequests {
     async delete(id: number): Promise<AxiosResponse> {
         const response = await api.delete(`/alerta/deletar/${id}`);
         return response;
+    }
+
+    //dados de placeholder para simular retorno de dados, substituir por chamada real
+    async getOcorrenciasAlertas({ dataInicio, dataFim }: FiltroHistoricoAlertasSchema): Promise<OcorrenciaAlerta[]> {
+        
+        return ultimosAlertasPlaceholder
     }
 }
 
