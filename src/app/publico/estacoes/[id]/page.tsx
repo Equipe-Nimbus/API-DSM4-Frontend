@@ -5,6 +5,7 @@ import dashboardRequests from "@services/requests/dashboardRequest"
 import { useEffect, useState } from "react"
 import estacaoRequests from "@services/requests/estacaoRequests"
 import { EstacaoDashboard } from "@components/EstacaoDashboard"
+import Accordion from "@components/Accordion"
 
 
 
@@ -37,6 +38,9 @@ export default function DashboardEstacao({ params }: { params: {id: string} }) {
             </div>
             <EstacaoDashboard.GraficoMedicoes dadosDashboard={dashboardEstacao} />
             <EstacaoDashboard.GraficoAlertas dadosDashboard={dashboardEstacao}/>
+            <Accordion title="Consultar Medições">
+                <EstacaoDashboard.RelatorioMedicoes idEstacao={estacao.idEstacao} parametros={estacao.tipoParametros}/>
+            </Accordion>
         </>
     )
 }

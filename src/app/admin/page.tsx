@@ -8,7 +8,7 @@ import { EstacoesAtivasPorMes } from "@lib/models/Dashboard";
 import { RiArrowDownSFill } from "react-icons/ri";
 import { FaSortAmountUp } from "react-icons/fa"
 import { LuAlertCircle } from "react-icons/lu";
-import dashboardRequests from "@services/requests/dashboardRequests";
+import dashboardRequests from "@services/requests/dashboardRequest";
 
 
 //Imports de placeholders
@@ -30,7 +30,7 @@ export default function HomeAdmin() {
             .then((response) => {
                 const { data } = response;
                 const ativasPorMes = data.estacoes.ativasPorMes
-                console.log(ativasPorMes)
+                //console.log(ativasPorMes)
                 setTotalEstacoes(data.estacoes.numeroTotalEstacoes)
                 setEstacoesAtivas(ativasPorMes)
                 setAlertasDoMes(alertasPorMesPlaceholder)
