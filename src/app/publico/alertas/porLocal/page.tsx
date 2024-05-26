@@ -14,11 +14,12 @@ import { ToastContext } from "@contexts/ToastContext";
 import dashboardRequests from "@services/requests/dashboardRequest";
 import { OcorrenciaAlerta } from "@lib/models/Alerta";
 import RelatorioAlertasCidade from "@components/RelatorioAlertasCidade";
+import RelatorioAlertasEstado from "@components/RelatorioAlertasEstado";
 
 export default function AlertasPorLocal() {
     const [cidadesDoEstado, setCidadesDoEstado] = useState<Option[]>([])
-    const [relatorioEstado, setRelatorioEstado] = useState<RelatorioAlertasPorEstado>({})
-    const [relatorioCidade, setRelatorioCidade] = useState<RelatorioAlertasPorCidade>({})
+    const [relatorioEstado, setRelatorioEstado] = useState<RelatorioAlertasPorEstado>({} as RelatorioAlertasPorEstado)
+    const [relatorioCidade, setRelatorioCidade] = useState<RelatorioAlertasPorCidade>({} as RelatorioAlertasPorCidade)
     const [listaOcorrencias, setListaOcorrencias] = useState<OcorrenciaAlerta[]>([])
     const [consultaRealizada, setConsultaRealizada] = useState(false)
     const [tipoRelatorio, setTipoRelatorio] = useState<"estado" | "cidade" | null>()
@@ -54,18 +55,22 @@ export default function AlertasPorLocal() {
                     setConsultaRealizada(true)
                 })
                 .catch((error) => {
-                    if (error && error.response.data){
+                    if (error && error.response.data) {
                         return addToast({ type: "error", message: error.response.data.error, position: "bottom-left", visible: true })
                     }
                 })
         } else if (filtradoPorEstado) {
             dashboardRequests.getRelatorioAlertasPorEstado(data)
                 .then((response) => {
+                    console.log(response.data)
                     setRelatorioEstado(response.data)
-                })
-                .finally(() => {
                     setTipoRelatorio("estado")
                     setConsultaRealizada(true)
+                })
+                .catch((error) => {
+                    if (error && error.response.data) {
+                        return addToast({ type: "error", message: error.response.data.error, position: "bottom-left", visible: true })
+                    }
                 })
         }
     }
@@ -94,9 +99,10 @@ export default function AlertasPorLocal() {
                 <Button text="Consultar" variant="ghost" type="submit" Icon={RiSearch2Line} iconPosition="left" />
             </form>
             {consultaRealizada ? (
-                tipoRelatorio === "cidade" && <RelatorioAlertasCidade dadosRelatorio={relatorioCidade} dataInicio={getValues("dataInicio")} dataFim={getValues("dataFim")}/>  
-            ) : null
-            }
+                tipoRelatorio === "cidade" ? <RelatorioAlertasCidade dadosRelatorio={relatorioCidade} dataInicio={getValues("dataInicio")} dataFim={getValues("dataFim")} />
+                : tipoRelatorio === "estado" ? <RelatorioAlertasEstado dadosRelatorio={relatorioEstado} dataInicio={getValues("dataInicio")} dataFim={getValues("dataFim")} />
+                : null
+            ) : null}
 
         </>
     )

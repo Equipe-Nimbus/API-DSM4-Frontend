@@ -11,8 +11,8 @@ export type FiltroHistoricoAlertasSchema = zod.infer<typeof filtroHistoricoAlert
 export type FiltroRelatorioAlertasPorLocal = zod.infer<typeof filtroRelatorioAlertasPorLocal>;
 
 export interface RelatorioAlertasPorCidade {
-    nome?: string;
-    estacoes?: [
+    nome: string;
+    estacoes: [
         {
             nome: string;
             medicoes: OcorrenciaAlerta[]
@@ -20,6 +20,6 @@ export interface RelatorioAlertasPorCidade {
     ]
 }
 export interface RelatorioAlertasPorEstado {
-    estados?: string;
-    cidades?: RelatorioAlertasPorCidade[]
+    estado: string;
+    cidades: RelatorioAlertasPorCidade[]
 }
