@@ -7,6 +7,10 @@ const cadastroEstacaoSchema = zod.object({
         .min(1, { message: 'Nome é obrigatório' })
         .max(255, { message: 'Máximo de caracteres é 255' })
         .trim(),
+    idPlacaEstacao: zod
+        .string()
+        .min(1, { message: 'Id da placa é obrigatório' })
+        .max(255, { message: 'Máximo de caracteres é 255' }),
     cepEstacao: zod
         .string()
         .length(9, { message: 'CEP inválido' }),
