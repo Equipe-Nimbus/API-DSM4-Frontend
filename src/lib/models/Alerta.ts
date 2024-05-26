@@ -50,14 +50,28 @@ export interface AtualizacaoAlerta extends CadastroAlertaSchema {
     idAlerta: number;
 }
 
-export interface UltimosAlertasDashboard {
-    alertas:
-    {
-        nomeAlerta: string;
-        cidadeAlerta: string;
-        estadoAlerta: string;
-        dataMedida: string;
-    }[]
+export interface OcorrenciaAlerta {
+    nomeAlerta: string;
+    cidadeAlerta: string;
+    estadoAlerta: string;
+    dataMedida: string;
+    valorMedida: number;
+    nomeTipoParametro: string;
+    unidadeTipoParametro: string;
+}
+
+export interface OcorrenciaAlertaListagemGetParams {
+    pagina: number;
+    tamanhoPagina: number;
+    dataInicio: string;
+    dataFim: string;
+}
+
+export interface OcorrenciaAlertaListagemGetOutput {
+    ocorrenciaAlerta: OcorrenciaAlerta[];
+    pagina: number;
+    tamanhoPagina: number;
+    quantidadePaginas: number;
 }
 
 export interface AlertasPorMes {

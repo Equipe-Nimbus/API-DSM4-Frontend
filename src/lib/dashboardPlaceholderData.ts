@@ -1,29 +1,37 @@
-import { AlertasPorMes, UltimosAlertasDashboard } from "./models/Alerta";
+import { AlertasPorMes, OcorrenciaAlerta } from "./models/Alerta";
 import { MedicaoRelatorio } from "./models/Medicao";
 
 export const totalEstacoesPlaceholder = 50;
-export const ultimosAlertasPlaceholder: UltimosAlertasDashboard = {
-    alertas: [
+export const ultimosAlertasPlaceholder: OcorrenciaAlerta[] = [
         {
             nomeAlerta: "Alerta de chuva",
             cidadeAlerta: "São Paulo",
             estadoAlerta: "SP",
-            dataMedida: "2021-09-01"
+            dataMedida: "2021-09-01",
+            valorMedida: 80,
+            nomeTipoParametro: "PRECIPITAÇÃO",
+            unidadeTipoParametro: "mm"
         },
         {
             nomeAlerta: "Alta temperatura",
             cidadeAlerta: "Rio de Janeiro",
             estadoAlerta: "RJ",
-            dataMedida: "2021-09-02"
+            dataMedida: "2021-09-02",
+            valorMedida: 39,
+            nomeTipoParametro: "TEMPERATURA",
+            unidadeTipoParametro: "ºC"
         },
         {
             nomeAlerta: "Ventos fortes",
             cidadeAlerta: "Belo Horizonte",
             estadoAlerta: "MG",
-            dataMedida: "2021-09-03"
+            dataMedida: "2021-09-03",
+            valorMedida: 15,
+            nomeTipoParametro: "VELOCIDADE DO VENTO",
+            unidadeTipoParametro: "m/s"
         }
-    ]
-}
+]
+
 
 
 export const alertasPorMesPlaceholder: AlertasPorMes = {

@@ -1,5 +1,5 @@
 import { AxiosResponse } from "axios";
-import { Alerta, AlertaListagemGetOutput, AlertaListagemGetParams, CadastroAlertaSchema } from "@lib/models/Alerta";
+import { Alerta, AlertaListagemGetOutput, AlertaListagemGetParams, CadastroAlertaSchema, OcorrenciaAlerta, OcorrenciaAlertaListagemGetOutput, OcorrenciaAlertaListagemGetParams } from "@lib/models/Alerta";
 import api from "@services/api";
 import { parserAlertaFromServer, parserAlertasArrayFromServer } from "@lib/parseAlertasData";
 
@@ -37,6 +37,11 @@ class AlertaRequests {
     async delete(id: number): Promise<AxiosResponse> {
         const response = await api.delete(`/alerta/deletar/${id}`);
         return response;
+    }
+
+    async getOcorrenciasAlertas({ dataInicio, dataFim, pagina, tamanhoPagina }: OcorrenciaAlertaListagemGetParams): Promise<AxiosResponse<OcorrenciaAlertaListagemGetOutput>> {
+        const response = await api.get(`/ocorrenciaAlerta/listar/${dataInicio}/${dataFim}/${pagina}/${tamanhoPagina}`)
+        return response
     }
 }
 
