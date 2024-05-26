@@ -60,6 +60,20 @@ export interface OcorrenciaAlerta {
     unidadeTipoParametro: string;
 }
 
+export interface OcorrenciaAlertaListagemGetParams {
+    pagina: number;
+    tamanhoPagina: number;
+    dataInicio: string;
+    dataFim: string;
+}
+
+export interface OcorrenciaAlertaListagemGetOutput {
+    ocorrenciaAlerta: OcorrenciaAlerta[];
+    pagina: number;
+    tamanhoPagina: number;
+    quantidadePaginas: number;
+}
+
 export interface AlertasPorMes {
     totalAlertas: number,
     relacaoTipoParametro: {
