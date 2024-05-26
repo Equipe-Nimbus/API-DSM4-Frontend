@@ -38,9 +38,14 @@ export default function DashboardEstacao({ params }: { params: {id: string} }) {
             </div>
             <EstacaoDashboard.GraficoMedicoes dadosDashboard={dashboardEstacao} />
             <EstacaoDashboard.GraficoAlertas dadosDashboard={dashboardEstacao}/>
-            <Accordion title="Consultar Medições">
-                <EstacaoDashboard.RelatorioMedicoes idEstacao={estacao.idEstacao} parametros={estacao.tipoParametros}/>
-            </Accordion>
+            <div className="flex flex-col gap-2">
+                <Accordion title="Consultar Medições">
+                    <EstacaoDashboard.RelatorioMedicoes idEstacao={estacao.idEstacao} />
+                </Accordion>
+                <Accordion title="Relatório de mínimas e máximas">
+                    <EstacaoDashboard.RelatorioMinMax idEstacao={estacao.idEstacao}/>
+                </Accordion>
+            </div>
         </>
     )
 }

@@ -1,5 +1,6 @@
 import { AlertasPorMes, UltimosAlertasDashboard } from "./models/Alerta";
 import { MedicaoRelatorio } from "./models/Medicao";
+import { ParametroRelatorioMinMax } from "./models/Relatorios";
 
 export const totalEstacoesPlaceholder = 50;
 export const ultimosAlertasPlaceholder: UltimosAlertasDashboard = {
@@ -59,4 +60,21 @@ export const medicoesRelatorioPlaceholder: MedicaoRelatorio[] = [
     { idMedicao: 18, dataMedicao: '2024-05-09T08:00:00', valorMedicao: 62.0, nomeTipoParametro: 'Umidade', unidadeTipoParametro: '%' },
     { idMedicao: 19, dataMedicao: '2024-05-10T09:00:00', valorMedicao: 27.6, nomeTipoParametro: 'Temperatura', unidadeTipoParametro: 'ºC' },
     { idMedicao: 20, dataMedicao: '2024-05-10T10:00:00', valorMedicao: 59.7, nomeTipoParametro: 'Umidade', unidadeTipoParametro: '%' }
+]
+
+export const relatorioMinMaxPlaceholder: ParametroRelatorioMinMax[] =[
+    {
+        nomeTipoParametro: 'TEMPERATURA',
+        unidadeMedida: 'ºC',
+        meses: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio'],
+        valoresMaximos: [30, 31, 32, 33, 34],
+        valoresMinimos: [14, 14, 16, 12, 17]
+    },
+    {
+        nomeTipoParametro: 'PRECIPITACAO',
+        unidadeMedida: 'mm',
+        meses: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio'],
+        valoresMaximos: [60, 70, 80, 90, 100],
+        valoresMinimos: [0, 0, 0, 0, 0]
+    }
 ]

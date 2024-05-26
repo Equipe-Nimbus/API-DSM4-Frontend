@@ -14,10 +14,9 @@ import { usePagination } from "src/hooks/usePagination"
 
 interface RelatorioMedicoesProps {
     idEstacao: string
-    parametros: ListagemParametroSchema[]
 }
 
-export default function RelatorioMedicoes({ idEstacao, parametros }: RelatorioMedicoesProps) {
+export default function RelatorioMedicoes({ idEstacao }: RelatorioMedicoesProps) {
     const [medicoes, setMedicoes] = useState<MedicaoRelatorio[]>([]);
     const [consultaFeita, setConsultaFeita] = useState(false);
     const { page, currentItems, nextPage, prevPage, setPage } = usePagination(medicoes, 10);
