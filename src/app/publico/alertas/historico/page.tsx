@@ -73,7 +73,7 @@ export default function OcorrenciasAlertas() {
                                     {alertas?.map((alerta, index) => (
                                         <tr key={index}>
                                             <td className="px-4 py-4 w-60 max-w-80 truncate">{alerta.nomeAlerta}</td>
-                                            <td className="px-4 truncate">{`${alerta.cidadeAlerta} - ${alerta.estadoAlerta}`}</td>
+                                            <td className="px-4 w-60 max-w-80 truncate">{`${alerta.cidadeAlerta} - ${alerta.estadoAlerta}`}</td>
                                             <td className="px-4 truncate">{alerta.dataMedida}</td>
                                             <td className="px-4 truncate">{alerta.valorMedida}</td>
                                             <td className="px-4 truncate">{alerta.unidadeTipoParametro}</td>
