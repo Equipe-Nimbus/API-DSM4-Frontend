@@ -1,4 +1,7 @@
+import { Option } from "@components/Select";
+import { parseCidadesToSelect } from "@lib/parseCidadeToSelect";
 import googleMapsClient from "@services/googleMaps";
+import ibge from "@services/ibgeLocalidades";
 import apiViaCep from "@services/viaCep";
 import { AxiosResponse } from "axios";
 import dotenv from 'dotenv';
@@ -25,6 +28,12 @@ class EnderecoRequests {
             }
         })
         return response;
+    }
+
+    async getCidadesPorEstado(uf: string): Promise<Option[]> {
+        const { data } = await ibge.get(`/estados/${uf}/municipios`)
+        const cidadesDoEstado = parseCidadesToSelect(data)
+        return cidadesDoEstado;
     }
 }
 

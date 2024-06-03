@@ -63,12 +63,14 @@ export default function NavBar() {
                                     </NavLink>
                                 </div>
                             )}
-                            <div className="flex flex-col gap-3">
-                                <NavLink href="/publico/estacoes">
-                                    <Image src="/map-icon.svg" alt="station icon" width={24} height={24} />
-                                    <span>Mapa de Estações</span>
-                                </NavLink>
-                            </div>
+                            <NavLink href="/publico/estacoes">
+                                <Image src="/map-icon.svg" alt="station icon" width={24} height={24} />
+                                <span>Mapa de Estações</span>
+                            </NavLink>
+                            <NavLink href="/publico/alertas">
+                                <Image src="/alert-historic-icon.svg" alt="alerts icon" width={24} height={24}/>
+                                <span>Histórico de Alertas</span>
+                            </NavLink>
                         </div>
                     )}
                     {!currentUser && (
@@ -76,6 +78,10 @@ export default function NavBar() {
                             <NavLink href="/publico/estacoes">
                                 <Image src="/map-icon.svg" alt="station icon" width={24} height={24} />
                                 <span>Mapa de Estações</span>
+                            </NavLink>
+                            <NavLink href="/publico/alertas">
+                                <Image src="/alert-historic-icon.svg" alt="alerts icon" width={24} height={24}/>
+                                <span>Histórico de Alertas</span>
                             </NavLink>
                         </div>
                     )}

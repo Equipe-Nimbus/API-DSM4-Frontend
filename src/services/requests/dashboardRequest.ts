@@ -1,6 +1,6 @@
 import { DashboardEstacao, DashboardGeral } from "@lib/models/Dashboard";
 import { MedicaoRelatorio } from "@lib/models/Medicao";
-import { FiltroRelatorioMedicoesSchema, FiltroRelatorioMinMax, ParametroRelatorioMinMax } from "@lib/models/Relatorios";
+import { FiltroRelatorioMedicoesSchema, FiltroRelatorioAlertasPorLocal, RelatorioAlertasPorEstado, RelatorioAlertasPorCidade, ParametroRelatorioMinMax } from "@lib/models/Relatorios";
 import api from "@services/api";
 import { AxiosResponse } from "axios";
 import { parseMedicaoArrayFromServer } from "@lib/parseMedicaoData";
@@ -25,6 +25,16 @@ class DashboardRequets {
 
     async getRelatorioMinMax(id: string, { dataInicio, dataFim }: FiltroRelatorioMinMax): Promise<AxiosResponse<ParametroRelatorioMinMax[]>> {
         const response = await api.get(`/relatorio/minmax/${dataInicio}/${dataFim}/${id}`)
+        return response;
+    }
+
+    async getRelatorioAlertasPorEstado(filtro: FiltroRelatorioAlertasPorLocal): Promise<AxiosResponse<RelatorioAlertasPorEstado>> {
+        const response = await api.post(`/relatorio/quantidadeAlerta`, filtro)
+        return response
+    }
+
+    async getRelatorioAlertasPorCidade(filtro: FiltroRelatorioAlertasPorLocal): Promise<AxiosResponse<RelatorioAlertasPorCidade>> {
+        const response = await api.post(`/relatorio/quantidadeAlerta`, filtro)
         return response
     }
 }
