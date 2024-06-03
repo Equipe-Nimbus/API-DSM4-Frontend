@@ -5,8 +5,6 @@ import api from "@services/api";
 import { AxiosResponse } from "axios";
 import { parseMedicaoArrayFromServer } from "@lib/parseMedicaoData";
 
-//import de placeholder
-import {relatorioMinMaxPlaceholder} from '@lib/dashboardPlaceholderData'
 class DashboardRequets {
     async getDashboardGeral(): Promise<AxiosResponse<DashboardGeral>> {
         const response = await api.get("/dashboard/geral")
@@ -25,9 +23,9 @@ class DashboardRequets {
         return medicoes
     }
 
-    //retornando dados simulados, substituir pela chamada da API
-    async getRelatorioMinMax(id: string, { dataInicio, dataFim }: FiltroRelatorioMinMax): Promise<ParametroRelatorioMinMax[]> {
-        return relatorioMinMaxPlaceholder
+    async getRelatorioMinMax(id: string, { dataInicio, dataFim }: FiltroRelatorioMinMax): Promise<AxiosResponse<ParametroRelatorioMinMax[]>> {
+        const response = await api.get(`/relatorio/minmax/${dataInicio}/${dataFim}/${id}`)
+        return response
     }
 }
 

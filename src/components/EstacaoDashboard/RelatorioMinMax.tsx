@@ -29,8 +29,10 @@ export default function RelatorioMinMax({ idEstacao }: RelatorioMinMaxProps) {
     function handleGerarRelatorio(data: FiltroRelatorioMinMax) {
         dashboardRequests.getRelatorioMinMax(idEstacao, data)
             .then((response) => {
-                setParametros(response)
-                selecionarParametro(response[0])
+                const { data } = response
+                setParametros(data)
+                selecionarParametro(data[0])
+                //console.log(data[0].mesAno)
             })
             .finally(() => setConsultaRealizada(true))
     }
@@ -42,20 +44,20 @@ export default function RelatorioMinMax({ idEstacao }: RelatorioMinMaxProps) {
         setSeries([
             {
                 name: "Máximas",
-                data: parametroSelecionado.valoresMaximos
+                data: parametroSelecionado.minimosMaximos.maximos
             },
             {
                 name: "Mínimas",
-                data: parametroSelecionado.valoresMinimos
+                data: parametroSelecionado.minimosMaximos.minimos
             }
         ])
         setOptions({
             xaxis: {
-                categories: parametroSelecionado.meses
+                categories: parametroSelecionado.minimosMaximos.mesAno
             },
             yaxis: {
                 title: {
-                    text: parametroSelecionado.unidadeMedida,
+                    text: parametroSelecionado.unidadeTipoParametro,
                     style: {
                         fontSize: '14px',
                         fontFamily: 'Helvetica, Arial, sans-serif',
@@ -72,7 +74,7 @@ export default function RelatorioMinMax({ idEstacao }: RelatorioMinMaxProps) {
                 },
                 y: {
                     formatter: function (value) {
-                        return `${value} ${parametroSelecionado.unidadeMedida}`;
+                        return `${value} ${parametroSelecionado.unidadeTipoParametro}`;
                     }
                 }
             },

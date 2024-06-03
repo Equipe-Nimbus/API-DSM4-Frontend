@@ -8,8 +8,10 @@ export type FiltroRelatorioMinMax = zod.infer<typeof filtroRelatorioMinMax>;
 
 export interface ParametroRelatorioMinMax {
     nomeTipoParametro: string;
-    unidadeMedida: string;
-    meses: string[];
-    valoresMaximos: number[];
-    valoresMinimos: number[];
+    unidadeTipoParametro: string;
+    minimosMaximos: {
+        maximos: number[];
+        minimos: number[];
+        mesAno: string[];
+    }
 }

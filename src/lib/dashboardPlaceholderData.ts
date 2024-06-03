@@ -65,16 +65,21 @@ export const medicoesRelatorioPlaceholder: MedicaoRelatorio[] = [
 export const relatorioMinMaxPlaceholder: ParametroRelatorioMinMax[] =[
     {
         nomeTipoParametro: 'TEMPERATURA',
-        unidadeMedida: 'ºC',
-        meses: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio'],
-        valoresMaximos: [30, 31, 32, 33, 34],
-        valoresMinimos: [14, 14, 16, 12, 17]
+        unidadeTipoParametro: 'ºC',
+        minimosMaximos: {
+            maximos: [30, 31, 32, 33, 34],
+            minimos: [14, 14, 16, 12, 17],
+            mesAno: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio'],
+        }
+            
     },
     {
         nomeTipoParametro: 'PRECIPITACAO',
-        unidadeMedida: 'mm',
-        meses: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio'],
-        valoresMaximos: [60, 70, 80, 90, 100],
-        valoresMinimos: [0, 0, 0, 0, 0]
+        unidadeTipoParametro: 'mm',
+        minimosMaximos: {
+            maximos: [60, 70, 80, 90, 100],
+            minimos: [0, 0, 0, 0, 0],
+            mesAno: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio'],
+        }
     }
 ]
