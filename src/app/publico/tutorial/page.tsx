@@ -55,12 +55,6 @@ export default function Tutorial() {
                     como frentes frias e tempestades.
                 </p>
                 <br />
-                <p className="text-text-on-background text-base font-medium">Direção do Vento:
-                    Os sensores de direção de vento medem a movimentação do ar em relação a pontos de referência,
-                    como pontos cardeias, são importantes para entender como o vento influencia as condições locais e regionais,
-                    como frentes frias e tempestades.
-                </p>
-                <br />
                 <p className="text-text-on-background text-base font-medium">Pluviometro:
                     Um pluviometro basculante é um instrumento metereológico projetado para medir a quantidade de
                     precipitação de um lugar em determinado tempo, consiste de um funil, um mecânismo e um sensor que
