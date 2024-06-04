@@ -61,6 +61,31 @@ export default function Tutorial() {
                     verifica o movimento do mecânismo, esses dados são extremamente importantes pois ajudam a entender
                     padrões climaticos e prever eventos extremos e monitorar recursos hidricos
                 </p>
+                <p className="text-text-on-background text-base font-medium">A importância de cada sensor:
+                    Sensor de Umidade:
+                    - Mede vapor de água no ar, crucial para prever precipitação, neblinas, chuvas intensas, 
+                    inundações e tempestades, permitindo alertas preventivos.
+
+                    Sensor de Direção do Vento:
+                    - Determina a direção do vento, essencial para prever o caminho de tempestades e furacões, 
+                    protegendo áreas em risco.
+
+                    Sensor de Velocidade do Vento:
+                    - Mede a intensidade do vento, vital para monitorar tempestades, furacões e avaliar riscos de 
+                    incêndios florestais.
+
+                    Sensor de Pressão Atmosférica:
+                    - Mede a pressão do ar, ajudando a prever tempestades, ciclones e frentes frias, 
+                    antecipando eventos extremos.
+
+                    Pluviômetro:
+                    - Mede precipitação, essencial para monitorar chuvas intensas, inundações e deslizamentos de terra, 
+                    emitindo alertas de enchentes.
+
+                    Sensor de Temperatura:
+                    - Mede a temperatura do ar, prevendo ondas de calor e frio, e formação de gelo, prevenindo 
+                    acidentes e facilitando medidas de segurança.
+                </p>
             </div>
         </>
     )
