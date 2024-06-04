@@ -1,6 +1,6 @@
 import { DashboardEstacao, DashboardGeral } from "@lib/models/Dashboard";
 import { MedicaoRelatorio } from "@lib/models/Medicao";
-import { FiltroRelatorioMedicoesSchema, FiltroRelatorioAlertasPorLocal, RelatorioAlertasPorEstado, RelatorioAlertasPorCidade, ParametroRelatorioMinMax } from "@lib/models/Relatorios";
+import { FiltroRelatorioMedicoesSchema, FiltroRelatorioAlertasPorLocal, RelatorioAlertasPorEstado, RelatorioAlertasPorCidade, ParametroRelatorioMinMax, FiltroRelatorioMinMax } from "@lib/models/Relatorios";
 import api from "@services/api";
 import { AxiosResponse } from "axios";
 import { parseMedicaoArrayFromServer } from "@lib/parseMedicaoData";
