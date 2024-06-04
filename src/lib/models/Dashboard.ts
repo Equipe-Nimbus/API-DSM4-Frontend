@@ -50,5 +50,9 @@ export interface ParametroDashboard {
 
 export interface DashboardEstacao {
     parametros: ParametroDashboard[]
+    alertas: {
+        alertasNome: string[]
+        alertasNumero: number[]
+    }
 }
 
