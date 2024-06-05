@@ -1,3 +1,5 @@
+import { OcorrenciaAlerta } from "./Alerta";
+
 export interface EstacoesAtivasPorMes {
     quantidades: number[],
     meses: string[]
@@ -9,22 +11,17 @@ export interface DashboardGeral {
         ativasPorMes: EstacoesAtivasPorMes
     };
     alertas: {
-        ultimoAlerta: {
-            nomeAlerta: string;
-            dataMedida: string;
-            valorMedida: number;
-            unidadeTipoParametro: string;
-        };
+        ultimosAlerta: OcorrenciaAlerta[];
         alertasDoMes: {
-            totalAlertas: number;
-            relacaoEstados: {
-                estados: string[];
-                valorPorEstado: number[];
-            };
+            totalAlertas: number,
             relacaoTipoParametro: {
-                tiposParametros: string[];
-                valorTipoParametro: number[];
-            };
+                valorTipoParametro: number[],
+                tiposParametros: string[]
+            },
+            relacaoEstado: {
+                valorPorEstado: number[],
+                estados: string[]
+            }
         };
     };
 };

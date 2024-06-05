@@ -18,7 +18,7 @@ export default function GraficoAlertaPorParametro({ alertasDoMes }: GraficoAlert
         if (alertasDoMes && alertasDoMes.relacaoTipoParametro) {
             setOptions({
                 colors: ["#5378F9", "#52ACFA", "#6452FA", "#9A52FA", "#94A3B8"],
-                labels: alertasDoMes.relacaoTipoParametro.tipoParametros,
+                labels: alertasDoMes.relacaoTipoParametro.tiposParametros,
                 dataLabels: {
                     enabled: true,
                     style: {
@@ -54,18 +54,18 @@ export default function GraficoAlertaPorParametro({ alertasDoMes }: GraficoAlert
                 },
             })
 
-            setSeries(alertasDoMes.relacaoTipoParametro.valorPorTipoParametro)
+            setSeries(alertasDoMes.relacaoTipoParametro.valorTipoParametro)
         }
     }, [alertasDoMes])
 
-    return (
+    if (alertasDoMes?.relacaoTipoParametro.valorTipoParametro.length > 0) return (
         <div className="bg-bg-100 p-6 rounded-md drop-shadow w-fit flex flex-col items-center gap-4">
             <span className="text-lg font-medium text-text-on-background ml-4">Alertas por Parâmetros</span>
             <div className="flex gap-7 h-full items-end">
                 <Chart options={options} series={series} type="donut" height={350} width={300} />
                 <div className="flex flex-col gap-4 h-full justify-center">
-                    {alertasDoMes.relacaoTipoParametro?.tipoParametros.map((parametro, index) => {
-                        const valorCorrespondente = alertasDoMes.relacaoTipoParametro?.valorPorTipoParametro[index];
+                    {alertasDoMes.relacaoTipoParametro?.tiposParametros.map((parametro, index) => {
+                        const valorCorrespondente = alertasDoMes.relacaoTipoParametro?.valorTipoParametro[index];
                         return (
                             <div className="flex items-center gap-2 justify-between" key={index}>
                                 <div className="flex gap-3 items-center min-w-48">

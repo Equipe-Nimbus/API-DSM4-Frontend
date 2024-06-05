@@ -58,7 +58,7 @@ export default function GraficoAlertaPorEstado({ alertasDoMes }: GraficoAlertaPo
         }
     }, [alertasDoMes])
 
-    return (
+    if(alertasDoMes?.relacaoEstado.valorPorEstado.length > 0) return (
         <div className="bg-bg-100 p-6 rounded-md drop-shadow w-fit flex flex-col items-center gap-4">
             <span className="text-lg font-medium text-text-on-background ml-4">Alertas por Estado</span>
             <div className="flex gap-7 h-full items-end">

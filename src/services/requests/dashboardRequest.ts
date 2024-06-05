@@ -8,6 +8,7 @@ import { parseMedicaoArrayFromServer } from "@lib/parseMedicaoData";
 class DashboardRequets {
     async getDashboardGeral(): Promise<AxiosResponse<DashboardGeral>> {
         const response = await api.get("/dashboard/geral")
+        console.log(response)
         return response
     }
 
