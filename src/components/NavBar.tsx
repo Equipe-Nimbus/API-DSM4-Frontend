@@ -72,7 +72,7 @@ export default function NavBar() {
                                 <span>Histórico de Alertas</span>
                             </NavLink>
                             <NavLink href="/publico/tutorial">
-                                <Image src="/alert-historic-icon.svg" alt="alerts icon" width={24} height={24}/>
+                                <Image src="/Education.png" alt="alerts icon" width={24} height={24}/>
                                 <span>Tutorial</span>
                             </NavLink>
                         </div>
@@ -88,7 +88,7 @@ export default function NavBar() {
                                 <span>Histórico de Alertas</span>
                             </NavLink>
                             <NavLink href="/publico/tutorial">
-                                <Image src="/alert-historic-icon.svg" alt="alerts icon" width={24} height={24}/>
+                            <Image src="/Education.png" alt="alerts icon" width={24} height={24}/>
                                 <span>Tutorial</span>
                             </NavLink>
                         </div>
