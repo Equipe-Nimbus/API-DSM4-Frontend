@@ -77,8 +77,8 @@ export interface OcorrenciaAlertaListagemGetOutput {
 export interface AlertasPorMes {
     totalAlertas: number,
     relacaoTipoParametro: {
-        valorPorTipoParametro: number[],
-        tipoParametros: string[]
+        valorTipoParametro: number[],
+        tiposParametros: string[]
     },
     relacaoEstado: {
         valorPorEstado: number[],
