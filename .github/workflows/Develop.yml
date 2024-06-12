@@ -15,6 +15,7 @@ jobs:
     
     container:
       image: pedrohsalmeida/nimbus-frontend:Dev-latest
+      options: --entrypoint /bin/sh
 
     steps:
       - name: Checkout code
@@ -23,11 +24,15 @@ jobs:
       - name: Listando arquivos
         run: ls -la
     
-      - name: Instalando dempendencias
-        run: npm install
-    
+      - name: Instalando dependências
+        run: |
+          cd /github/workspace
+          npm install
+      
       - name: build
-        run: npm run build
+        run: |
+          cd /github/workspace
+          npm run build
 
 
 
