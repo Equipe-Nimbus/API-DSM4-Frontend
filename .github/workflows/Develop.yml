@@ -12,21 +12,13 @@ jobs:
 
   TesteUnitario:
     runs-on: ubuntu-latest
-    
-    container:
-      image: pedrohsalmeida/nimbus-frontend:Dev-latest
-      options: --entrypoint /bin/sh
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
     
-      - name: Instalando dempendencias
-        run: npm install
-    
-      - name: build
-        run: npm run build
-
+      - name: build container e aplicacao
+        run: docker build -t teste .
 
 
   AceitaRecusaPR:
