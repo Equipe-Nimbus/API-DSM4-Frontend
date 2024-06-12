@@ -20,19 +20,12 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-
-      - name: Listando arquivos
-        run: ls -la
     
-      - name: Instalando dependências
-        run: |
-          cd /github/workspace
-          npm install
-      
+      - name: Instalando dempendencias
+        run: npm install
+    
       - name: build
-        run: |
-          cd /github/workspace
-          npm run build
+        run: npm run build
 
 
 
