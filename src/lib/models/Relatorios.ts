@@ -38,3 +38,11 @@ export interface RelatorioAlertasPorEstado {
     cidades: RelatorioAlertasPorCidade[]
 }
 
+export interface LocalizacoesCadastradas {
+    estado: string;
+    cidades: [
+        {
+            cidade: string;
+        }
+    ]
+}
