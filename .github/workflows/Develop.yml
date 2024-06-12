@@ -20,6 +20,9 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
+
+      - name: Listando arquivos
+        uses: ls -la
     
       - name: Instalando dempendencias
         run: npm install
