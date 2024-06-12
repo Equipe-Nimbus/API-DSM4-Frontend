@@ -16,8 +16,6 @@ jobs:
     container:
       image: pedrohsalmeida/nimbus-frontend:Dev-latest
       options: --entrypoint /bin/sh
-      env:
-        NODE_ENV: development
 
     steps:
       - name: Checkout code
