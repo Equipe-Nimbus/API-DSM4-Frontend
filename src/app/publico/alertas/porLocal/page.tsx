@@ -39,7 +39,7 @@ export default function AlertasPorLocal() {
 
     const estadoSelecionado = watch("estado");
     useEffect(() => {
-        if (!estadoSelecionado) return
+        if (!estadoSelecionado) return setCidadesDoEstado([])
         const cidades = parseCidadesToSelect(estadoSelecionado, localizacoesCadastradas)
         setCidadesDoEstado(cidades)
     }, [estadoSelecionado, localizacoesCadastradas])
