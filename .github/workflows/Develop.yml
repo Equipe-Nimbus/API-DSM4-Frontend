@@ -22,7 +22,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Listando arquivos
-        uses: ls -la
+        run: ls -la
     
       - name: Instalando dempendencias
         run: npm install
