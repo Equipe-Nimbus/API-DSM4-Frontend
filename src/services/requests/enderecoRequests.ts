@@ -1,7 +1,7 @@
 import { Option } from "@components/Select";
-import { parseCidadesToSelect } from "@lib/parseCidadeToSelect";
+import api from "@services/api";
+import { parseEstadosToSelect } from "@lib/parseLozalizacoesToSelect";
 import googleMapsClient from "@services/googleMaps";
-import ibge from "@services/ibgeLocalidades";
 import apiViaCep from "@services/viaCep";
 import { AxiosResponse } from "axios";
 import dotenv from 'dotenv';
@@ -30,10 +30,11 @@ class EnderecoRequests {
         return response;
     }
 
-    async getCidadesPorEstado(uf: string): Promise<Option[]> {
-        const { data } = await ibge.get(`/estados/${uf}/municipios`)
-        const cidadesDoEstado = parseCidadesToSelect(data)
-        return cidadesDoEstado;
+    async getLocalizacoesCadastradas(): Promise<{localizacoes: AxiosResponse, estados: Option[]}> {
+        const response = await api.get(`/relatorio/localizacoes`)
+        const { data } = response
+        const estados = parseEstadosToSelect(data) as Option[]
+        return { localizacoes: response, estados};
     }
 }
 
