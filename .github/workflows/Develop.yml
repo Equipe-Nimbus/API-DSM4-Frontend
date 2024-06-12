@@ -16,13 +16,12 @@ jobs:
     container:
       image: pedrohsalmeida/nimbus-frontend:Dev-latest
       options: --entrypoint /bin/sh
+      env:
+        NODE_ENV: development
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-
-      - name: Set Node.js environment to development
-        run: export NODE_ENV=development
     
       - name: Instalando dempendencias
         run: npm install
