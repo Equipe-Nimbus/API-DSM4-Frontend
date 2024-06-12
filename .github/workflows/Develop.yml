@@ -15,7 +15,6 @@ jobs:
     
     container:
       image: pedrohsalmeida/nimbus-frontend:Dev-latest
-      options: --entrypoint /bin/sh
 
     steps:
       - name: Checkout code
