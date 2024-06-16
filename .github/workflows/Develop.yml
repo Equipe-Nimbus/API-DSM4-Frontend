@@ -82,7 +82,6 @@ jobs:
     if: always()
 
     steps:
-
       - run: echo TesteUnitario ${{ needs.TesteUnitario.result}} 
       - run: echo AceitaRecusaPR ${{ needs.AceitaRecusaPR.result}} 
       - run: echo PushDokerHub ${{ needs.PushDokerHub.result}} 
@@ -95,10 +94,9 @@ jobs:
         with:
           args: |
             Pull request de ${{github.event.pull_request.user.login}} foi um SUCESSO 
-            ${{ github.event.pull_request.head.ref }} ---> ${{ github.event.pull_request.base.ref }}
+            Da ${{ github.event.pull_request.head.ref }} para ${{ github.event.pull_request.base.ref }}
             PR(${{ github.event.pull_request.number }}): ${{ github.event.pull_request.title }}
             ${{ github.event.pull_request.html_url }} '
-
 
 
       - name: Notificacao de falha
@@ -109,7 +107,7 @@ jobs:
         with:
           args: |
             Pull request de ${{github.event.pull_request.user.login}} FALHOU
-            ${{ github.event.pull_request.head.ref }} ---> ${{ github.event.pull_request.base.ref }}
+            Da ${{ github.event.pull_request.head.ref }} para ${{ github.event.pull_request.base.ref }}
             PR(${{ github.event.pull_request.number }}): ${{ github.event.pull_request.title }}
             ${{ github.event.pull_request.html_url }}
 
