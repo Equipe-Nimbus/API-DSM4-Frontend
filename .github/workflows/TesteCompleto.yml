@@ -40,6 +40,7 @@ jobs:
         - name: Instalando dempendencias
           run: npm install
 
+
         - name: Configurar Docker para autenticação
           uses: docker/login-action@v2
           with:
@@ -95,14 +96,13 @@ jobs:
 
         - name: Checkout code
           uses: actions/checkout@v3
-
       
         - run: docker logs ${{job.services.backend.id}}
 
         - name: List Docker images
           run: | 
             docker image ls -a
-            docker ps -a
+            docker ps 
 
         
         - uses: cypress-io/github-action@v6
