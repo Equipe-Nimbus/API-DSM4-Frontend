@@ -102,11 +102,12 @@ jobs:
         - name: Checkout code
           uses: actions/checkout@v3
       
+        - run: docker logs ${{job.services.backend.id}}
 
         - name: List Docker images
           run: | 
             docker image ls -a
-            docker ps
+            docker ps -a
         
         - uses: cypress-io/github-action@v6
           with:
