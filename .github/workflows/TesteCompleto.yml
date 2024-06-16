@@ -40,7 +40,6 @@ jobs:
         - name: Instalando dempendencias
           run: npm install
 
-
         - name: Configurar Docker para autenticação
           uses: docker/login-action@v2
           with:
@@ -73,6 +72,7 @@ jobs:
           image: pedrohsalmeida/nimbus-backend:Dev-latest
           env:
             PORT: ${{secrets.PORT}}
+            DB_URL_MONGO_BACK: ${{ secrets.DB_URL_MONGO_BACK }}
             JWT_SECRET: dsvsvdsv
             DB_NAME: ${{secrets.DB_NAME_TEST}}
             DB_HOST: db
@@ -95,9 +95,8 @@ jobs:
         - name: Checkout code
           uses: actions/checkout@v3
 
-
+      
         - run: docker logs ${{job.services.backend.id}}
-
 
         - name: List Docker images
           run: | 
@@ -145,6 +144,7 @@ jobs:
       steps:
         - name: Checkout code
           uses: actions/checkout@v3
+
 
 
         - name: Instalar Docker Compose
