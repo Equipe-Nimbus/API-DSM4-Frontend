@@ -70,7 +70,7 @@ jobs:
             - 5432:5432
 
         backend:
-          image: pedrohsalmeida/nimbus-backend:Dev-latest
+          image: pedrohsalmeida/nimbus-backend:latest
           env:
             PORT: ${{secrets.PORT}}
             JWT_SECRET: dsvsvdsv
