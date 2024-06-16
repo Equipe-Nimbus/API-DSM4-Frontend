@@ -70,11 +70,10 @@ jobs:
             - 5432:5432
 
         backend:
-          image: pedrohsalmeida/nimbus-backend:latest
+          image: pedrohsalmeida/nimbus-backend:Dev-latest
           env:
             PORT: ${{secrets.PORT}}
             JWT_SECRET: dsvsvdsv
-            DB_URL_MONGO_BACK: ${{secrets.DB_URL_MONGO_BACK}}
             DB_NAME: ${{secrets.DB_NAME_TEST}}
             DB_HOST: db
             DB_USER: ${{secrets.DB_USER}}
@@ -95,12 +94,15 @@ jobs:
 
         - name: Checkout code
           uses: actions/checkout@v3
-      
+
+        - run: docker logs ${{job.services.backend.id}}
+
 
         - name: List Docker images
           run: | 
             docker image ls -a
-            docker ps
+            docker ps -a
+
         
         - uses: cypress-io/github-action@v6
           with:
@@ -143,6 +145,12 @@ jobs:
         - name: Checkout code
           uses: actions/checkout@v3
 
+        - name: Instalar Docker Compose
+          run: sudo apt-get install docker-compose
+
+
+        - name: Construir Imagem Docker
+          run: docker-compose build
 
         - name: Configurar Docker para autenticação
           uses: docker/login-action@v2
