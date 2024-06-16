@@ -82,7 +82,6 @@ jobs:
     if: always()
 
     steps:
-
       - run: echo TesteUnitario ${{ needs.TesteUnitario.result}} 
       - run: echo AceitaRecusaPR ${{ needs.AceitaRecusaPR.result}} 
       - run: echo PushDokerHub ${{ needs.PushDokerHub.result}} 
