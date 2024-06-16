@@ -73,7 +73,7 @@ export default function NavBar() {
                             </NavLink>
                             <NavLink href="/publico/tutorial">
                                 <Image src="/Education.png" alt="alerts icon" width={24} height={24}/>
-                                <span>Tutorial</span>
+                                <span>Educação</span>
                             </NavLink>
                         </div>
                     )}
@@ -89,7 +89,7 @@ export default function NavBar() {
                             </NavLink>
                             <NavLink href="/publico/tutorial">
                             <Image src="/Education.png" alt="alerts icon" width={24} height={24}/>
-                                <span>Tutorial</span>
+                                <span>Educação</span>
                             </NavLink>
                         </div>
                     )}
