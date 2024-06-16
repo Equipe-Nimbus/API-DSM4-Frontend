@@ -40,12 +40,6 @@ jobs:
         - name: Instalando dempendencias
           run: npm install
 
-        - name: Instalar Docker Compose
-          run: sudo apt-get install docker-compose
-
-
-        - name: Construir Imagem Docker
-          run: docker-compose build
 
         - name: Configurar Docker para autenticação
           uses: docker/login-action@v2
@@ -55,7 +49,6 @@ jobs:
         
         - name: Construir a imagem Docker
           run: |
-            # Usando o número do pull request como parte da tag
             docker build -t pedrohsalmeida/nimbus-frontend:integracao .
 
         - name: push imagem
@@ -149,15 +142,6 @@ jobs:
         - name: Checkout code
           uses: actions/checkout@v3
 
-
-
-        - name: Instalar Docker Compose
-          run: sudo apt-get install docker-compose
-
-
-        - name: Construir Imagem Docker
-          run: docker-compose build
-
         - name: Configurar Docker para autenticação
           uses: docker/login-action@v2
           with:
@@ -219,4 +203,4 @@ jobs:
                 PR(${{ github.event.pull_request.number }}): ${{ github.event.pull_request.title }}
                 ${{ github.event.pull_request.html_url }}
             
-            
+
