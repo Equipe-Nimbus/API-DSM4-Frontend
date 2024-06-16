@@ -40,6 +40,7 @@ jobs:
         - name: Instalando dempendencias
           run: npm install
 
+
         - name: Configurar Docker para autenticação
           uses: docker/login-action@v2
           with:
@@ -86,7 +87,7 @@ jobs:
         frontend:
           image: pedrohsalmeida/nimbus-frontend:integracao
           env:
-            NEXT_PUBLIC_BACK_HOST: backend
+            BACK_HOST: backend
           ports:
             - 3000:3000
           
@@ -204,4 +205,4 @@ jobs:
                 PR(${{ github.event.pull_request.number }}): ${{ github.event.pull_request.title }}
                 ${{ github.event.pull_request.html_url }}
             
-            
+
