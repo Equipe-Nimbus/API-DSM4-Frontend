@@ -15,14 +15,7 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-  
-      - name: Instalar Docker Compose
-        run: sudo apt-get install docker-compose
-  
-      - name: Construir Imagem Docker
-        run: docker-compose build
-  
-  
+
       - name: Configurar Docker para autenticação
         uses: docker/login-action@v2
         with:
@@ -89,6 +82,7 @@ jobs:
             DB_PORT: ${{secrets.DB_PORT}}
             DB_PASSWORD: ${{secrets.DB_PASSWORD}}
             DB_NAME_TEST: ${{secrets.DB_NAME_TEST}}
+            NODE_ENV: test
           ports:
             - 8000:8000
 

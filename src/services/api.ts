@@ -3,8 +3,12 @@ import { parseCookies } from 'nookies';
 
 const { 'nextauth.token': token } = parseCookies();
 
+const baseURL = `http://${process.env.NEXT_PUBLIC_BACK_HOST || 'localhost'}:8000`;
+
+console.log(`Using backend host: ${baseURL}`);
+
 const api = axios.create({
-    baseURL: process.env.NEXT_PUBLIC_BACK_HOST+":8000/",
+    baseURL: baseURL,
 });
 if(token){
     api.defaults.headers['Authorization'] = `Bearer ${token}`;
