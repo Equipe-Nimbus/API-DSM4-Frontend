@@ -80,6 +80,7 @@ jobs:
           image: pedrohsalmeida/nimbus-backend:Dev-latest
           env:
             PORT: ${{secrets.PORT}}
+            DB_URL_MONGO_BACK: ${{ secrets.DB_URL_MONGO_BACK }}
             JWT_SECRET: dsvsvdsv
             DB_NAME: ${{secrets.DB_NAME_TEST}}
             DB_HOST: db
