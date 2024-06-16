@@ -83,6 +83,7 @@ jobs:
             DB_URL_MONGO_BACK: ${{ secrets.DB_URL_MONGO_BACK }}
             JWT_SECRET: dsvsvdsv
             DB_NAME: ${{secrets.DB_NAME_TEST}}
+            NODE_ENV: test
             DB_HOST: db
             DB_USER: ${{secrets.DB_USER}}
             DB_PORT: ${{secrets.DB_PORT}}
