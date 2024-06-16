@@ -24,7 +24,7 @@ jobs:
   
       - name: Construir a imagem Docker
         run: |
-          docker build -t pedrohsalmeida/nimbus-frontend:Main-${{ github.event.number }}
+          docker build -t pedrohsalmeida/nimbus-frontend:Main-${{ github.event.number }} .
           docker tag pedrohsalmeida/nimbus-frontend:Main-${{ github.event.number }} pedrohsalmeida/nimbus-frontend:Main-latest
   
       - name: Push da imagem para o Docker Hub
