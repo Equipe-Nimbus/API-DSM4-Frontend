@@ -71,6 +71,10 @@ export default function NavBar() {
                                 <Image src="/alert-historic-icon.svg" alt="alerts icon" width={24} height={24}/>
                                 <span>Histórico de Alertas</span>
                             </NavLink>
+                            <NavLink href="/publico/tutorial">
+                                <Image src="/Education.png" alt="alerts icon" width={24} height={24}/>
+                                <span>Tutorial</span>
+                            </NavLink>
                         </div>
                     )}
                     {!currentUser && (
@@ -82,6 +86,10 @@ export default function NavBar() {
                             <NavLink href="/publico/alertas">
                                 <Image src="/alert-historic-icon.svg" alt="alerts icon" width={24} height={24}/>
                                 <span>Histórico de Alertas</span>
+                            </NavLink>
+                            <NavLink href="/publico/tutorial">
+                            <Image src="/Education.png" alt="alerts icon" width={24} height={24}/>
+                                <span>Tutorial</span>
                             </NavLink>
                         </div>
                     )}

@@ -9,10 +9,6 @@ import { RiArrowDownSFill } from "react-icons/ri";
 import { FaSortAmountUp } from "react-icons/fa"
 import { LuAlertCircle } from "react-icons/lu";
 import dashboardRequests from "@services/requests/dashboardRequest";
-
-
-//Imports de placeholders
-import { ultimosAlertasPlaceholder, alertasPorMesPlaceholder } from "@lib/dashboardPlaceholderData";
 import { useRouter } from "next/navigation";
 
 
@@ -30,11 +26,10 @@ export default function HomeAdmin() {
             .then((response) => {
                 const { data } = response;
                 const ativasPorMes = data.estacoes.ativasPorMes
-                //console.log(ativasPorMes)
                 setTotalEstacoes(data.estacoes.numeroTotalEstacoes)
                 setEstacoesAtivas(ativasPorMes)
-                setAlertasDoMes(alertasPorMesPlaceholder)
-                setHistoricoAlertas(ultimosAlertasPlaceholder)
+                setAlertasDoMes(data.alertas.alertasDoMes)
+                setHistoricoAlertas(data.alertas.ultimosAlerta)
             })
             .finally(() => setLoading(false))
     }, [])
@@ -72,28 +67,32 @@ export default function HomeAdmin() {
                             <div className="w-full min-w-[550px] flex flex-col p-4 gap-3 bg-bg-100 rounded-md drop-shadow">
                                 <div className="flex justify-between items-center">
                                     <h1 className="text-lg font-medium text-text-on-background">Últimos alertas disparados</h1>
-                                    <span className="text-sm text-primary-65 cursor-pointer" onClick={() => router.push(`/publico/alertas/historico`)}>Ver todos</span>
+                                    {historicoAlertas && historicoAlertas.length > 0 && (
+                                        <span className="text-sm text-primary-65 cursor-pointer" onClick={() => router.push(`/publico/alertas/historico`)}>Ver todos</span>
+                                    )}
                                 </div>
-                                <table className="w-full">
-                                    <thead className="text-text-on-background-disabled text-sm border-b-2 border-text-on-background-disabled">
-                                        <tr>
-                                            <th className="font-medium text-left">ALERTA</th>
-                                            <th className="font-medium text-left">CIDADE</th>
-                                            <th className="font-medium text-left">DATA</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody className="text-text-on-background">
-                                        {historicoAlertas?.map((alerta, index) => {
-                                            return (
+                                {historicoAlertas && historicoAlertas.length > 0 ? (
+                                    <table className="w-full">
+                                        <thead className="text-text-on-background-disabled text-sm border-b-2 border-text-on-background-disabled">
+                                            <tr>
+                                                <th className="font-medium text-left">ALERTA</th>
+                                                <th className="font-medium text-left">CIDADE</th>
+                                                <th className="font-medium text-left">DATA</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody className="text-text-on-background">
+                                            {historicoAlertas.map((alerta, index) => (
                                                 <tr key={index}>
                                                     <td className="py-4 w-2/3 max-w-38 truncate pr-3">{alerta.nomeAlerta}</td>
                                                     <td className="w-1/3 max-w-38 truncate pr-3">{`${alerta.cidadeAlerta} - ${alerta.estadoAlerta}`}</td>
                                                     <td className="w-1/3 max-w-38 truncate">{alerta.dataMedida}</td>
                                                 </tr>
-                                            )
-                                        })}
-                                    </tbody>
-                                </table>
+                                            ))}
+                                        </tbody>
+                                    </table>
+                                ) : (
+                                    <span className="text-neutral-47 font-medium ">Nenhum alerta este mês.</span>
+                                )}
                             </div>
                         </div>
                     </div>

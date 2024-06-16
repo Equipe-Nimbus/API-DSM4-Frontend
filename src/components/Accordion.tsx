@@ -15,7 +15,7 @@ export default function Accordion({ title, children }: AccordionProps) {
                 <h1 className="text-xl font-medium text-text-on-background">{title}</h1>
                 {isOpen ? <RiArrowUpSFill size={24} className="text-text-on-background" /> : <RiArrowDownSFill size={24} className="text-text-on-background" />}
             </button>
-            <div className={`overflow-hidden transition-all duration-200 ease-in-out  ${isOpen ? "opacity-100" : "opacity-0"}`} >
+            <div className={`overflow-hidden transition-all duration-200 ${isOpen ? "max-h-screen" : "max-h-0"}`} >
                 {children}
             </div>
         </>
