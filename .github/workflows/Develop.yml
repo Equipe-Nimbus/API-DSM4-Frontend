@@ -102,8 +102,9 @@ jobs:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
         uses: Ilshidur/action-discord@master
         with:
-          args: 'Pull request de ${{github.event.pull_request.user.login}} FALHOU \
+          args: >-
+            Pull request de ${{github.event.pull_request.user.login}} FALHOU \
             ${{ github.event.pull_request.head.ref }} --> ${{ github.event.pull_request.base.ref }} \
             PR(${{ github.event.pull_request.number }}): ${{ github.event.pull_request.title }} \
-            ${{ github.event.pull_request.html_url }}'
+            ${{ github.event.pull_request.html_url }}
 
