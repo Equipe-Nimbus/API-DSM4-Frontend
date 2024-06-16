@@ -83,10 +83,11 @@ jobs:
 
     steps:
 
+
       - run: echo TesteUnitario ${{ needs.TesteUnitario.conclusion}} 
       - run: echo AceitaRecusaPR ${{ needs.AceitaRecusaPR.conclusion}} 
       - run: echo PushDokerHub ${{ needs.PushDokerHub.conclusion}} 
-      
+
       - name: Notificacao de sucesso
         if: ${{ needs.TesteUnitario.conclusion == 'success' && needs.AceitaRecusaPR.conclusion == 'success' && needs.PushDokerHub.conclusion == 'success' }}
         env:
@@ -106,4 +107,5 @@ jobs:
             ${{ github.event.pull_request.head.ref }} --> ${{ github.event.pull_request.base.ref }} \
             PR(${{ github.event.pull_request.number }}): ${{ github.event.pull_request.title }} \
             ${{ github.event.pull_request.html_url }}'
+
 
