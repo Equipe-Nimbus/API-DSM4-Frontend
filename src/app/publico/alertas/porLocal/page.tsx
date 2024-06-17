@@ -3,24 +3,24 @@ import { Button } from "@components/Button";
 import Input from "@components/Input";
 import { RiSearch2Line } from "react-icons/ri";
 import { useForm } from "react-hook-form";
-import { FiltroRelatorioAlertasPorLocal, RelatorioAlertasPorCidade, RelatorioAlertasPorEstado } from "@lib/models/Relatorios";
+import { FiltroRelatorioAlertasPorLocal, LocalizacoesCadastradas, RelatorioAlertasPorCidade, RelatorioAlertasPorEstado } from "@lib/models/Relatorios";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { filtroRelatorioAlertasPorLocal } from "@lib/validations/relatorios/filtroRelatorioAlertasPorLocal";
 import Select, { Option } from "@components/Select";
-import estadosDoBrasil from "@lib/models/estados";
-import { useCallback, useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import enderecoRequests from "@services/requests/enderecoRequests";
 import { ToastContext } from "@contexts/ToastContext";
 import dashboardRequests from "@services/requests/dashboardRequest";
-import { OcorrenciaAlerta } from "@lib/models/Alerta";
 import RelatorioAlertasCidade from "@components/RelatorioAlertasCidade";
 import RelatorioAlertasEstado from "@components/RelatorioAlertasEstado";
+import { parseCidadesToSelect } from "@lib/parseLozalizacoesToSelect";
 
 export default function AlertasPorLocal() {
+    const [estados, setEstados] = useState<Option[]>([])
     const [cidadesDoEstado, setCidadesDoEstado] = useState<Option[]>([])
+    const [localizacoesCadastradas, setLocalizacoesCadastradas] = useState<LocalizacoesCadastradas[]>([])
     const [relatorioEstado, setRelatorioEstado] = useState<RelatorioAlertasPorEstado>({} as RelatorioAlertasPorEstado)
     const [relatorioCidade, setRelatorioCidade] = useState<RelatorioAlertasPorCidade>({} as RelatorioAlertasPorCidade)
-    const [listaOcorrencias, setListaOcorrencias] = useState<OcorrenciaAlerta[]>([])
     const [consultaRealizada, setConsultaRealizada] = useState(false)
     const [tipoRelatorio, setTipoRelatorio] = useState<"estado" | "cidade" | null>()
     const { register, handleSubmit, watch, formState: { errors }, getValues } = useForm<FiltroRelatorioAlertasPorLocal>({
@@ -28,16 +28,21 @@ export default function AlertasPorLocal() {
     });
     const { addToast } = useContext(ToastContext)
 
-    const estadoSelecionado = watch("estado");
     useEffect(() => {
-        if (!estadoSelecionado) return;
-        enderecoRequests.getCidadesPorEstado(estadoSelecionado)
+        enderecoRequests.getLocalizacoesCadastradas()
             .then((response) => {
-                //console.log(response)
-                setCidadesDoEstado(response)
+                setEstados(response.estados)
+                setLocalizacoesCadastradas(response.localizacoes.data)
             })
 
-    }, [estadoSelecionado])
+    }, [])
+
+    const estadoSelecionado = watch("estado");
+    useEffect(() => {
+        if (!estadoSelecionado) return setCidadesDoEstado([])
+        const cidades = parseCidadesToSelect(estadoSelecionado, localizacoesCadastradas)
+        setCidadesDoEstado(cidades)
+    }, [estadoSelecionado, localizacoesCadastradas])
 
     function handleGerarRelatorio(data: FiltroRelatorioAlertasPorLocal) {
         setConsultaRealizada(false)
@@ -81,7 +86,7 @@ export default function AlertasPorLocal() {
                 <h1 className="text-text-on-background text-base font-medium">Alertas por local</h1>
             </div>
             <form onSubmit={handleSubmit(handleGerarRelatorio)} className="bg-bg-100 p-4 rounded-md drop-shadow flex gap-4 items-end">
-                <Select width="w-52" options={estadosDoBrasil} label="Estado" {...register("estado")} />
+                <Select width="w-52" options={estados} label="Estado" {...register("estado")} />
                 <div className='flex flex-col '>
                     <label htmlFor="cidade" className="text-text-on-background text-sm font-normal">
                         Cidade
@@ -100,8 +105,8 @@ export default function AlertasPorLocal() {
             </form>
             {consultaRealizada ? (
                 tipoRelatorio === "cidade" ? <RelatorioAlertasCidade dadosRelatorio={relatorioCidade} dataInicio={getValues("dataInicio")} dataFim={getValues("dataFim")} />
-                : tipoRelatorio === "estado" ? <RelatorioAlertasEstado dadosRelatorio={relatorioEstado} dataInicio={getValues("dataInicio")} dataFim={getValues("dataFim")} />
-                : null
+                    : tipoRelatorio === "estado" ? <RelatorioAlertasEstado dadosRelatorio={relatorioEstado} dataInicio={getValues("dataInicio")} dataFim={getValues("dataFim")} />
+                        : null
             ) : null}
 
         </>

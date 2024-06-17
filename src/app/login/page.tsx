@@ -38,9 +38,9 @@ export default function Login() {
                 <div className="flex flex-col gap-4 w-1/4">
                     <h1 className="text-xl font-rgular text-text-on-background">Bem-vindo(a) de volta</h1>
                     <form className="flex flex-col gap-4" onSubmit={handleSubmit(handleLogin)}>
-                        <Input width="w-full" label="Email" {...register("email")} error={errors.email?.message} />
-                        <Input width="w-full" label="Senha" type="password" {...register("senha")} error={errors.senha?.message} />
-                        <Button text="Entrar" variant="primary" Icon={AiOutlineRight} iconPosition="right" />
+                        <Input width="w-full" label="Email" {...register("email")} error={errors.email?.message} data-cy="name"/>
+                        <Input width="w-full" label="Senha" type="password" {...register("senha")} error={errors.senha?.message} data-cy="email" />
+                        <Button text="Entrar" variant="primary" Icon={AiOutlineRight} iconPosition="right" data-cy="submit" />
                     </form>
                 </div>
             </div>
