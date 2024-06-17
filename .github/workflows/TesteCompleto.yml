@@ -112,35 +112,9 @@ jobs:
             CYPRESS_host: http://localhost:3000
 
     
-    AceitaRecusaPR:
-      runs-on: ubuntu-latest
-      needs: TesteIntegracao
-      steps:
-        - name: Checkout code
-          uses: actions/checkout@v3
-
-        - name: Aprovando pull_request se os testes passarem
-          uses: juliangruber/approve-pull-request-action@v2 
-          with:
-              github-token: ${{ secrets.ADM_TOKEN }}
-              number: ${{ github.event.pull_request.number }}
-
-        - name: Merge Pull Request
-          uses: juliangruber/merge-pull-request-action@v1
-          with:
-            github-token: ${{ secrets.ADM_TOKEN }}
-            number: ${{ github.event.pull_request.number }}
-            method: squash
-
-
-        - run: echo "HEAD:${{github.event.pull_request.head.repo.name}}, BASE:${{github.event.pull_request.base.repo.name}}"
-
-
     PushDokerHub:
       runs-on: ubuntu-latest
-
-
-      needs: AceitaRecusaPR
+      needs: TesteIntegracao
 
       steps:
         - name: Checkout code
@@ -165,6 +139,30 @@ jobs:
           run: |
             docker push pedrohsalmeida/nimbus-frontend:Rel-0.${{ github.event.number }}
             docker push pedrohsalmeida/nimbus-frontend:Rel-latest
+
+
+    AceitaRecusaPR:
+      runs-on: ubuntu-latest
+      needs: PushDokerHub
+      steps:
+        - name: Checkout code
+          uses: actions/checkout@v3
+
+        - name: Aprovando pull_request se os testes passarem
+          uses: juliangruber/approve-pull-request-action@v2 
+          with:
+              github-token: ${{ secrets.ADM_TOKEN }}
+              number: ${{ github.event.pull_request.number }}
+
+        - name: Merge Pull Request
+          uses: juliangruber/merge-pull-request-action@v1
+          with:
+            github-token: ${{ secrets.ADM_TOKEN }}
+            number: ${{ github.event.pull_request.number }}
+            method: squash
+
+
+        - run: echo "HEAD:${{github.event.pull_request.head.repo.name}}, BASE:${{github.event.pull_request.base.repo.name}}"
 
     AvisaResultado:
         runs-on: ubuntu-latest
